@@ -77,6 +77,7 @@ class Bridge(Sprite):
                 self.creating = True
 
 
+# MOVED
 def load(filepath, use_alpha=False):
     "Carga una imagen optimizando la velocidad de impresion."
     image = pygame.image.load("data/" + filepath)
@@ -87,6 +88,7 @@ def load(filepath, use_alpha=False):
     return image.convert()
 
 
+# MOVED
 class MousePointer(Sprite):
 
     def __init__(self, stage_objects):
@@ -183,6 +185,7 @@ class Messages:
         return self.font.render(text, 1, black)
 
 
+# REPLACED en game.py por la clase de pygame.
 class Group(pygame.sprite.OrderedUpdates):
     "Representa un contenedor de sprites."
 
@@ -195,6 +198,7 @@ class Group(pygame.sprite.OrderedUpdates):
             s.on_click(x, y)
 
 
+# MOVED
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
 
@@ -432,6 +436,7 @@ class Player(Sprite):
 
 
 
+# MOVED
 screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Ayni")
 pygame.font.init()
@@ -439,7 +444,9 @@ pygame.font.init()
 if ENABLE_SOUND:
     pygame.mixer.init()
 
+# MOVED
 clock = pygame.time.Clock()
+
 sprites = Group()
 stage_objects = Group()
 
@@ -454,6 +461,7 @@ sprites.add(player)
 stage_objects.add(player)
 
 
+# MOVED
 background = load("background.jpg", False)
 
 map.draw_over(background)
@@ -471,12 +479,15 @@ pygame.display.flip()
 mouse_pointer = MousePointer(stage_objects)
 sprites.add(mouse_pointer)
 
+# moved
 quit = False
 
+# moved
 while not quit:
     sprites.update()
     sprites.clear(screen, background)
 
+    # moved
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit = True
@@ -498,6 +509,8 @@ while not quit:
                 mouse_pointer.hide()
 
     pygame.display.update(sprites.draw(screen))
+
+    # moved
     clock.tick(60)
 
 sprites.empty()
