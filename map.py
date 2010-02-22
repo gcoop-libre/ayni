@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 import pygame
 import common
+import placeholder
 
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
 
-    def __init__(self):
+    def __init__(self, sprites):
         self._create_map()
         self._load_images()
+        self.sprites = sprites
 
     def _create_map(self):
         "Genera la matriz con todos los bloques que se deben imprimir."
@@ -40,7 +42,17 @@ class Map:
     def _draw_tile_over(self, surface, tile_number, row, col):
         "Imprime un bloque sobre la superficie indicada por argumento."
         if tile_number != ' ' and tile_number != '\n':
-            surface.blit(self.images[tile_number], (col * 75, row * 75))
+            if tile_number == '_':
+                self._create_placeholder(col, row)
+            else:
+                surface.blit(self.images[tile_number], (col * 75, row * 75))
+        
+    def _create_placeholder(self, col, row):
+        x = col * 75
+        y = row * 75
+        
+        p = placeholder.Placeholder(x, y)
+        self.sprites.add(p)
 
     def can_stand_here(self, x, y):
         "Indica si sobre una coordenada hay un bloque ocupado con suelo."

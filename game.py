@@ -10,9 +10,9 @@ class Game(scene.Scene):
 
     def __init__(self, world):
         scene.Scene.__init__(self, world)
-        self.map = map.Map()
-        self._draw_background_and_map()
         self.sprites = pygame.sprite.OrderedUpdates()
+        self.map = map.Map(self.sprites)
+        self._draw_background_and_map()
 
         self._create_player()
         self._create_mouse_pointer()

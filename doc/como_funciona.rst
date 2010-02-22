@@ -103,11 +103,15 @@ internamente carga su propia grilla de gráficos de ``data/player/*.png``.
 
 
 
+Placeholder
+-----------
 
+Un ``Placeholder`` es una parte de la cañería sin completar, existe
+en el juego como un bloque invisible donde el usuario puede colocar
+cualquier parte de un tubería.
 
-
-
-
+Estos objetos ``Placeholder`` se generan cuando el objeto ``Map`` recorre
+todo el mapa dibujando bloques.
 
 
 
