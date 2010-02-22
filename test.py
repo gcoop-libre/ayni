@@ -161,7 +161,7 @@ class Messages:
 
     def __init__(self, sprites):
         self.sprites = sprites
-        self.font = pygame.font.Font("FreeSans.ttf", 14)
+        self.font = pygame.font.Font("data/FreeSans.ttf", 14)
         self.last_sprite = None
 
     def add(self, text, x, y):
@@ -201,16 +201,33 @@ class Map:
     def __init__(self, sprites, stage_objects):
         self.tile = load('normal.png', True)
         self.map = [
-                    '          ',
-                    '          ',
-                    '          ',
-                    '          ',
-                    '----\     ',
-                    '     -----',
-                    '          ',
+                    '                 ',
+                    '788888889  788888',
+                    '4       6  4     ',
+                    '6       6        ',
+                    '6                ',
+                    '4                ',
+                    '1223  18883      ',
+                    '                 ',
+                    '                 ',
                     ]
         self.sprites = sprites
         self.stage_objects = stage_objects
+        self._load_images()
+
+    def _load_images(self):
+        "Carga las imagenes de los pipes para pintar."
+
+        self.images = {
+            '1': load('pipes/1.png', True),
+            '2': load('pipes/2.png', True),
+            '3': load('pipes/3.png', True),
+            '4': load('pipes/4.png', True),
+            '6': load('pipes/6.png', True),
+            '7': load('pipes/7.png', True),
+            '8': load('pipes/8.png', True),
+            '9': load('pipes/9.png', True),
+        }
 
     def draw_over(self, surface):
         "Dibuja el escenario sobre una superficie."
@@ -221,8 +238,8 @@ class Map:
 
     def _draw_tile_over(self, surface, tile_number, row, col):
         "Imprime un bloque sobre la superficie indicada por argumento."
-        if tile_number == '-':
-            surface.blit(self.tile, (col * 64, row * 64))
+        if tile_number != ' ':
+            surface.blit(self.images[tile_number], (col * 75, row * 75))
         elif tile_number == '\\':
             self.create_bridge(col, row)
 
@@ -441,18 +458,6 @@ map.draw_over(background)
 item = Item(130, 273)
 sprites.add(item)
 stage_objects.add(item)
-
-
-
-
-bloque_8 = load('8.png', True)
-background.blit(bloque_8, (0, 0))
-background.blit(bloque_8, (98, 0))
-
-bloque_9 = load('9.png', True)
-background.blit(bloque_9, (98 + 98, 0))
-
-
 
 
 
