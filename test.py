@@ -200,6 +200,13 @@ class Map:
 
     def __init__(self, sprites, stage_objects):
         self.tile = load('normal.png', True)
+        self._create_map()
+        self.sprites = sprites
+        self.stage_objects = stage_objects
+        self._load_images()
+
+    def _create_map(self):
+        "Genera la matriz con todos los bloques que se deben imprimir."
         self.map = [
                     '                 ',
                     '788888889  788888',
@@ -211,9 +218,6 @@ class Map:
                     '                 ',
                     '                 ',
                     ]
-        self.sprites = sprites
-        self.stage_objects = stage_objects
-        self._load_images()
 
     def _load_images(self):
         "Carga las imagenes de los pipes para pintar."
@@ -244,7 +248,7 @@ class Map:
             self.create_bridge(col, row)
 
     def create_bridge(self, col, row):
-        x, y = col *64 -1, row*64 + 14
+        x, y = col * 75 -1, row * 75 + 14
         bridge = Bridge(x, y)
         self.sprites.add(bridge)
         self.stage_objects.add(bridge)
