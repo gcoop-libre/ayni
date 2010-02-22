@@ -264,6 +264,7 @@ class Map:
         return not self.map[row][col].isspace()
 
 
+# MOVED
 class State:
     "Representa un estado del personaje del juego."
 
@@ -278,6 +279,7 @@ class State:
         pass
 
 
+# MOVED
 class Stand(State):
     "El personaje esta en estado 'parado' o 'esperando'"
 
@@ -290,6 +292,7 @@ class Stand(State):
             self.player.change_state(Wait(self.player))
 
 
+# MOVED
 class Walk(State):
     "Se mueve a la posición que le indiquen."
 
@@ -323,6 +326,7 @@ class Walk(State):
         return abs(self.player.rect.centerx - self.to_x) < 3
 
 
+# MOVED
 class Refuse(State):
     "Aguarda unos instantes y regresa al estado Stand."
 
@@ -338,6 +342,7 @@ class Refuse(State):
         if self.delay < 0:
             self.player.change_state(Stand(self.player))
 
+# MOVED
 class Wait(State):
     "El personaje espera que le digan que hacer."
 
@@ -374,6 +379,7 @@ class Wait(State):
         self.player.say(any_text)
 
 
+# MOVED
 class Player(Sprite):
     "Representa un personaje del juego."
 
