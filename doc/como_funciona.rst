@@ -93,6 +93,23 @@ Este objeto se genera inicialmente dentro de ``Game``, aunque por ser
 un sprite se podría adaptar para otras escenas.
 
 
+Estados del mouse
+_________________
+
+El mouse utiliza estrategias como el objeto ``World`` y las escenas, donde
+se define un objeto para cada estado y un método dentro de la clase ``MousePointer``
+llamada ``change_state``.
+
+
+Estos son los estados mas importantes:
+
+    Normal
+        El puntero del mouse se mueve por la escena buscando piezas para seleccionar.
+    Dragging
+        Se ha pulsado sobre una pieza y se comienza a deplazar.
+    Drop
+        Se ha soltado la pieza sobre un ``Placeholder``.
+
 
 Personaje
 ---------
@@ -113,6 +130,15 @@ cualquier parte de un tubería.
 Estos objetos ``Placeholder`` se generan cuando el objeto ``Map`` recorre
 todo el mapa dibujando bloques.
 
+
+Pipe
+----
+
+El objeto representa una pieza de cañería que se puede arrastrar con el
+mouse para colocar sobre un ``Placeholder``.
+
+
+.. image:: ../data/front_pipes/1.png
 
 
 -----------------------------------------------------------------------------

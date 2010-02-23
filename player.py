@@ -5,8 +5,8 @@ import sys
 import animation
 import common
 from states import *
+from sprite import Sprite
 
-Sprite = pygame.sprite.Sprite
 
 class Player(Sprite):
     "Representa un personaje del juego."

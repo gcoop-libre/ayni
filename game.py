@@ -5,6 +5,7 @@ import common
 import map
 import mouse
 import player
+import pipe
 
 class Game(scene.Scene):
 
@@ -14,15 +15,20 @@ class Game(scene.Scene):
         self.map = map.Map(self.sprites)
         self._draw_background_and_map()
 
-        #self._create_player()
+        self._create_player()
+        self._create_a_pipe()
         self._create_mouse_pointer()
 
     def _create_mouse_pointer(self):
-        m = mouse.MousePointer([])
-        self.sprites.add(m)
+        self.mouse = mouse.MousePointer(self.sprites)
+        self.sprites.add(self.mouse)
 
     def _create_player(self):
         p = player.Player(603, 478, self.map)
+        self.sprites.add(p)
+
+    def _create_a_pipe(self):
+        p = pipe.Pipe(603, 478, self.map)
         self.sprites.add(p)
 
     def _draw_background_and_map(self):
@@ -42,4 +48,6 @@ class Game(scene.Scene):
         pygame.display.update(self.sprites.draw(screen))
 
     def on_event(self, event):
-        pass
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            self.mouse.on_click(x, y)

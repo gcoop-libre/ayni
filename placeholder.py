@@ -5,8 +5,7 @@ import sys
 import animation
 import common
 from states import *
-
-Sprite = pygame.sprite.Sprite
+from sprite import Sprite
 
 class Placeholder(Sprite):
     "Representa un bloque para completar."
