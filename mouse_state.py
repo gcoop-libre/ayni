@@ -30,16 +30,19 @@ class Dragging(MouseState):
 
     def update(self):
         x, y = self.mouse.rect.topleft 
-        self.pipe_to_drag.rect.x = x - self.dx
-        self.pipe_to_drag.rect.y = y - self.dy
+        self.pipe_to_drag.x = x - self.dx
+        self.pipe_to_drag.y = y - self.dy
 
     def on_click(self, x, y):
         ph = self.mouse.get_placeholder_over_mouse()
 
         if ph:
-            self.pipe_to_drag.rect = pygame.Rect(ph.rect)
+            self.pipe_to_drag.x = ph.rect.x
+            self.pipe_to_drag.y = ph.rect.y
         else:
-            self.pipe_to_drag.rect = self.previous_pipe_position
+            x, y = self.previous_pipe_position.topleft
+            self.pipe_to_drag.move_to(x, y)
+            #self.pipe_to_drag.rect = self.previous_pipe_position
 
         self.mouse.change_state(Normal(self.mouse))
             

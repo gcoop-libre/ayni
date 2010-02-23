@@ -8,16 +8,22 @@ from states import *
 from sprite import Sprite
 
 
-class Pipe(Sprite):
+class Pipe(Sprite, object):
     "Representa un personaje del juego."
 
     def __init__(self, type, x, y, map):
         Sprite.__init__(self)
         self.image = common.load('front_pipes/%d.png' %(type), True)
         self.rect = self.image.get_rect()
-        self.rect.move_ip((x - self.rect.w / 2, y - self.rect.h))
         self.map = map
         self.can_be_dragged = True
+        self.x = x - self.rect.w / 2
+        self.y = y - self.rect.h
 
     def update(self):
-        pass
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+    def move_to(self, x, y):
+        common.tweener.addTween(self, x=x, tweenTime=700)
+        common.tweener.addTween(self, y=y, tweenTime=700)

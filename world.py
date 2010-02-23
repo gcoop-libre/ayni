@@ -3,6 +3,7 @@ import pygame
 import random
 import sys
 import animation
+import common
 
 class World:
 
@@ -33,6 +34,7 @@ class World:
             self.scene.update()
             self.scene.draw(self.screen)
 
+            common.tweener.update(16)
             clock.tick(60)
 
     def change_scene(self, new_scene):

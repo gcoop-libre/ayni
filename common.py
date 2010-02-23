@@ -1,4 +1,7 @@
 import pygame
+import pytweener
+
+tweener = pytweener.Tweener()
 
 def load(filepath, use_alpha=False):
     "Carga una imagen optimizando la velocidad de impresion."
