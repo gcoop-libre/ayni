@@ -29,6 +29,8 @@ class Player(Sprite):
         sheet_wait = animation.Sheet(common.load("player/wait.png", True), 2)
         sheet_working = animation.Sheet(common.load("player/working.png", True), 2)
         sheet_ok = animation.Sheet(common.load("player/ok.png", True), 1)
+        sheet_stand_moving = animation.Sheet(common.load("player/stand_moving.png", True), 1)
+        sheet_walk_moving = animation.Sheet(common.load("player/walk_moving.png", True), 4)
 
         self.animations = {
                 "walk": animation.Animation(sheet_walk, 6, [0, 1, 2, 3]),
@@ -36,7 +38,9 @@ class Player(Sprite):
                 "working": animation.Animation(sheet_working, 6, [0, 1]),
                 "ok": animation.Animation(sheet_ok, 1, [0]),
                 "wait": animation.Animation(sheet_wait, 10, [0, 1]),
-                }
+                "stand_moving": animation.Animation(sheet_stand_moving, 1, [0]),
+                "walk_moving": animation.Animation(sheet_walk_moving, 6, [0, 1, 2, 3]),
+            }
 
     def set_animation(self, name):
         self.animation = self.animations[name]
