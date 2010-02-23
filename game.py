@@ -14,7 +14,7 @@ class Game(scene.Scene):
         self.map = map.Map(self.sprites)
         self._draw_background_and_map()
 
-        self._create_player()
+        #self._create_player()
         self._create_mouse_pointer()
 
     def _create_mouse_pointer(self):

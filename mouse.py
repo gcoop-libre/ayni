@@ -4,6 +4,7 @@ import random
 import sys
 import animation
 import common
+import mouse_state
 
 Sprite = pygame.sprite.Sprite
 
@@ -17,6 +18,7 @@ class MousePointer(Sprite):
         self.set_frame('normal')
         self.rect = self.image.get_rect()
         self.stage_objects = stage_objects
+        self.change_state(mouse_state.Normal(self))
 
     def _load_frames(self):
         self.frames = {
@@ -50,3 +52,8 @@ class MousePointer(Sprite):
     def show(self):
         self.visible = True
         self.set_frame("normal")
+
+
+    def change_state(self, state):
+        self.state = state
+        print "New state", state
