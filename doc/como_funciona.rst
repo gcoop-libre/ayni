@@ -219,3 +219,13 @@ Refuse
 
 
 
+Animaciones
+___________
+
+
+Para realizar animaciones se utilizan conjuntamente las clases ``Animation`` y
+``Sheet``, ambas del módulo ``animation``.
+
+Desde la clase ``Player`` se cargan todas las animaciones en un diccionario que
+luego se puede utilizar llamando a los métodos ``set_animation`` y ``update`` (que
+hace avanzar la animación continuamente).

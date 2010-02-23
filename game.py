@@ -24,15 +24,21 @@ class Game(scene.Scene):
         self.sprites.add(self.mouse)
 
     def _create_player(self):
-        p = player.Player(300, 102, self.map)
+        p = player.Player(300, 250, self.map)
         self.sprites.add(p)
 
     def _create_a_pipe(self):
-        p = pipe.Pipe(1, 603, 478, self.map)
-        self.sprites.add(p)
+        pieces = [
+            (1, 127, 185),
+            (2, 481, 180),
+            (7, 526, 458),
+            (3, 1042, 189),
+            (3, 127, 461),
+        ]
 
-        p = pipe.Pipe(1, 200, 300, self.map)
-        self.sprites.add(p)
+        for t, x, y in pieces:
+            self.sprites.add( pipe.Pipe(t, x, y, self.map))
+
 
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
