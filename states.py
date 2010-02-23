@@ -33,7 +33,7 @@ class Walk(State):
         State.__init__(self, player)
         # a 'y' no le da bola...
         self.to_x = x
-        self.player.messages.remove_last_balloon_sprite()
+        #self.player.messages.remove_last_balloon_sprite()
         self.player.set_animation("walk")
 
         if player.rect.centerx < x:
@@ -45,6 +45,7 @@ class Walk(State):
         # Verifica obstaculos
         x, y = self.player.rect.centerx + self.dx, self.player.rect.y + 20
 
+        '''
         if self.player.can_move_to(x, y):
             if not self._closer():
                 self.player.rect.x += self.dx
@@ -53,6 +54,7 @@ class Walk(State):
                 self.player.change_state(Stand(self.player))
         else:
             self.player.change_state(Refuse(self.player))
+        '''
 
     def _closer(self):
         "Indica si está muy, muy cerca de el lugar a donde ir."

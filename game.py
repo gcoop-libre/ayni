@@ -24,11 +24,14 @@ class Game(scene.Scene):
         self.sprites.add(self.mouse)
 
     def _create_player(self):
-        p = player.Player(603, 478, self.map)
+        p = player.Player(300, 102, self.map)
         self.sprites.add(p)
 
     def _create_a_pipe(self):
-        p = pipe.Pipe(603, 478, self.map)
+        p = pipe.Pipe(1, 603, 478, self.map)
+        self.sprites.add(p)
+
+        p = pipe.Pipe(1, 200, 300, self.map)
         self.sprites.add(p)
 
     def _draw_background_and_map(self):

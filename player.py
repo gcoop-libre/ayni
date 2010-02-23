@@ -20,18 +20,18 @@ class Player(Sprite):
         #self.messages = messages
         #self.audio = audio
         #self.say(u"Hola, ¿como andas?")
-        self.change_state(Stand(self))
+        self.change_state(Walk(self, 100, 100))
         self.map = map
 
     def _load_frames(self):
-        #sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
+        sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
         sheet_stand = animation.Sheet(common.load("player/stand.png", True), 1)
         #sheet_wait = animation.Sheet(common.load("player/wait.png", True), 3)
         #sheet_boo = animation.Sheet(common.load("player/boo.png", True), 1)
         #sheet_ok = animation.Sheet(common.load("player/ok.png", True), 1)
 
         self.animations = {
-                #"walk": animation.Animation(sheet_walk, 5, [0, 1, 2, 3]),
+                "walk": animation.Animation(sheet_walk, 6, [0, 1, 2, 3]),
                 "stand": animation.Animation(sheet_stand, 1, [0]),
                 #"boo": animation.Animation(sheet_boo, 1, [0]),
                 #"ok": animation.Animation(sheet_ok, 1, [0]),
