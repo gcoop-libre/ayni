@@ -78,6 +78,10 @@ class Player(Sprite):
     def walk_to(self, x, y):
         self.change_state(Walk(self, x, y))
 
+    def walk_and_take_the_pipe(self, pipe, x, y):
+        self.change_state(WalkAndTake(self, pipe, x, y))
+
     def attack_to(self, pipe):
-        print "debo tomar la pieza", pipe
+        pipe.y = self.rect.y - 25
+        pipe.x = self.rect.centerx
         self.change_state(StandWithPiece(self, pipe))

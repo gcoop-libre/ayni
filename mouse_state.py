@@ -25,10 +25,21 @@ class PointAt(MouseState):
         self.mouse.set_frame("normal")
 
     def update(self):
-        pass
+        sprite = self.mouse.get_object_over_mouse()
+
+        if sprite and isinstance(sprite, pipe.Pipe):
+            self.mouse.set_frame("over")
+        else:
+            self.mouse.set_frame("normal")
 
     def on_click(self, x, y):
-        self.player.walk_to(x, y)
+        sprite = self.mouse.get_object_over_mouse()
+
+        if sprite and isinstance(sprite, pipe.Pipe):
+            self.player.walk_and_take_the_pipe(sprite, x, y)
+        else:
+            self.player.walk_to(x, y)
+
         self.mouse.change_state(Normal(self.mouse))
 
 class Dragging(MouseState):

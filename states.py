@@ -32,6 +32,38 @@ class StandWithPiece(State):
             self.player.change_state(Wait(self.player))
 
 
+class WalkAndTake(State):
+    "Se mueve a la posición que le indiquen."
+
+    def __init__(self, player, pipe, x, y):
+        State.__init__(self, player)
+        self.pipe = pipe
+        # a 'y' no le da bola...
+        self.to_x = x
+        #self.player.messages.remove_last_balloon_sprite()
+        self.player.set_animation("walk")
+
+        if player.rect.centerx < x:
+            self.dx = 3
+            self.player.flip = True
+        else:
+            self.dx = -3
+            self.player.flip = False
+
+    def update(self):
+        # Verifica obstaculos
+        x, y = self.player.rect.centerx + self.dx, self.player.rect.y + 20
+
+        if not self._closer():
+            self.player.rect.x += self.dx
+        else:
+            self.player.attack_to(self.pipe)
+
+    def _closer(self):
+        "Indica si está muy, muy cerca de el lugar a donde ir."
+        return abs(self.player.rect.centerx - self.to_x) < 3
+
+
 class Walk(State):
     "Se mueve a la posición que le indiquen."
 
