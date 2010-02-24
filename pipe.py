@@ -9,7 +9,7 @@ from sprite import Sprite
 
 
 class Pipe(Sprite, object):
-    "Representa un personaje del juego."
+    "Representa una pieza del juego."
 
     def __init__(self, type, x, y, map):
         Sprite.__init__(self)

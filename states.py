@@ -26,6 +26,7 @@ class Stand(State):
             self.player.change_state(Wait(self.player))
 
 
+
 class Walk(State):
     "Se mueve a la posición que le indiquen."
 

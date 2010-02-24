@@ -3,6 +3,7 @@ import pygame
 
 
 class MouseState:
+    "Es un estado de comportamiento del mouse."
 
     def __init__(self, mouse):
         self.mouse = mouse
@@ -15,6 +16,7 @@ class MouseState:
 
 
 class Dragging(MouseState):
+    "Representa la estrategia del mouse cuando arrastra un objeto."
 
     def __init__(self, mouse, pipe_to_drag):
         MouseState.__init__(self, mouse)
@@ -47,6 +49,7 @@ class Dragging(MouseState):
         self.mouse.change_state(Normal(self.mouse))
             
 class Normal(MouseState):
+    "Representa el mouse cuando explora la escena y no ha pulsado."
 
     def __init__(self, mouse):
         MouseState.__init__(self, mouse)

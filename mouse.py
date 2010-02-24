@@ -9,6 +9,13 @@ from sprite import Sprite
 import placeholder
 
 class MousePointer(Sprite):
+    """Representa el puntero del mouse que interactua con los
+    sprites del juego.
+
+    El mouse conoce los objetos de la escena y utiliza estrategias
+    para representar cada uno de los estados: Normal, Dragged y Drop
+    (ver mouse_state.py).
+    """
 
     def __init__(self, stage_objects):
         Sprite.__init__(self)
@@ -39,28 +46,33 @@ class MousePointer(Sprite):
         self.state.on_click(x, y)
 
     def are_over_any_stage_object(self):
+        "Retorna True si el mouse está arriba de algún objeto de la escena."
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
             if sprite.can_be_dragged and sprite.collide_with(x, y):
                 return True
 
     def get_object_over_mouse(self):
+        "Retorna cualquier objeto que se encuentre debajo del mouse."
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
             if sprite.can_be_dragged and sprite.collide_with(x, y):
                 return sprite
         
     def get_placeholder_over_mouse(self):
+        "Retorna el bloque para colocar piezas debajo del cursor."
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
             if issubclass(sprite.__class__, placeholder.Placeholder) and sprite.collide_with(x, y):
                 return sprite
 
     def hide(self):
+        "Oculta temporalmente el puntero del mouse."
         self.visible = False
         self.set_frame("hide")
 
     def show(self):
+        "Mostrando el puntero del mouse."
         self.visible = True
         self.set_frame("normal")
 

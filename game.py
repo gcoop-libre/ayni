@@ -8,6 +8,8 @@ import player
 import pipe
 
 class Game(scene.Scene):
+    """Es la escena principal del juego, donde el usuario puede
+       interactuar con los trabajadores, el mouse y las piezas."""
 
     def __init__(self, world):
         scene.Scene.__init__(self, world)
@@ -38,7 +40,6 @@ class Game(scene.Scene):
 
         for t, x, y in pieces:
             self.sprites.add( pipe.Pipe(t, x, y, self.map))
-
 
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."

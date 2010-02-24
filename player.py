@@ -20,7 +20,8 @@ class Player(Sprite):
         #self.messages = messages
         #self.audio = audio
         #self.say(u"Hola, ¿como andas?")
-        self.change_state(Walk(self, 100, 100))
+        #self.change_state(Walk(self, 100, 100))
+        self.change_state(Stand(self))
         self.map = map
 
     def _load_frames(self):

@@ -2,6 +2,7 @@
 import pygame
 
 class Sprite(pygame.sprite.Sprite):
+    "Clase abstracta para representar todos los sprites del juego."
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)

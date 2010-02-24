@@ -6,6 +6,7 @@ import animation
 import common
 
 class World:
+    "Representa el administrador de escenas y el bucle de juego."
 
     def __init__(self):
         "Inicializa la biblioteca y el modo de video."
@@ -15,6 +16,7 @@ class World:
         pygame.font.init()
 
     def loop(self):
+        "Bucle principal que actualiza escenas y mantiene la velocidad constante."
         clock = pygame.time.Clock()
 
         quit = False

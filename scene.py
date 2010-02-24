@@ -2,6 +2,7 @@
 
 
 class Scene:
+    "Es una escena del juego, toda escena debería heredar de aquí."
 
     def __init__(self, world):
         self.world = world

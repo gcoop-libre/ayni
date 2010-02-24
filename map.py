@@ -48,6 +48,7 @@ class Map:
                 surface.blit(self.images[tile_number], (col * 75, row * 75))
         
     def _create_placeholder(self, col, row):
+        "Genera un bloque donde se puede colocar una pieza."
         x = col * 75
         y = row * 75
         
