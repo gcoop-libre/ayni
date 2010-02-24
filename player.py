@@ -23,6 +23,7 @@ class Player(Sprite):
         #self.change_state(Walk(self, 100, 100))
         self.change_state(Stand(self))
         self.map = map
+        self.can_be_clicked = True
 
     def _load_frames(self):
         sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
@@ -72,3 +73,6 @@ class Player(Sprite):
 
         # estima si a donde quiere ir hay un piso unos pixels mas abajo...
         return self.map.can_stand_here(x, y + 20)
+
+    def walk_to(self, x, y):
+        self.change_state(Walk(self, x, y))

@@ -1,5 +1,5 @@
-Cómo funciona: Videojuego Ayni.
-======================================
+Cómo funciona: Videojuego Ayni
+==============================
 
 Este documento resume varios aspectos de diseño del videojuego
 Ayni.
@@ -100,6 +100,8 @@ El mouse utiliza estrategias como el objeto ``World`` y las escenas, donde
 se define un objeto para cada estado y un método dentro de la clase ``MousePointer``
 llamada ``change_state``.
 
+El mouse solo va a interactuar con los objetos que tengan el atributo
+``can_be_clicked`` en True.
 
 Estos son los estados mas importantes:
 
@@ -109,6 +111,19 @@ Estos son los estados mas importantes:
         Se ha pulsado sobre una pieza y se comienza a deplazar.
     Drop
         Se ha soltado la pieza sobre un ``Placeholder``.
+    PointAt
+        Está por indicarle una coordenada a un trabajador.
+
+
+
+El estado ``Normal`` es el permanece mas tiempo en ejecución, y éste utiliza
+las siguientes imágenes para mostrar si el mouse puede iteractuar con un
+objeto o si no...
+
+.. image:: ../data/mouse.png
+
+.. image:: ../data/over.png
+
 
 
 Personaje
@@ -117,6 +132,8 @@ Personaje
 El protagonista del juego se encuentra en el archivo ``Player.py``, e
 internamente carga su propia grilla de gráficos de ``data/player/*.png``.
 
+El objeto que crea al personaje es ``Map`` cuando encuentra
+una ``x`` en el mapa del escenario.
 
 
 
@@ -139,30 +156,56 @@ mouse para colocar sobre un ``Placeholder``.
 
 
 .. image:: ../data/front_pipes/1.png
+.. image:: ../data/front_pipes/2.png
+.. image:: ../data/front_pipes/3.png
+.. image:: ../data/front_pipes/4.png
 
 
------------------------------------------------------------------------------
+
+Animaciones
+___________
+
+
+Para realizar animaciones se utilizan conjuntamente las clases ``Animation`` y
+``Sheet``, ambas del módulo ``animation``.
+
+Desde la clase ``Player`` se cargan todas las animaciones en un diccionario que
+luego se puede utilizar llamando a los métodos ``set_animation`` y ``update`` (que
+hace avanzar la animación continuamente).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Para revisar
+------------
 
 
 
-
-Visual
-______
-
-En todo momento el objeto ``MousePointer`` analiza si está sobre algún
-elemento, en ese caso cambia el puntero a una mano que señala.
-
-    *Imagen normal:*
-
-    .. image:: mouse.png
-
-    *Sobre un elemento:*
-
-    .. image:: over.png
-
-
-El objeto ``MousePointer`` conoce a todos los objetos del escenario.
 
 
 
@@ -219,13 +262,3 @@ Refuse
 
 
 
-Animaciones
-___________
-
-
-Para realizar animaciones se utilizan conjuntamente las clases ``Animation`` y
-``Sheet``, ambas del módulo ``animation``.
-
-Desde la clase ``Player`` se cargan todas las animaciones en un diccionario que
-luego se puede utilizar llamando a los métodos ``set_animation`` y ``update`` (que
-hace avanzar la animación continuamente).

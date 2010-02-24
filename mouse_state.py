@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import pygame
+import player
+import pipe
 
 
 class MouseState:
@@ -14,6 +16,20 @@ class MouseState:
     def on_click(self, x, y):
         pass
 
+class PointAt(MouseState):
+    "Está por indicarle una coordenada a un trabajador."
+
+    def __init__(self, mouse, player):
+        MouseState.__init__(self, mouse)
+        self.player = player
+        self.mouse.set_frame("normal")
+
+    def update(self):
+        pass
+
+    def on_click(self, x, y):
+        self.player.walk_to(x, y)
+        self.mouse.change_state(Normal(self.mouse))
 
 class Dragging(MouseState):
     "Representa la estrategia del mouse cuando arrastra un objeto."
@@ -57,12 +73,21 @@ class Normal(MouseState):
 
     def update(self):
         if self.mouse.visible:
-            if self.mouse.are_over_any_stage_object():
+            sprite = self.mouse.get_object_over_mouse()
+
+            if sprite:
                 self.mouse.set_frame("over")
             else:
                 self.mouse.set_frame("normal")
 
     def on_click(self, x, y):
-        if self.mouse.are_over_any_stage_object():
-            pipe_to_drag = self.mouse.get_object_over_mouse()
-            self.mouse.change_state(Dragging(self.mouse, pipe_to_drag))
+        sprite = self.mouse.get_object_over_mouse()
+
+        if sprite:
+            # Determina el tipo de objeto que es.
+
+            if isinstance(sprite, player.Player):
+                self.mouse.change_state(PointAt(self.mouse, sprite))
+            elif isinstance(sprite, pipe.Pipe):
+                pipe_to_drag = sprite
+                self.mouse.change_state(Dragging(self.mouse, pipe_to_drag))

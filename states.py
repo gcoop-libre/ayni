@@ -38,13 +38,18 @@ class Walk(State):
         self.player.set_animation("walk")
 
         if player.rect.centerx < x:
-            self.dx = 2
+            self.dx = 3
         else:
-            self.dx = -2
+            self.dx = -3
 
     def update(self):
         # Verifica obstaculos
         x, y = self.player.rect.centerx + self.dx, self.player.rect.y + 20
+
+        if not self._closer():
+            self.player.rect.x += self.dx
+        else:
+            self.player.change_state(Stand(self.player))
 
         '''
         if self.player.can_move_to(x, y):

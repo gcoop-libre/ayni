@@ -5,8 +5,8 @@ import sys
 import animation
 import common
 import mouse_state
-from sprite import Sprite
 import placeholder
+from sprite import Sprite
 
 class MousePointer(Sprite):
     """Representa el puntero del mouse que interactua con los
@@ -45,18 +45,11 @@ class MousePointer(Sprite):
     def on_click(self, x, y):
         self.state.on_click(x, y)
 
-    def are_over_any_stage_object(self):
-        "Retorna True si el mouse está arriba de algún objeto de la escena."
-        x, y = self.rect.topleft
-        for sprite in self.stage_objects:
-            if sprite.can_be_dragged and sprite.collide_with(x, y):
-                return True
-
     def get_object_over_mouse(self):
         "Retorna cualquier objeto que se encuentre debajo del mouse."
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
-            if sprite.can_be_dragged and sprite.collide_with(x, y):
+            if sprite.can_be_clicked and sprite.collide_with(x, y):
                 return sprite
         
     def get_placeholder_over_mouse(self):

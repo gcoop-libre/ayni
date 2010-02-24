@@ -16,7 +16,7 @@ class Pipe(Sprite, object):
         self.image = common.load('front_pipes/%d.png' %(type), True)
         self.rect = self.image.get_rect()
         self.map = map
-        self.can_be_dragged = True
+        self.can_be_clicked = True
         self.x = x - self.rect.w / 2
         self.y = y - self.rect.h
 
