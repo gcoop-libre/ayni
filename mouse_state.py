@@ -52,11 +52,15 @@ class Dragging(MouseState):
         self.pipe_to_drag.y = y - self.dy
 
     def on_click(self, x, y):
+        "Busca dejar la pieza sobre un placeholder o un player."
         ph = self.mouse.get_placeholder_over_mouse()
+        player = self.mouse.get_player_over_mouse()
 
         if ph:
             self.pipe_to_drag.x = ph.rect.x
             self.pipe_to_drag.y = ph.rect.y
+        elif player:
+            player.attack_to(self.pipe_to_drag)
         else:
             x, y = self.previous_pipe_position.topleft
             self.pipe_to_drag.move_to(x, y)

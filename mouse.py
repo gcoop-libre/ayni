@@ -6,6 +6,7 @@ import animation
 import common
 import mouse_state
 import placeholder
+import player
 from sprite import Sprite
 
 class MousePointer(Sprite):
@@ -56,7 +57,14 @@ class MousePointer(Sprite):
         "Retorna el bloque para colocar piezas debajo del cursor."
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
-            if issubclass(sprite.__class__, placeholder.Placeholder) and sprite.collide_with(x, y):
+            if isinstance(sprite, placeholder.Placeholder) and sprite.collide_with(x, y):
+                return sprite
+
+    def get_player_over_mouse(self):
+        "Retorna el bloque para colocar piezas debajo del cursor."
+        x, y = self.rect.topleft
+        for sprite in self.stage_objects:
+            if isinstance(sprite, player.Player) and sprite.collide_with(x, y):
                 return sprite
 
     def hide(self):

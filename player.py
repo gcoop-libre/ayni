@@ -77,3 +77,7 @@ class Player(Sprite):
 
     def walk_to(self, x, y):
         self.change_state(Walk(self, x, y))
+
+    def attack_to(self, pipe):
+        print "debo tomar la pieza", pipe
+        self.change_state(StandWithPiece(self, pipe))

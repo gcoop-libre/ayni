@@ -7,9 +7,6 @@ class State:
         self.player = player
         #print "pasando al estado", self.__class__.__name__
 
-    def on_click(self, x, y):
-        pass
-
     def update(self):
         pass
 
@@ -21,10 +18,18 @@ class Stand(State):
         State.__init__(self, player)
         self.player.set_animation("stand")
 
+
+class StandWithPiece(State):
+    "El personaje esta en estado 'parado' o 'esperando'"
+
+    def __init__(self, player, pipe):
+        self.pipe = pipe
+        State.__init__(self, player)
+        self.player.set_animation("stand_moving")
+
     def on_click(self, x, y):
         if self.player.collides(x, y):
             self.player.change_state(Wait(self.player))
-
 
 
 class Walk(State):
