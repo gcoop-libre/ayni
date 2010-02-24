@@ -4,7 +4,6 @@ import scene
 import common
 import map
 import mouse
-import player
 import pipe
 
 class Game(scene.Scene):
@@ -17,17 +16,12 @@ class Game(scene.Scene):
         self.map = map.Map(self.sprites)
         self._draw_background_and_map()
 
-        self._create_player()
         self._create_a_pipe()
         self._create_mouse_pointer()
 
     def _create_mouse_pointer(self):
         self.mouse = mouse.MousePointer(self.sprites)
         self.sprites.add(self.mouse)
-
-    def _create_player(self):
-        p = player.Player(300, 250, self.map)
-        self.sprites.add(p)
 
     def _create_a_pipe(self):
         pieces = [

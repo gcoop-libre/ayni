@@ -2,6 +2,7 @@
 import pygame
 import common
 import placeholder
+import player
 
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
@@ -44,6 +45,8 @@ class Map:
         if tile_number != ' ' and tile_number != '\n':
             if tile_number == '_':
                 self._create_placeholder(col, row)
+            elif tile_number == 'x':
+                self._create_player(col, row)
             else:
                 surface.blit(self.images[tile_number], (col * 75, row * 75))
         
@@ -53,6 +56,18 @@ class Map:
         y = row * 75
         
         p = placeholder.Placeholder(x, y)
+        self.sprites.add(p)
+
+    def _create_player(self, col, row):
+        # Es el desplazamiento vertical que se necesita
+        # para que el trabajador toque el suelo exactamente a 
+        # la altura correcta...
+        dy = 27
+
+        x = col * 75
+        y = (row + 1) * 75 + dy
+        
+        p = player.Player(x, y, self)
         self.sprites.add(p)
 
     def can_stand_here(self, x, y):
