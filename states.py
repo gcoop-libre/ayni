@@ -39,8 +39,10 @@ class Walk(State):
 
         if player.rect.centerx < x:
             self.dx = 3
+            self.player.flip = True
         else:
             self.dx = -3
+            self.player.flip = False
 
     def update(self):
         # Verifica obstaculos

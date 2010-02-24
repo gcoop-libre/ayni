@@ -29,12 +29,17 @@ class Sheet:
             images.append(image.subsurface(rect).copy())
 
         self.images = images
+        self.flipped_images = [pygame.transform.flip(x, True, False) 
+                                    for x in images]
 
     def set_frame(self, frame):
         self.frame = frame
 
-    def get_image(self):
-        return self.images[self.frame]
+    def get_image(self, flipped=False):
+        if flipped:
+            return self.flipped_images[self.frame]
+        else:
+            return self.images[self.frame]
 
     def next_frame(self):
         "Avanza el cuadro de animacion y retorna True si reinicia la secuencia."
@@ -66,8 +71,8 @@ class Animation:
             self.reset()
             return self.next_frame()
 
-    def get_image(self):
-        return self.sheet.get_image()
+    def get_image(self, flipped=False):
+        return self.sheet.get_image(flipped)
 
     def next_frame(self):
         "Avanza en la secuencia y retorna True si la animacion termina."

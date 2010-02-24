@@ -24,6 +24,7 @@ class Player(Sprite):
         self.change_state(Stand(self))
         self.map = map
         self.can_be_clicked = True
+        self.flip = False
 
     def _load_frames(self):
         sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
@@ -51,7 +52,7 @@ class Player(Sprite):
     def update(self):
         self.state.update()
         self.animation.update()
-        self.image = self.animation.get_image()
+        self.image = self.animation.get_image(self.flip)
 
     def on_click(self, x, y):
         self.state.on_click(x, y)
