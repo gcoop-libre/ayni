@@ -4,6 +4,7 @@ import random
 import sys
 import animation
 import common
+import time
 
 class World:
     "Representa el administrador de escenas y el bucle de juego."
@@ -26,8 +27,11 @@ class World:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     quit = True
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
                         quit = True
+                    elif event.key == pygame.K_F12:
+                        self.take_screenshot()
 
                 # delega los eventos a la escena.
                 self.scene.on_event(event)
@@ -41,3 +45,9 @@ class World:
 
     def change_scene(self, new_scene):
         self.scene = new_scene
+
+    def take_screenshot(self):
+        self.scene.draw(self.screen)
+        filename = time.strftime("screenshot_%y%m%d_%H%M%S.png")
+        pygame.image.save(self.screen, filename)
+        print "Guardando:", filename
