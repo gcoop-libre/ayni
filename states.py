@@ -83,10 +83,14 @@ class Walk(State):
 
     def update(self):
         # Verifica obstaculos
-        x, y = self.player.rect.centerx + self.dx, self.player.rect.y + 20
+        x, y = self.player.rect.centerx + self.dx, self.player.rect.bottom
 
-        if not self._closer():
-            self.player.rect.x += self.dx
+        if self.player.can_move_to(x, y):
+    
+            if not self._closer():
+                self.player.rect.x += self.dx
+            else:
+                self.player.change_state(Stand(self.player))
         else:
             self.player.change_state(Stand(self.player))
 

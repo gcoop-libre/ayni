@@ -74,4 +74,4 @@ class Map:
         "Indica si sobre una coordenada hay un bloque ocupado con suelo."
         row = y / 75
         col = x / 75
-        return not self.map[row][col].isspace()
+        return self.map[row][col] in ['2', '8']

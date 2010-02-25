@@ -72,8 +72,7 @@ class Player(Sprite):
     def can_move_to(self, x, y):
         "Consulta si puede ir a la posicion indicada."
 
-        # estima si a donde quiere ir hay un piso unos pixels mas abajo...
-        return self.map.can_stand_here(x, y + 20)
+        return self.map.can_stand_here(x, y)
 
     def walk_to(self, x, y):
         self.change_state(Walk(self, x, y))

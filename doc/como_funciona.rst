@@ -262,3 +262,16 @@ Refuse
 
 
 
+Plataformas
+-----------
+
+El trabajador tiene una referencia al objeto ``Map`` para consultarle
+si puede pisar o no en determinada parte del escenario.
+
+El método de ``Map`` que indica si se puede pisar es ``can_stand_here``
+y retorna ``True`` si se le pide una coordenada de pantalla donde 
+el bloque que se ha dibujado es 2 u 8:
+
+.. image:: data/2.png
+
+.. image:: data/8.png
