@@ -275,3 +275,21 @@ el bloque que se ha dibujado es 2 u 8:
 .. image:: data/2.png
 
 .. image:: data/8.png
+
+
+
+Secuencias de comandos
+----------------------
+
+El mouse y los personajes iteractúan en base al siguiente diagrama:
+
+
+    Mouse: Normal
+        Si hace click sobre un trabajador sin pieza
+            Mouse: PointAt
+        en cambio si tiene una pieza
+            Mouse: PointAtWork
+                selecciona placeholder?
+                    player.walk_and_work_in_a_placeholder
+                sino
+                    player.walk_to_with_a_piece

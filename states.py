@@ -92,7 +92,11 @@ class WalkWithPieceToWorkAt(State):
                 self.pipe.x += self.dx
                 self.player.rect.x += self.dx
             else:
-                self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
+                if self.player.can_work_on_this_placeholder(self.placeholder):
+                    self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
+                else:
+                    print "Estoy muy lejos de ese placeholder..."
+                    self.player.change_state(StandWithPiece(self.player, self.pipe))
         else:
             self.player.change_state(StandWithPiece(self.player, self.pipe))
 
@@ -150,7 +154,12 @@ class WalkAndTake(State):
             if not self._closer():
                 self.player.rect.x += self.dx
             else:
-                self.player.attack_to(self.pipe)
+                if self.player.can_take_this_piece(self.pipe):
+                    self.player.attack_to(self.pipe)
+                else:
+                    print "No puedo tomar esa pieza, esta un poco lejos..."
+                    self.player.change_state(Stand(self.player))
+
         else:
             self.player.change_state(Stand(self.player))
 

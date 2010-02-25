@@ -93,6 +93,21 @@ class Player(Sprite):
 
     def attack_to(self, pipe):
         pipe.y = self.rect.y - 25
-        pipe.x = self.rect.centerx
+        pipe.centerx = self.rect.centerx
         self.has_a_pipe_in_hands = True
         self.change_state(StandWithPiece(self, pipe))
+
+    def can_take_this_piece(self, piece):
+        "Retorna True si la pieza a tomar está cerca del trabajador."
+        return self.are_closer_to(piece)
+
+    def are_closer_to(self, sprite):
+        "Informa si el trabajador está cerca de un sprite particular."
+        dx = abs(sprite.rect.centerx - self.rect.centerx)
+        dy = abs(sprite.rect.centery - self.rect.centery)
+
+        return dx < 180 and dy < 75
+
+    def can_work_on_this_placeholder(self, placeholder):
+        "Indica si el trabajador está cerca de un placeholder para colocar una pieza."
+        return self.are_closer_to(placeholder)
