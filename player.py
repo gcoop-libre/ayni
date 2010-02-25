@@ -25,6 +25,7 @@ class Player(Sprite):
         self.map = map
         self.can_be_clicked = True
         self.flip = False
+        self.has_a_pipe_in_hands = False
 
     def _load_frames(self):
         sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
@@ -71,11 +72,13 @@ class Player(Sprite):
 
     def can_move_to(self, x, y):
         "Consulta si puede ir a la posicion indicada."
-
         return self.map.can_stand_here(x, y)
 
     def walk_to(self, x, y):
         self.change_state(Walk(self, x, y))
+
+    def walk_to_with_piece(self, pipe, x, y):
+        self.change_state(WalkWithPiece(self, pipe, x, y))
 
     def walk_and_take_the_pipe(self, pipe, x, y):
         self.change_state(WalkAndTake(self, pipe, x, y))
@@ -83,4 +86,5 @@ class Player(Sprite):
     def attack_to(self, pipe):
         pipe.y = self.rect.y - 25
         pipe.x = self.rect.centerx
+        self.has_a_pipe_in_hands = True
         self.change_state(StandWithPiece(self, pipe))

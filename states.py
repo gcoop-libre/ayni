@@ -5,7 +5,7 @@ class State:
 
     def __init__(self, player):
         self.player = player
-        #print "pasando al estado", self.__class__.__name__
+        print "PLAYER", self
 
     def update(self):
         pass
@@ -32,6 +32,39 @@ class StandWithPiece(State):
             self.player.change_state(Wait(self.player))
 
 
+class WalkWithPiece(State):
+    "Se mueve a la posición que le indiquen."
+
+    def __init__(self, player, pipe, x, y):
+        State.__init__(self, player)
+        self.pipe = pipe
+        self.to_x = x
+        self.player.set_animation("walk_moving")
+
+        if player.rect.centerx < x:
+            self.dx = 3
+            self.player.flip = True
+        else:
+            self.dx = -3
+            self.player.flip = False
+
+    def update(self):
+        # Verifica obstaculos
+        x, y = self.player.rect.centerx + self.dx, self.player.rect.bottom
+        self.pipe.x += self.dx
+
+        if self.player.can_move_to(x, y):
+            if not self._closer():
+                self.player.rect.x += self.dx
+            else:
+                self.player.attack_to(self.pipe)
+        else:
+            self.player.change_state(StandWithPiece(self.player, self.pipe))
+
+    def _closer(self):
+        "Indica si está muy, muy cerca de el lugar a donde ir."
+        return abs(self.player.rect.centerx - self.to_x) < 3
+
 class WalkAndTake(State):
     "Se mueve a la posición que le indiquen."
 
@@ -52,12 +85,15 @@ class WalkAndTake(State):
 
     def update(self):
         # Verifica obstaculos
-        x, y = self.player.rect.centerx + self.dx, self.player.rect.y + 20
+        x, y = self.player.rect.centerx + self.dx, self.player.rect.bottom
 
-        if not self._closer():
-            self.player.rect.x += self.dx
+        if self.player.can_move_to(x, y):
+            if not self._closer():
+                self.player.rect.x += self.dx
+            else:
+                self.player.attack_to(self.pipe)
         else:
-            self.player.attack_to(self.pipe)
+            self.player.change_state(Stand(self.player))
 
     def _closer(self):
         "Indica si está muy, muy cerca de el lugar a donde ir."
@@ -146,7 +182,7 @@ class Wait(State):
             #self.player.say(u"ahí voy...")
             self.player.change_state(Walk(self.player, x, y))
         else:
-            # Si le dicen que se tire, no es boludo...
+            # Si le dicen que se tire, no lo hace porque no es tonto...
             self.player.change_state(Refuse(self.player))
 
 

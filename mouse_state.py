@@ -2,6 +2,7 @@
 import pygame
 import player
 import pipe
+import placeholder
 
 
 class MouseState:
@@ -9,12 +10,40 @@ class MouseState:
 
     def __init__(self, mouse):
         self.mouse = mouse
+        print "MOUSE", self
 
     def update(self):
         pass
 
     def on_click(self, x, y):
         pass
+
+class PointToWorkAt(MouseState):
+    "Está por indicarle una coordenada a un trabajador."
+
+    def __init__(self, mouse, player):
+        MouseState.__init__(self, mouse)
+        self.player = player
+        self.mouse.set_frame("normal")
+
+    def update(self):
+        sprite = self.mouse.get_placeholder_over_mouse()
+
+        if sprite:
+            self.mouse.set_frame("over")
+        else:
+            self.mouse.set_frame("normal")
+
+    def on_click(self, x, y):
+        sprite = self.mouse.get_placeholder_over_mouse()
+
+        if sprite:
+            self.player.walk_and_work_in_a_placeholder(sprite, x, y)
+        else:
+            pipe = self.player.state.pipe
+            self.player.walk_to_with_piece(pipe, x, y)
+
+        self.mouse.change_state(Normal(self.mouse))
 
 class PointAt(MouseState):
     "Está por indicarle una coordenada a un trabajador."
@@ -102,7 +131,10 @@ class Normal(MouseState):
             # Determina el tipo de objeto que es.
 
             if isinstance(sprite, player.Player):
-                self.mouse.change_state(PointAt(self.mouse, sprite))
+                if sprite.has_a_pipe_in_hands:
+                    self.mouse.change_state(PointToWorkAt(self.mouse, sprite))
+                else:
+                    self.mouse.change_state(PointAt(self.mouse, sprite))
             elif isinstance(sprite, pipe.Pipe):
                 pipe_to_drag = sprite
                 self.mouse.change_state(Dragging(self.mouse, pipe_to_drag))
