@@ -113,12 +113,16 @@ class WorkToPutPipe(State):
         self.pipe.put_in_this_placeholder(placeholder)
         self.time_to_leave = 40
 
+        if placeholder.rect.centerx < player.rect.centerx:
+            player.flip = False
+        else:
+            player.flip = True
+
     def update(self):
         self.time_to_leave -= 1
 
         if self.time_to_leave < 0:
             self.player.change_state(Stand(self.player))
-            pass
 
 class WalkAndTake(State):
     "Se mueve a la posición que le indiquen."
