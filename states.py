@@ -51,10 +51,10 @@ class WalkWithPiece(State):
     def update(self):
         # Verifica obstaculos
         x, y = self.player.rect.centerx + self.dx, self.player.rect.bottom
-        self.pipe.x += self.dx
 
         if self.player.can_move_to(x, y):
             if not self._closer():
+                self.pipe.x += self.dx
                 self.player.rect.x += self.dx
             else:
                 self.player.attack_to(self.pipe)
@@ -64,6 +64,61 @@ class WalkWithPiece(State):
     def _closer(self):
         "Indica si está muy, muy cerca de el lugar a donde ir."
         return abs(self.player.rect.centerx - self.to_x) < 3
+
+
+class WalkWithPieceToWorkAt(State):
+    "Se mueve a la posición que le indiquen."
+
+    def __init__(self, player, pipe, placeholder, x, y):
+        State.__init__(self, player)
+        self.pipe = pipe
+        self.placeholder = placeholder
+        self.to_x = x
+        self.player.set_animation("walk_moving")
+
+        if player.rect.centerx < x:
+            self.dx = 3
+            self.player.flip = True
+        else:
+            self.dx = -3
+            self.player.flip = False
+
+    def update(self):
+        # Verifica obstaculos
+        x, y = self.player.rect.centerx + self.dx, self.player.rect.bottom
+
+        if self.player.can_move_to(x, y):
+            if not self._closer():
+                self.pipe.x += self.dx
+                self.player.rect.x += self.dx
+            else:
+                self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
+        else:
+            self.player.change_state(StandWithPiece(self.player, self.pipe))
+
+    def _closer(self):
+        "Indica si está muy, muy cerca de el lugar a donde ir."
+        return abs(self.player.rect.centerx - self.to_x) < 3
+
+
+class WorkToPutPipe(State):
+    "Se mueve a la posición que le indiquen."
+
+    def __init__(self, player, pipe, placeholder):
+        State.__init__(self, player)
+        self.pipe = pipe
+        self.placeholder = placeholder
+        self.player.set_animation("working")
+        self.player.has_a_pipe_in_hands = False
+        self.pipe.put_in_this_placeholder(placeholder)
+        self.time_to_leave = 40
+
+    def update(self):
+        self.time_to_leave -= 1
+
+        if self.time_to_leave < 0:
+            self.player.change_state(Stand(self.player))
+            pass
 
 class WalkAndTake(State):
     "Se mueve a la posición que le indiquen."

@@ -83,6 +83,14 @@ class Player(Sprite):
     def walk_and_take_the_pipe(self, pipe, x, y):
         self.change_state(WalkAndTake(self, pipe, x, y))
 
+    def walk_and_work_in_a_placeholder(self, pipe, placeholder, x, y):
+        if self.rect.centerx < x:
+            x -= 75
+        else:
+            x += 75
+
+        self.change_state(WalkWithPieceToWorkAt(self, pipe, placeholder, x, y))
+
     def attack_to(self, pipe):
         pipe.y = self.rect.y - 25
         pipe.x = self.rect.centerx

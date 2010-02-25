@@ -28,3 +28,6 @@ class Pipe(Sprite, object):
         common.tweener.addTween(self, x=x, tweenTime=700)
         common.tweener.addTween(self, y=y, tweenTime=700)
 
+    def put_in_this_placeholder(self, placeholder):
+        self.x = placeholder.rect.x
+        self.y = placeholder.rect.y

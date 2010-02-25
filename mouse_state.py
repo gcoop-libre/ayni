@@ -35,10 +35,11 @@ class PointToWorkAt(MouseState):
             self.mouse.set_frame("normal")
 
     def on_click(self, x, y):
-        sprite = self.mouse.get_placeholder_over_mouse()
+        placeholder = self.mouse.get_placeholder_over_mouse()
 
-        if sprite:
-            self.player.walk_and_work_in_a_placeholder(sprite, x, y)
+        if placeholder:
+            pipe = self.player.state.pipe
+            self.player.walk_and_work_in_a_placeholder(pipe, placeholder, x, y)
         else:
             pipe = self.player.state.pipe
             self.player.walk_to_with_piece(pipe, x, y)
@@ -97,8 +98,7 @@ class Dragging(MouseState):
         player = self.mouse.get_player_over_mouse()
 
         if ph:
-            self.pipe_to_drag.x = ph.rect.x
-            self.pipe_to_drag.y = ph.rect.y
+            self.pipe_to_drag.put_in_this_placeholder(ph)
         elif player:
             player.attack_to(self.pipe_to_drag)
         else:
