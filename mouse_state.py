@@ -76,40 +76,6 @@ class PointAt(MouseState):
 
         self.mouse.change_state(Normal(self.mouse))
 
-class __deprecated__Dragging(MouseState):
-    "Representa la estrategia del mouse cuando arrastra un objeto."
-
-    def __init__(self, mouse, pipe_to_drag):
-        MouseState.__init__(self, mouse)
-        self.pipe_to_drag = pipe_to_drag
-        self.previous_pipe_position = pygame.Rect(pipe_to_drag.rect)
-        self.mouse.set_frame('dragging')
-
-        x, y = self.mouse.rect.topleft 
-        px, py = self.pipe_to_drag.rect.topleft
-
-        self.dx = x - px
-        self.dy = y - py
-
-    def update(self):
-        x, y = self.mouse.rect.topleft 
-        self.pipe_to_drag.x = x - self.dx
-        self.pipe_to_drag.y = y - self.dy
-
-    def on_click(self, x, y):
-        "Busca dejar la pieza sobre un placeholder o un player."
-        ph = self.mouse.get_placeholder_over_mouse()
-        player = self.mouse.get_player_over_mouse()
-
-        if ph:
-            self.pipe_to_drag.put_in_this_placeholder(ph)
-        elif player:
-            player.attack_to(self.pipe_to_drag)
-        else:
-            x, y = self.previous_pipe_position.topleft
-            self.pipe_to_drag.move_to(x, y)
-
-        self.mouse.change_state(Normal(self.mouse))
             
 class Normal(MouseState):
     "Representa el mouse cuando explora la escena y no ha pulsado."
