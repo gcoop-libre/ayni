@@ -82,6 +82,14 @@ clase ``Map`` (método _create_map).
 
 ``Map`` carga todo el escenario de un archivo llamado ``data/map/1.txt``.
 
+La piezas se generan leyendo el mapa al igual que los personajes y
+los bloques que se imprimen.
+
+Cada pieza queda representada por una de las siguientes letras::
+
+    q w r -> bloques -> 7 8 9
+    a   s -> bloques -> 4   6
+    z x c -> bloques -> 1 2 3
 
 Interacción con el Mouse
 ------------------------
@@ -133,7 +141,7 @@ El protagonista del juego se encuentra en el archivo ``Player.py``, e
 internamente carga su propia grilla de gráficos de ``data/player/*.png``.
 
 El objeto que crea al personaje es ``Map`` cuando encuentra
-una ``x`` en el mapa del escenario.
+una ``o`` (letra o) en el mapa del escenario.
 
 
 
@@ -151,8 +159,9 @@ todo el mapa dibujando bloques.
 Pipe
 ----
 
-El objeto representa una pieza de cañería que se puede arrastrar con el
-mouse para colocar sobre un ``Placeholder``.
+El objeto representa una pieza de cañería que se puede colocar dentro
+de un ``Placeholder``, siempre y cuando el ``Placeholder`` esté vacío
+y un obrero esté cerca como para colocar el pipe ahí.
 
 
 .. image:: ../data/front_pipes/1.png
@@ -160,6 +169,9 @@ mouse para colocar sobre un ``Placeholder``.
 .. image:: ../data/front_pipes/3.png
 .. image:: ../data/front_pipes/4.png
 
+
+Estas piezas se generan cuando el objeto ``Map`` recorre el mapa
+del nivel del archivo de texto.
 
 
 Animaciones

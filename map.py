@@ -3,6 +3,7 @@ import pygame
 import common
 import placeholder
 import player
+import pipe
 
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
@@ -38,14 +39,17 @@ class Map:
 
         for r, row in enumerate(self.map):
             for c, index in enumerate(row):
-                self._draw_tile_over(surface, index, r, c)
+                if index in "qweasdzxc":
+                    self._create_pipe_by_index(index, r, c)
+                else:
+                    self._draw_tile_over(surface, index, r, c)
 
     def _draw_tile_over(self, surface, tile_number, row, col):
         "Imprime un bloque sobre la superficie indicada por argumento."
         if tile_number != ' ' and tile_number != '\n':
             if tile_number == '_':
                 self._create_placeholder(col, row)
-            elif tile_number == 'x':
+            elif tile_number == 'o':
                 self._create_player(col, row)
             else:
                 surface.blit(self.images[tile_number], (col * 75, row * 75))
@@ -75,3 +79,18 @@ class Map:
         row = y / 75
         col = x / 75
         return self.map[row][col] in ['2', '8']
+
+    def _create_pipe_by_index(self, index, row, col):
+        pieces = {
+            'q': 7,
+            'w': 8,
+            'e': 9,
+            'a': 4,
+            'd': 6,
+            'z': 1,
+            'x': 2,
+            'c': 3,
+            }
+        x, y = col * 75, row * 75 + 101
+        t = pieces[index]
+        self.sprites.add(pipe.Pipe(t, x, y, self))
