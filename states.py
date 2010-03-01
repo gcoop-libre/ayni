@@ -93,10 +93,14 @@ class WalkToRemoveAPipe(State):
                 if self.player.can_work_on_this_placeholder(self.placeholder):
                     self.player.change_state(WorkToRemovePipeFromPlaceholder(self.player, self.pipe, self.placeholder))
                 else:
-                    print "Estoy muy lejos de ese placeholder..."
+                    #self.player.say("Estoy muy lejos de ese placeholder...")
                     self.player.change_state(Stand(self.player))
         else:
-            self.player.change_state(StandWithPiece(self.player, self.pipe))
+            if self._closer():
+                self.player.change_state(StandWithPiece(self.player, self.pipe))
+            else:
+                #self.player.say("Estoy muy lejos de ese placeholder...")
+                self.player.change_state(Stand(self.player))
 
     def _closer(self):
         "Indica si está muy, muy cerca de el lugar a donde ir."
@@ -186,11 +190,13 @@ class WorkToRemovePipeFromPlaceholder(State):
         self.placeholder = placeholder
         self.player.set_animation("working")
         self.time_to_leave = 40
+        player.audio.play('working')
 
         if placeholder.rect.centerx < player.rect.centerx:
             player.flip = False
         else:
             player.flip = True
+
 
     def update(self):
         self.time_to_leave -= 1
@@ -212,11 +218,13 @@ class WorkToPutPipe(State):
         self.player.has_a_pipe_in_hands = False
         self.pipe.put_in_this_placeholder(placeholder)
         self.time_to_leave = 40
+        player.audio.play('working')
 
         if placeholder.rect.centerx < player.rect.centerx:
             player.flip = False
         else:
             player.flip = True
+
 
     def update(self):
         self.time_to_leave -= 1
@@ -293,12 +301,14 @@ class Walk(State):
                 self.player.change_state(Stand(self.player))
         else:
             self.player.change_state(Stand(self.player))
+            #self.player.say("")
 
     def _closer(self):
         "Indica si está muy, muy cerca de el lugar a donde ir."
         return abs(self.player.rect.centerx - self.to_x) < 3
 
 
+"""
 class Refuse(State):
     "Aguarda unos instantes y regresa al estado Stand."
 
@@ -313,7 +323,7 @@ class Refuse(State):
 
         if self.delay < 0:
             self.player.change_state(Stand(self.player))
-
+"""
 
 class LeavePipe(State):
     "Deja la pieza cerca del suelo en donde se encuentra."

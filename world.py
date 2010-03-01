@@ -10,6 +10,7 @@ import sys
 import animation
 import common
 import time
+import audio
 
 class World:
     "Representa el administrador de escenas y el bucle de juego."
@@ -20,6 +21,7 @@ class World:
         self.screen = pygame.display.set_mode((1280, 720))
         pygame.display.set_caption("Ayni")
         pygame.font.init()
+        self.audio = audio.Audio()
 
     def loop(self):
         "Bucle principal que actualiza escenas y mantiene la velocidad constante."

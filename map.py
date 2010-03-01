@@ -12,11 +12,13 @@ import pipe
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
 
-    def __init__(self, sprites):
+    def __init__(self, sprites, messages, audio):
         self._create_map()
         self._load_images()
         self.sprites = sprites
         self.placeholders = []
+        self.messages = messages
+        self.audio = audio
 
     def _create_map(self):
         "Genera la matriz con todos los bloques que se deben imprimir."
@@ -77,7 +79,7 @@ class Map:
         x = col * 75 + 30
         y = (row + 1) * 75 + dy
         
-        p = player.Player(x, y, self)
+        p = player.Player(self.audio, self.messages, x, y, self)
         self.sprites.add(p)
 
     def can_stand_here(self, x, y):

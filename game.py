@@ -11,6 +11,7 @@ import map
 import mouse
 import pipe
 import group
+import messages
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
@@ -19,7 +20,8 @@ class Game(scene.Scene):
     def __init__(self, world):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
-        self.map = map.Map(self.sprites)
+        self.messages = messages.Messages(self.sprites)
+        self.map = map.Map(self.sprites, self.messages, world.audio)
         self._draw_background_and_map()
 
         #self._create_a_pipe()

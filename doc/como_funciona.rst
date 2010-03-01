@@ -288,15 +288,6 @@ pero con un nuevo método para ordenar la impresión por el atributo
 ``z`` de cada sprite.
 
 
-Para revisar
-------------
-
-
-
-
-
-
-
 Mensajes de los personajes
 --------------------------
 
@@ -313,4 +304,9 @@ El propio objeto ``Balloon`` se encarga de eliminarse de la pantalla.
 
     *Decoración del objeto Balloon:*
 
-    .. image:: data/balloon.png
+    .. image:: ../data/balloon.png
+
+
+Los objetos que tienen referencia a messages son ``Game``, ``Map``
+y ``Player``. De aquí solo ``Player`` llama a los metodos para crear
+nuevos globos de mensajes. Por ejemplo desde su método ``say``.

@@ -15,8 +15,9 @@ from sprite import Sprite
 class Player(Sprite):
     "Representa un personaje del juego."
 
-    def __init__(self, x, y, map):
+    def __init__(self, audio, messages, x, y, map):
         Sprite.__init__(self)
+        self.messages = messages
         self._load_frames()
         self.set_animation("stand")
         self.rect = self.image.get_rect()
@@ -31,6 +32,7 @@ class Player(Sprite):
         self.flip = False
         self.has_a_pipe_in_hands = False
         self.z = -5
+        self.audio = audio
 
     def _load_frames(self):
         sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
@@ -136,3 +138,7 @@ class Player(Sprite):
 
     def walk_to_leave_pipe_here(self, pipe, x, y):
         self.change_state(WalkWithPieceToLeave(self, pipe, x, y))
+
+    def say(self, message):
+        x, y = self.rect.topleft
+        self.messages.add(message, x, y)

@@ -14,10 +14,10 @@ class Audio:
 
     def __init__(self):
         if ENABLE_SOUND:
-            pygame.mixer.init()
+            pygame.mixer.init(44100)
 
             self.sounds = {
-                'working': pygame.mixer.Sound('data/sounds/working.wav'),
+                'working': pygame.mixer.Sound('data/sounds/hammer.ogg'),
                 }
 
     def play(self, name):
