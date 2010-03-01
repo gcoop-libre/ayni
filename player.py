@@ -119,3 +119,8 @@ class Player(Sprite):
     def can_work_on_this_placeholder(self, placeholder):
         "Indica si el trabajador está cerca de un placeholder para colocar una pieza."
         return self.are_closer_to(placeholder)
+
+    def can_receive_new_jobs(self):
+        "Indica si el obrero puede atender acciones por parte del usuario."
+        if isinstance(self.state, (Stand, StandWithPiece, Wait)):
+            return True

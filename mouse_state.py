@@ -122,7 +122,7 @@ class Normal(MouseState):
         if self.mouse.visible:
             sprite = self.mouse.get_player_over_mouse()
 
-            if sprite:
+            if sprite and sprite.can_receive_new_jobs():
                 self.mouse.set_frame("over")
             else:
                 self.mouse.set_frame("normal")
@@ -130,7 +130,7 @@ class Normal(MouseState):
     def on_click(self, x, y):
         sprite = self.mouse.get_player_over_mouse()
 
-        if sprite:
+        if sprite and sprite.can_receive_new_jobs():
             if sprite.has_a_pipe_in_hands:
                 self.mouse.change_state(PointToWorkAt(self.mouse, sprite))
             else:
