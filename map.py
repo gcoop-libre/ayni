@@ -12,6 +12,7 @@ class Map:
         self._create_map()
         self._load_images()
         self.sprites = sprites
+        self.placeholders = []
 
     def _create_map(self):
         "Genera la matriz con todos los bloques que se deben imprimir."
@@ -61,6 +62,7 @@ class Map:
         
         p = placeholder.Placeholder(x, y)
         self.sprites.add(p)
+        self.placeholders.append(p)
 
     def _create_player(self, col, row):
         # Es el desplazamiento vertical que se necesita
@@ -68,7 +70,7 @@ class Map:
         # la altura correcta...
         dy = 27
 
-        x = col * 75
+        x = col * 75 + 30
         y = (row + 1) * 75 + dy
         
         p = player.Player(x, y, self)
@@ -78,7 +80,7 @@ class Map:
         "Indica si sobre una coordenada hay un bloque ocupado con suelo."
         row = y / 75
         col = x / 75
-        return self.map[row][col] in ['2', '8']
+        return self.map[row][col] in ['2', '8'] or self.there_are_a_fill_placeholder(row, col)
 
     def _create_pipe_by_index(self, index, row, col):
         pieces = {
@@ -94,3 +96,14 @@ class Map:
         x, y = col * 75, row * 75 + 101
         t = pieces[index]
         self.sprites.add(pipe.Pipe(t, x, y, self))
+
+
+    def there_are_a_fill_placeholder(self, row, col):
+        "Retorna True si hay un placeholder ocupado en la posición indicada."
+
+        x = col * 75
+        y = row * 75
+
+        for p in self.placeholders:
+            if p.rect.topleft == (x, y) and p.are_used:
+                return True

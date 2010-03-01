@@ -91,6 +91,27 @@ Cada pieza queda representada por una de las siguientes letras::
     a   s -> bloques -> 4   6
     z x c -> bloques -> 1 2 3
 
+
+Suelos
+______
+
+Las plataformas que puede pisar un obrero pueden ser de dos
+tipos diferentes. O bien son bloques que están fijos en el
+mapa, identificados como bloques "2" o "8", o bien son
+objetos Pipes que se han colocado correctamente sobre un
+placeholder.
+
+
+.. image:: suelos.png
+
+Por lo tanto, cada vez que el obrero camina se consulta si
+debajo de él hay un Pipe fijo o un placeholder que tenga una
+pieza colocada.
+
+Esta funcionalidad está implementada en el método 
+"can_stand_here" de la clase ``Map``.
+
+
 Interacción con el Mouse
 ------------------------
 
