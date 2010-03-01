@@ -32,6 +32,8 @@ class World:
                         quit = True
                     elif event.key == pygame.K_F12:
                         self.take_screenshot()
+                    elif event.key in [pygame.K_f, pygame.K_F3]:
+                        pygame.display.toggle_fullscreen()
 
                 # delega los eventos a la escena.
                 self.scene.on_event(event)
