@@ -188,24 +188,6 @@ hace avanzar la animación continuamente).
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Protagonista
 ------------
 
@@ -275,6 +257,14 @@ El mouse y los personajes iteractúan en base al siguiente diagrama:
             Player -> walk_to_remove_a_pipe_from_placeholder...
             Mouse -> normal
 
+
+Groups
+------
+
+Para agrupar sprites se ha creado la clase ``Groups``, que
+redefine el comportamiento del grupo ``OrderedUpdates`` de pygame
+pero con un nuevo método para ordenar la impresión por el atributo
+``z`` de cada sprite.
 
 
 Para revisar

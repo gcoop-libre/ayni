@@ -5,6 +5,7 @@ import common
 import map
 import mouse
 import pipe
+import group
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
@@ -12,12 +13,13 @@ class Game(scene.Scene):
 
     def __init__(self, world):
         scene.Scene.__init__(self, world)
-        self.sprites = pygame.sprite.OrderedUpdates()
+        self.sprites = group.Group()
         self.map = map.Map(self.sprites)
         self._draw_background_and_map()
 
         #self._create_a_pipe()
         self._create_mouse_pointer()
+        self.sprites.sort_by_z()
 
     def _create_mouse_pointer(self):
         self.mouse = mouse.MousePointer(self.sprites)

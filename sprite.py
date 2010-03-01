@@ -12,6 +12,13 @@ class Sprite(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.can_be_clicked = False
+        self.z = 0
 
     def collide_with(self, x, y):
         return self.rect.collidepoint(x, y)
+
+    def __cmp__(self, other):
+        if self.z < other.z:
+            return 1
+        else:
+            return -1

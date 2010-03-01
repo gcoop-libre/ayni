@@ -20,6 +20,7 @@ class Pipe(Sprite, object):
         self.x = x - self.rect.w / 2
         self.y = y - self.rect.h
         self.are_in_a_placeholder = False
+        self.z = -10
 
     def update(self):
         self.rect.x = self.x

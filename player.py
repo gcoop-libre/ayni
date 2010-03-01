@@ -26,6 +26,7 @@ class Player(Sprite):
         self.can_be_clicked = True
         self.flip = False
         self.has_a_pipe_in_hands = False
+        self.z = -5
 
     def _load_frames(self):
         sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)

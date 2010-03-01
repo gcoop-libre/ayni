@@ -27,6 +27,7 @@ class MousePointer(Sprite):
         self.rect = self.image.get_rect()
         self.stage_objects = stage_objects
         self.change_state(mouse_state.Normal(self))
+        self.z = -50
 
     def _load_frames(self):
         self.frames = {
