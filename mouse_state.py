@@ -121,7 +121,7 @@ class Normal(MouseState):
 
     def update(self):
         if self.mouse.visible:
-            sprite = self.mouse.get_object_over_mouse()
+            sprite = self.mouse.get_player_over_mouse()
 
             if sprite:
                 self.mouse.set_frame("over")
@@ -129,14 +129,10 @@ class Normal(MouseState):
                 self.mouse.set_frame("normal")
 
     def on_click(self, x, y):
-        sprite = self.mouse.get_object_over_mouse()
+        sprite = self.mouse.get_player_over_mouse()
 
         if sprite:
-            if isinstance(sprite, player.Player):
-                if sprite.has_a_pipe_in_hands:
-                    self.mouse.change_state(PointToWorkAt(self.mouse, sprite))
-                else:
-                    self.mouse.change_state(PointAt(self.mouse, sprite))
-            elif isinstance(sprite, pipe.Pipe):
-                pipe_to_drag = sprite
-                self.mouse.change_state(Dragging(self.mouse, pipe_to_drag))
+            if sprite.has_a_pipe_in_hands:
+                self.mouse.change_state(PointToWorkAt(self.mouse, sprite))
+            else:
+                self.mouse.change_state(PointAt(self.mouse, sprite))
