@@ -91,9 +91,17 @@ class Player(Sprite):
 
         self.change_state(WalkWithPieceToWorkAt(self, pipe, placeholder, x, y))
 
+    def walk_to_remove_a_pipe_from_placeholder(self, pipe, placeholder, x, y):
+        if self.rect.centerx < x:
+            x -= 75
+        else:
+            x += 75
+
+        self.change_state(WalkToRemoveAPipe(self, pipe, placeholder, x, y))
+
     def attack_to(self, pipe):
         pipe.y = self.rect.y - 25
-        pipe.centerx = self.rect.centerx
+        pipe.x = self.rect.x
         self.has_a_pipe_in_hands = True
         self.change_state(StandWithPiece(self, pipe))
 

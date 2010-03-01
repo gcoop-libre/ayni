@@ -19,6 +19,7 @@ class Pipe(Sprite, object):
         self.can_be_clicked = True
         self.x = x - self.rect.w / 2
         self.y = y - self.rect.h
+        self.are_in_a_placeholder = False
 
     def update(self):
         self.rect.x = self.x
@@ -31,3 +32,15 @@ class Pipe(Sprite, object):
     def put_in_this_placeholder(self, placeholder):
         self.x = placeholder.rect.x
         self.y = placeholder.rect.y
+        self.are_in_a_placeholder = True
+        self.placeholder = placeholder
+
+    def get_placeholder(self):
+        if self.are_in_a_placeholder:
+            return self.placeholder
+        else:
+            raise Exception("El pipe no esta en un placeholder")
+
+    def remove_from_a_placeholder(self):
+        self.are_in_a_placeholder = False
+        del(self.placeholder)

@@ -65,6 +65,43 @@ class WalkWithPiece(State):
         "Indica si está muy, muy cerca de el lugar a donde ir."
         return abs(self.player.rect.centerx - self.to_x) < 3
 
+class WalkToRemoveAPipe(State):
+    "Camina hacia un placeholder para quitar la pieza que tenga colocada."
+
+    def __init__(self, player, pipe, placeholder, x, y):
+        State.__init__(self, player)
+        self.pipe = pipe
+        self.placeholder = placeholder
+        self.to_x = x
+        self.player.set_animation("walk")
+
+        if player.rect.centerx < x:
+            self.dx = 3
+            self.player.flip = True
+        else:
+            self.dx = -3
+            self.player.flip = False
+
+    def update(self):
+        # Verifica obstaculos
+        x, y = self.player.rect.centerx + self.dx, self.player.rect.bottom
+
+        if self.player.can_move_to(x, y):
+            if not self._closer():
+                self.player.rect.x += self.dx
+            else:
+                if self.player.can_work_on_this_placeholder(self.placeholder):
+                    self.player.change_state(WorkToRemovePipeFromPlaceholder(self.player, self.pipe, self.placeholder))
+                else:
+                    print "Estoy muy lejos de ese placeholder..."
+                    self.player.change_state(Stand(self.player))
+        else:
+            self.player.change_state(StandWithPiece(self.player, self.pipe))
+
+    def _closer(self):
+        "Indica si está muy, muy cerca de el lugar a donde ir."
+        return abs(self.player.rect.centerx - self.to_x) < 3
+
 
 class WalkWithPieceToWorkAt(State):
     "Se mueve a la posición que le indiquen."
@@ -104,6 +141,30 @@ class WalkWithPieceToWorkAt(State):
         "Indica si está muy, muy cerca de el lugar a donde ir."
         return abs(self.player.rect.centerx - self.to_x) < 3
 
+
+class WorkToRemovePipeFromPlaceholder(State):
+    "Se mueve a la posición que le indiquen."
+
+    def __init__(self, player, pipe, placeholder):
+        State.__init__(self, player)
+        self.pipe = pipe
+        self.placeholder = placeholder
+        self.player.set_animation("working")
+        self.time_to_leave = 40
+
+        if placeholder.rect.centerx < player.rect.centerx:
+            player.flip = False
+        else:
+            player.flip = True
+
+    def update(self):
+        self.time_to_leave -= 1
+
+        if self.time_to_leave < 0:
+            "Quita la pieza de su placeholder y se la da al obrero."
+            self.pipe.remove_from_a_placeholder()
+            self.player.attack_to(self.pipe)
+            # el metodo anterior cambia el estado del player a StandWithPiece
 
 class WorkToPutPipe(State):
     "Se mueve a la posición que le indiquen."

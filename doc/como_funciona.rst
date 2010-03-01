@@ -194,45 +194,6 @@ hace avanzar la animación continuamente).
 
 
 
-
-
-
-
-
-
-
-Para revisar
-------------
-
-
-
-
-
-
-
-Mensajes de los personajes
---------------------------
-
-Para que los personajes puedan hablar hay un objeto que administra
-todos los cuadros de mensajes llamado ``Messages``.
-
-Cada objeto que conozca a ``Messages`` puede solicitarle que emita
-un mensaje.
-
-Cuando ``Messages`` tiene que crear un mensaje construye un objeto
-``Balloon`` que se muestra en pantalla unos segundos.
-
-El propio objeto ``Balloon`` se encarga de eliminarse de la pantalla.
-
-    *Decoración del objeto Balloon:*
-
-    .. image:: balloon.png
-
-
-
-
-
-
 Protagonista
 ------------
 
@@ -293,3 +254,40 @@ El mouse y los personajes iteractúan en base al siguiente diagrama:
                     player.walk_and_work_in_a_placeholder
                 sino
                     player.walk_to_with_a_piece
+
+    Mouse: PointAt
+        Si hace click sobre una pieza libre
+            Player -> walk_to_take_the_pipe
+            Mouse -> normal
+        en cambio si la pieza está en un placeholder
+            Player -> walk_to_remove_a_pipe_from_placeholder...
+            Mouse -> normal
+
+
+
+Para revisar
+------------
+
+
+
+
+
+
+
+Mensajes de los personajes
+--------------------------
+
+Para que los personajes puedan hablar hay un objeto que administra
+todos los cuadros de mensajes llamado ``Messages``.
+
+Cada objeto que conozca a ``Messages`` puede solicitarle que emita
+un mensaje.
+
+Cuando ``Messages`` tiene que crear un mensaje construye un objeto
+``Balloon`` que se muestra en pantalla unos segundos.
+
+El propio objeto ``Balloon`` se encarga de eliminarse de la pantalla.
+
+    *Decoración del objeto Balloon:*
+
+    .. image:: data/balloon.png

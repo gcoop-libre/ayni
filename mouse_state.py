@@ -66,7 +66,11 @@ class PointAt(MouseState):
         sprite = self.mouse.get_object_over_mouse()
 
         if sprite and isinstance(sprite, pipe.Pipe):
-            self.player.walk_and_take_the_pipe(sprite, x, y)
+            if sprite.are_in_a_placeholder:
+                placeholder = sprite.get_placeholder()
+                self.player.walk_to_remove_a_pipe_from_placeholder(sprite, placeholder, x, y)
+            else:
+                self.player.walk_and_take_the_pipe(sprite, x, y)
         else:
             self.player.walk_to(x, y)
 
@@ -128,8 +132,6 @@ class Normal(MouseState):
         sprite = self.mouse.get_object_over_mouse()
 
         if sprite:
-            # Determina el tipo de objeto que es.
-
             if isinstance(sprite, player.Player):
                 if sprite.has_a_pipe_in_hands:
                     self.mouse.change_state(PointToWorkAt(self.mouse, sprite))

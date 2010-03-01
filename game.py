@@ -27,13 +27,13 @@ class Game(scene.Scene):
         pieces = [
             (9, 200, 250),
             (7, 400, 250),
-            (7, 526, 458),
-            (7, 990, 250),
+            (7, 700, 458),
+            (7, 1200, 250),
             (3, 127, 461),
         ]
 
         for t, x, y in pieces:
-            self.sprites.add( pipe.Pipe(t, x, y, self.map))
+            self.sprites.add(pipe.Pipe(t, x, y, self.map))
 
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
