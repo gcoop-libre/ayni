@@ -16,13 +16,14 @@ class Game(scene.Scene):
         self.map = map.Map(self.sprites)
         self._draw_background_and_map()
 
-        self._create_a_pipe()
+        #self._create_a_pipe()
         self._create_mouse_pointer()
 
     def _create_mouse_pointer(self):
         self.mouse = mouse.MousePointer(self.sprites)
         self.sprites.add(self.mouse)
 
+    """
     def _create_a_pipe(self):
         pieces = [
             (9, 200, 250),
@@ -33,7 +34,8 @@ class Game(scene.Scene):
         ]
 
         for t, x, y in pieces:
-            self.sprites.add(pipe.Pipe(t, x, y, self.map))
+            self.sprites.add(pipe.Pipe(t, x, y, self.map)
+    """
 
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
