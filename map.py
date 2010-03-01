@@ -93,7 +93,7 @@ class Map:
             'x': 2,
             'c': 3,
             }
-        x, y = col * 75, row * 75 + 101
+        x, y = col * 75 + 40, row * 75 + 101
         t = pieces[index]
         self.sprites.add(pipe.Pipe(t, x, y, self))
 
@@ -105,5 +105,5 @@ class Map:
         y = row * 75
 
         for p in self.placeholders:
-            if p.rect.topleft == (x, y) and p.are_used:
+            if p.rect.topleft == (x, y) and p.are_used and p.is_floor:
                 return True

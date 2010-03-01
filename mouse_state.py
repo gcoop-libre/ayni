@@ -34,6 +34,7 @@ class PointToWorkAt(MouseState):
         else:
             self.mouse.set_frame("normal")
 
+
     def on_click(self, x, y):
         placeholder = self.mouse.get_placeholder_over_mouse()
 
@@ -42,7 +43,13 @@ class PointToWorkAt(MouseState):
             self.player.walk_and_work_in_a_placeholder(pipe, placeholder, x, y)
         else:
             pipe = self.player.state.pipe
-            self.player.walk_to_with_piece(pipe, x, y)
+
+            dist = abs(y - self.player.rect.bottom)
+
+            if dist < 26:
+                self.player.walk_to_leave_pipe_here(pipe, x, y)
+            else:
+                self.player.walk_to_with_piece(pipe, x, y)
 
         self.mouse.change_state(Normal(self.mouse))
 

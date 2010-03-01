@@ -13,6 +13,7 @@ class Pipe(Sprite, object):
 
     def __init__(self, type, x, y, map):
         Sprite.__init__(self)
+        self.type = type
         self.image = common.load('front_pipes/%d.png' %(type), True)
         self.rect = self.image.get_rect()
         self.map = map
@@ -36,6 +37,11 @@ class Pipe(Sprite, object):
         self.are_in_a_placeholder = True
         self.placeholder = placeholder
         self.placeholder.are_used = True
+
+        if self.type in [2, 8]:
+            self.placeholder.is_floor = True
+        else:
+            self.placeholder.is_floor = False
 
     def get_placeholder(self):
         if self.are_in_a_placeholder:

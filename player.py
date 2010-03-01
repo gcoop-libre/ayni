@@ -106,6 +106,10 @@ class Player(Sprite):
         self.has_a_pipe_in_hands = True
         self.change_state(StandWithPiece(self, pipe))
 
+    def leave_pipe(self, pipe):
+        self.has_a_pipe_in_hands = False
+        pipe.y = self.rect.y + 25
+
     def can_take_this_piece(self, piece):
         "Retorna True si la pieza a tomar está cerca del trabajador."
         return self.are_closer_to(piece)
@@ -115,7 +119,7 @@ class Player(Sprite):
         dx = abs(sprite.rect.centerx - self.rect.centerx)
         dy = abs(sprite.rect.centery - self.rect.centery)
 
-        return dx < 180 and dy < 75
+        return dx < 190 and dy < 75
 
     def can_work_on_this_placeholder(self, placeholder):
         "Indica si el trabajador está cerca de un placeholder para colocar una pieza."
@@ -123,5 +127,8 @@ class Player(Sprite):
 
     def can_receive_new_jobs(self):
         "Indica si el obrero puede atender acciones por parte del usuario."
-        if isinstance(self.state, (Stand, StandWithPiece, Wait)):
+        if isinstance(self.state, (Stand, StandWithPiece)):
             return True
+
+    def walk_to_leave_pipe_here(self, pipe, x, y):
+        self.change_state(WalkWithPieceToLeave(self, pipe, x, y))

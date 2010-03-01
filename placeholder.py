@@ -16,3 +16,4 @@ class Placeholder(Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.are_used = False
+        self.is_floor = False
