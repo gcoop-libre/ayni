@@ -7,6 +7,7 @@ import common
 import mouse_state
 import placeholder
 import player
+import pipe
 from sprite import Sprite
 
 class MousePointer(Sprite):
@@ -47,12 +48,14 @@ class MousePointer(Sprite):
     def on_click(self, x, y):
         self.state.on_click(x, y)
 
+    """
     def get_object_over_mouse(self):
         "Retorna cualquier objeto que se encuentre debajo del mouse."
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
             if sprite.can_be_clicked and sprite.collide_with(x, y):
                 return sprite
+    """
         
     def get_placeholder_over_mouse(self):
         "Retorna el bloque para colocar piezas debajo del cursor."
@@ -66,6 +69,12 @@ class MousePointer(Sprite):
         x, y = self.rect.topleft
         for sprite in self.stage_objects:
             if isinstance(sprite, player.Player) and sprite.collide_with(x, y):
+                return sprite
+
+    def get_pipe_over_mouse(self):
+        x, y = self.rect.topleft
+        for sprite in self.stage_objects:
+            if isinstance(sprite, pipe.Pipe) and sprite.collide_with(x, y):
                 return sprite
 
     def hide(self):

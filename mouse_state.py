@@ -55,17 +55,17 @@ class PointAt(MouseState):
         self.mouse.set_frame("normal")
 
     def update(self):
-        sprite = self.mouse.get_object_over_mouse()
+        sprite = self.mouse.get_pipe_over_mouse()
 
-        if sprite and isinstance(sprite, pipe.Pipe):
+        if sprite:
             self.mouse.set_frame("over")
         else:
             self.mouse.set_frame("normal")
 
     def on_click(self, x, y):
-        sprite = self.mouse.get_object_over_mouse()
+        sprite = self.mouse.get_pipe_over_mouse()
 
-        if sprite and isinstance(sprite, pipe.Pipe):
+        if sprite:
             if sprite.are_in_a_placeholder:
                 placeholder = sprite.get_placeholder()
                 self.player.walk_to_remove_a_pipe_from_placeholder(sprite, placeholder, x, y)
