@@ -34,6 +34,7 @@ class Pipe(Sprite, object):
         self.y = placeholder.rect.y
         self.are_in_a_placeholder = True
         self.placeholder = placeholder
+        self.placeholder.are_used = True
 
     def get_placeholder(self):
         if self.are_in_a_placeholder:
@@ -43,4 +44,5 @@ class Pipe(Sprite, object):
 
     def remove_from_a_placeholder(self):
         self.are_in_a_placeholder = False
+        self.placeholder.are_used = False
         del(self.placeholder)

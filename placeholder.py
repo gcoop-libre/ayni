@@ -15,3 +15,4 @@ class Placeholder(Sprite):
         self.image = common.load('placeholder.png', True)
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+        self.are_used = False

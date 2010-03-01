@@ -130,7 +130,11 @@ class WalkWithPieceToWorkAt(State):
                 self.player.rect.x += self.dx
             else:
                 if self.player.can_work_on_this_placeholder(self.placeholder):
-                    self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
+                    if self.placeholder.are_used:
+                        print "Este placeholder esta en uso."
+                        self.player.change_state(StandWithPiece(self.player, self.pipe))
+                    else:
+                        self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
                 else:
                     print "Estoy muy lejos de ese placeholder..."
                     self.player.change_state(StandWithPiece(self.player, self.pipe))

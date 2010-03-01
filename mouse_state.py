@@ -76,7 +76,7 @@ class PointAt(MouseState):
 
         self.mouse.change_state(Normal(self.mouse))
 
-class Dragging(MouseState):
+class __deprecated__Dragging(MouseState):
     "Representa la estrategia del mouse cuando arrastra un objeto."
 
     def __init__(self, mouse, pipe_to_drag):
@@ -108,7 +108,6 @@ class Dragging(MouseState):
         else:
             x, y = self.previous_pipe_position.topleft
             self.pipe_to_drag.move_to(x, y)
-            #self.pipe_to_drag.rect = self.previous_pipe_position
 
         self.mouse.change_state(Normal(self.mouse))
             
