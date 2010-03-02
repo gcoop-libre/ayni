@@ -9,6 +9,7 @@ import scene
 import common
 import group
 import title_sprite
+import game
 
 class Title(scene.Scene):
 
@@ -19,6 +20,7 @@ class Title(scene.Scene):
         self.title = title_sprite.TitleSprite()
         self.sprites.add(self.title)
         self.draw_background()
+        self.counter = 0
 
     def draw_background(self):
         self.world.screen.blit(self.background, (0, 0))
@@ -26,13 +28,17 @@ class Title(scene.Scene):
 
     def update(self):
         self.sprites.update()
+        self.counter += 1
+
+        if self.counter == 50:
+            self.sprites.add( title_sprite.StatusMessage())
 
     def draw(self, screen):
         self.sprites.clear(screen, self.background)
         pygame.display.update(self.sprites.draw(screen))
 
     def on_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pass
-        elif event.type == pygame.KEYDOWN:
-            pass
+
+        if self.counter > 50:
+            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
+                self.world.change_scene(game.Game(self.world))
