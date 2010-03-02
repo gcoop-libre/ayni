@@ -12,13 +12,16 @@ import pipe
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
 
-    def __init__(self, sprites, messages, audio):
+    def __init__(self, game, sprites, messages, audio):
+        self.pipes = []
+        self.players = []
         self._create_map()
         self._load_images()
         self.sprites = sprites
         self.placeholders = []
         self.messages = messages
         self.audio = audio
+        self.game = game
 
     def _create_map(self):
         "Genera la matriz con todos los bloques que se deben imprimir."
@@ -98,8 +101,9 @@ class Map:
         x = col * 75 + 30
         y = (row + 1) * 75 + dy
         
-        p = player.Player(self.audio, self.messages, x, y, self)
+        p = player.Player(self.game, self.audio, self.messages, x, y, self)
         self.sprites.add(p)
+        self.players.append(p)
 
     def can_stand_here(self, x, y):
         "Indica si sobre una coordenada hay un bloque ocupado con suelo."
@@ -120,7 +124,9 @@ class Map:
             }
         x, y = col * 75 + 40, row * 75 + 101
         t = pieces[index]
-        self.sprites.add(pipe.Pipe(t, x, y, self))
+        new_pipe = pipe.Pipe(self.game, t, x, y, self)
+        self.sprites.add(new_pipe)
+        self.pipes.append(new_pipe)
 
 
     def there_are_a_fill_placeholder(self, row, col):
@@ -132,3 +138,16 @@ class Map:
         for p in self.placeholders:
             if p.rect.topleft == (x, y) and p.are_used and p.is_floor:
                 return True
+
+    def all_pipes_are_in_correct_placeholders(self):
+        all_pipes = True
+
+        for x in self.pipes:
+            if x.are_in_a_placeholder and x.is_in_a_right_placeholder():
+                print x, "esta correctamente colocada"
+            else:
+                print x, "no esta en el placeholder que le corresponde"
+                all_pipes = False
+
+        return all_pipes
+                

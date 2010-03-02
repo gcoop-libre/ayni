@@ -355,3 +355,16 @@ class Ok(State):
         if self.time_to_leave < 0:
             self.player.flip = self.last_flip_state
             self.player.change_state(Stand(self.player))
+            self.player.game.on_pipe_put()
+
+class OkPermanent(State):
+    "Muestra la aprobación del personaje cuando termina el nivel."
+
+    def __init__(self, player):
+        State.__init__(self, player)
+        self.player.set_animation("ok")
+        self.last_flip_state = player.flip
+        player.flip = False
+
+    def update(self):
+        pass

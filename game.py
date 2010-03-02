@@ -12,6 +12,7 @@ import mouse
 import pipe
 import group
 import messages
+import level_complete
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
@@ -21,7 +22,7 @@ class Game(scene.Scene):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.messages = messages.Messages(self.sprites)
-        self.map = map.Map(self.sprites, self.messages, world.audio)
+        self.map = map.Map(self, self.sprites, self.messages, world.audio)
         self._draw_background_and_map()
 
         #self._create_a_pipe()
@@ -52,3 +53,16 @@ class Game(scene.Scene):
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             self.mouse.on_click(x, y)
+
+    def on_pipe_put(self):
+        "Evento que activa la pieza cuando se suelta en un placeholder."
+
+        if self.map.all_pipes_are_in_correct_placeholders():
+            for x in self.map.players:
+                x.show_end_level_animation()
+            
+            self.show_level_complete_message()
+
+    def show_level_complete_message(self):
+        "Muestra el mensaje de texto que dice 'nivel completado...'"
+        self.sprites.add(level_complete.LevelComplete())

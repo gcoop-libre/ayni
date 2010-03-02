@@ -15,7 +15,7 @@ from sprite import Sprite
 class Pipe(Sprite, object):
     "Representa una pieza del juego."
 
-    def __init__(self, type, x, y, map):
+    def __init__(self, game, type, x, y, map):
         Sprite.__init__(self)
         self.type = type
         self.image = common.load('front_pipes/%d.png' %(type), True)
@@ -26,6 +26,7 @@ class Pipe(Sprite, object):
         self.y = y - self.rect.h
         self.are_in_a_placeholder = False
         self.z = -10
+        self.game = game
 
     def update(self):
         self.rect.x = self.x
