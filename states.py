@@ -133,6 +133,9 @@ class WalkWithPieceToLeave(State):
                 self.player.rect.x += self.dx
             else:
                 self.player.change_state(LeavePipe(self.player, self.pipe))
+        else:
+                self.player.change_state(StandWithPiece(self.player, self.pipe))
+
 
     def _closer(self):
         "Indica si está muy, muy cerca de el lugar a donde ir."
