@@ -9,7 +9,7 @@ class State:
 
     def __init__(self, player):
         self.player = player
-        print "PLAYER", self
+        #print "PLAYER", self
 
     def update(self):
         pass
@@ -230,7 +230,10 @@ class WorkToPutPipe(State):
         self.time_to_leave -= 1
 
         if self.time_to_leave < 0:
-            self.player.change_state(Stand(self.player))
+            if self.pipe.is_in_a_right_placeholder():
+                self.player.change_state(Ok(self.player))
+            else:
+                self.player.change_state(Stand(self.player))
 
 class WalkAndTake(State):
     "Se mueve a la posición que le indiquen."
@@ -334,3 +337,21 @@ class LeavePipe(State):
 
     def update(self):
         self.player.change_state(Stand(self.player))
+
+
+class Ok(State):
+    "Muestra la aprobación del personaje."
+
+    def __init__(self, player):
+        State.__init__(self, player)
+        self.player.set_animation("ok")
+        self.time_to_leave = 40
+        self.last_flip_state = player.flip
+        player.flip = False
+
+    def update(self):
+        self.time_to_leave -= 1
+
+        if self.time_to_leave < 0:
+            self.player.flip = self.last_flip_state
+            self.player.change_state(Stand(self.player))

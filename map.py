@@ -60,19 +60,32 @@ class Map:
     def _draw_tile_over(self, surface, tile_number, row, col):
         "Imprime un bloque sobre la superficie indicada por argumento."
         if tile_number != ' ' and tile_number != '\n':
-            if tile_number == '_':
-                self._create_placeholder(col, row)
+            if tile_number in "rtyfhvbn":
+                self._create_placeholder(tile_number, col, row)
             elif tile_number == 'o':
                 self._create_player(col, row)
             else:
                 surface.blit(self.images[tile_number], (col * 75, row * 75))
         
-    def _create_placeholder(self, col, row):
+    def _create_placeholder(self, tilenumber, col, row):
         "Genera un bloque donde se puede colocar una pieza."
         x = col * 75
         y = row * 75
+
+        targets = {
+                'r': 7,
+                't': 8,
+                'y': 9,
+                'f': 4,
+                'h': 6,
+                'v': 1,
+                'b': 2,
+                'n': 3,
+                }
+
+        type = targets[tilenumber]
         
-        p = placeholder.Placeholder(x, y)
+        p = placeholder.Placeholder(type, x, y)
         self.sprites.add(p)
         self.placeholders.append(p)
 

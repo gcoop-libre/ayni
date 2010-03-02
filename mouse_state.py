@@ -14,7 +14,7 @@ class MouseState:
 
     def __init__(self, mouse):
         self.mouse = mouse
-        print "MOUSE", self
+        #print "MOUSE", self
 
     def update(self):
         pass
