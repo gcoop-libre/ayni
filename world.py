@@ -11,6 +11,7 @@ import animation
 import common
 import time
 import audio
+import config
 
 class World:
     "Representa el administrador de escenas y el bucle de juego."
@@ -18,7 +19,12 @@ class World:
     def __init__(self):
         "Inicializa la biblioteca y el modo de video."
 
-        self.screen = pygame.display.set_mode((1280, 720))
+        if config.FULLSCREEN:
+            flags = pygame.FULLSCREEN
+        else:
+            flags = 0
+
+        self.screen = pygame.display.set_mode((1280, 720), flags)
         pygame.display.set_caption("Ayni")
         pygame.font.init()
         self.audio = audio.Audio()

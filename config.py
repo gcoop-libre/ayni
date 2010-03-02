@@ -5,3 +5,4 @@
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
 SHOW_PLACEHOLDERS = True
+FULLSCREEN = False
