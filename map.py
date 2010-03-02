@@ -44,12 +44,18 @@ class Map:
     def draw_over(self, surface):
         "Dibuja el escenario sobre una superficie."
 
+        self.draw_backlayer(surface)
+
         for r, row in enumerate(self.map):
             for c, index in enumerate(row):
                 if index in "qweasdzxc":
                     self._create_pipe_by_index(index, r, c)
                 else:
                     self._draw_tile_over(surface, index, r, c)
+
+    def draw_backlayer(self, surface):
+        backlayer = common.load('backlayers/1.png', True)
+        surface.blit(backlayer, (0, 0))
 
     def _draw_tile_over(self, surface, tile_number, row, col):
         "Imprime un bloque sobre la superficie indicada por argumento."

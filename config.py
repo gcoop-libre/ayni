@@ -4,5 +4,5 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
-SHOW_PLACEHOLDERS = True
+SHOW_PLACEHOLDERS = False
 FULLSCREEN = False
