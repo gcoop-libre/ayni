@@ -15,7 +15,7 @@ import config
 class Placeholder(Sprite):
     "Representa un bloque para completar."
 
-    def __init__(self, x, y):
+    def __init__(self, type, x, y):
         Sprite.__init__(self)
 
         if config.SHOW_PLACEHOLDERS:
@@ -30,3 +30,4 @@ class Placeholder(Sprite):
 
         self.rect.width = 75
         self.rect.height = 75
+        self.type = type

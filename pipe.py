@@ -57,3 +57,19 @@ class Pipe(Sprite, object):
         self.are_in_a_placeholder = False
         self.placeholder.are_used = False
         del(self.placeholder)
+
+    def is_in_a_right_placeholder(self):
+        "Retorna True si la pieza esta en el placeholder que le corresponde."
+        same = {
+                8:2,
+                2:8,
+                4:6,
+                6:4,
+                }
+                
+        if self.type == self.placeholder.type:
+            return True
+        elif same.has_key(self.type) and same[self.type] == self.placeholder.type:
+            return True
+        else:
+            return False
