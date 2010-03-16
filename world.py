@@ -24,7 +24,13 @@ class World:
         else:
             flags = 0
 
-        self.screen = pygame.display.set_mode((1280, 720), flags)
+        if config.LOWRES:
+            resolution = (640, 720 / 2)
+        else:
+            resolution = (1280, 720)
+
+        self.screen = pygame.display.set_mode(resolution, flags)
+
         pygame.display.set_caption("Ayni")
         pygame.font.init()
         self.audio = audio.Audio()

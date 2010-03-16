@@ -6,3 +6,4 @@
 
 SHOW_PLACEHOLDERS = False
 FULLSCREEN = False
+LOWRES = False
