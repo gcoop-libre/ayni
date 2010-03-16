@@ -194,6 +194,7 @@ class WorkToRemovePipeFromPlaceholder(State):
         self.player.set_animation("working")
         self.time_to_leave = 40
         player.audio.play('working')
+        player.game.create_working_particles_effect(placeholder.rect)
 
         if placeholder.rect.centerx < player.rect.centerx:
             player.flip = False
@@ -222,6 +223,7 @@ class WorkToPutPipe(State):
         self.pipe.put_in_this_placeholder(placeholder)
         self.time_to_leave = 40
         player.audio.play('working')
+        player.game.create_working_particles_effect(placeholder.rect)
 
         if placeholder.rect.centerx < player.rect.centerx:
             player.flip = False

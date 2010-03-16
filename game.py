@@ -13,6 +13,7 @@ import pipe
 import group
 import messages
 import level_complete
+import particles
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
@@ -66,3 +67,7 @@ class Game(scene.Scene):
     def show_level_complete_message(self):
         "Muestra el mensaje de texto que dice 'nivel completado...'"
         self.sprites.add(level_complete.LevelComplete())
+
+    def create_working_particles_effect(self, rect):
+        particle = particles.Particles(rect)
+        self.sprites.add(particle)
