@@ -64,8 +64,10 @@ class Particles(pygame.sprite.Sprite):
             p.draw(self.image)
 
         if self.ttl < 10:
-            return
-            self.kill()
+            if self.ttl < -30:
+                self.kill()
+            else:
+                return
         else:
             if self.ttl % 11 == 0:
                 self.create_particles()
