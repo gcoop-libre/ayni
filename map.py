@@ -144,9 +144,10 @@ class Map:
 
         for x in self.pipes:
             if x.are_in_a_placeholder and x.is_in_a_right_placeholder():
-                print x, "esta correctamente colocada"
+                #print x, "esta correctamente colocada"
+                pass
             else:
-                print x, "no esta en el placeholder que le corresponde"
+                #print x, "no esta en el placeholder que le corresponde"
                 all_pipes = False
 
         return all_pipes
