@@ -11,37 +11,7 @@ import group
 import title_sprite
 import game
 import title
-
-
-class Transition(scene.Scene):
-    "Muestra una transición entre una etapa de la presentación y la otra."
-
-    def __init__(self, world, last_scene, new_scene):
-        self.counter = 0
-        self.new_scene = new_scene
-        self.last_scene = last_scene
-        self.world = world
-        self.last_image = world.screen.convert()
-        self.new_scene.draw_background(world.screen)
-        self.counter = 255
-
-    def update(self):
-        self.counter -= 4
-
-        if self.counter < 0:
-            self.set_new_scene()
-
-    def draw(self, screen):
-        self.new_scene.draw_background(screen)
-        self.last_image.set_alpha(self.counter)
-        screen.blit(self.last_image, (0, 0))
-        pygame.display.flip()
-
-    def set_new_scene(self):
-        self.world.change_scene(self.new_scene)
-
-    def on_event(self, event):
-        self.new_scene.on_event(event)
+import transition
 
 
 class IntroAbstract(scene.Scene):
@@ -69,18 +39,25 @@ class IntroAbstract(scene.Scene):
     def on_event(self, event):
 
         if self.counter > 50:
-            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 self.go_to_next_scene()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.go_to_title_scene()
+                else:
+                    self.go_to_next_scene()
+
+    def go_to_title_scene(self):
+        self.world.change_scene(title.Title(self.world))
                 
     def go_to_next_scene(self):
         next_scene = self.next_scene(self.world)
         last_scene = self
 
         if self.must_interpolate:
-            self.world.change_scene(Transition(self.world, last_scene, next_scene))
+            self.world.change_scene(transition.Transition(self.world, last_scene, next_scene))
         else:
             self.world.change_scene(next_scene)
-
 
 
 class Intro1(IntroAbstract):
@@ -117,4 +94,3 @@ class Intro5(IntroAbstract):
 
     def __init__(self, world):
         IntroAbstract.__init__(self, world, "intro/5.jpg", title.Title, False)
-
