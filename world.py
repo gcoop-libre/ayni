@@ -12,6 +12,7 @@ import common
 import time
 import audio
 import config
+import cPickle
 
 class World:
     "Representa el administrador de escenas y el bucle de juego."
@@ -34,17 +35,25 @@ class World:
         pygame.display.set_caption("Ayni")
         pygame.font.init()
         self.audio = audio.Audio()
+        self.runtime = 0
 
     def loop(self):
         "Bucle principal que actualiza escenas y mantiene la velocidad constante."
         clock = pygame.time.Clock()
+        clock.tick(60)
+        clock.get_time()
+        save_events = False
 
         quit = False
 
         while not quit:
+            self.runtime += clock.get_time()
+
 
             for event in pygame.event.get():
+
                 if event.type == pygame.QUIT:
+                    print event
                     quit = True
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
@@ -53,8 +62,33 @@ class World:
                         self.take_screenshot()
                     elif event.key in [pygame.K_f, pygame.K_F3]:
                         pygame.display.toggle_fullscreen()
+                    elif event.key == pygame.K_r:
+                        print "Comenzando a grabar los eventos..."
+                        save_events = True
+                        self.runtime = 0
+                        events = []
+                    elif event.key == pygame.K_s:
+                        if save_events:
+                            print "Terminando la grabacion de eventos..."
+
+                            f = open("events.txt", "wt")
+                            cPickle.dump(events, f)
+                            f.close()
+
+                        else:
+                            print "No estaba grabando con anterioridad."
 
                 # delega los eventos a la escena.
+                if save_events:
+                    if event.type == pygame.MOUSEMOTION:
+                        events.append((self.runtime, event.type,
+                            dict(buttons=event.buttons, pos=event.pos,
+                                rel=event.rel)))
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        events.append((self.runtime, event.type, 
+                            dict(button=event.button, pos=event.pos)))
+
+
                 self.scene.on_event(event)
 
             # delega actualizacion e impresión a la escena.
