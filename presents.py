@@ -48,8 +48,19 @@ class Presents(scene.Scene):
 
     def on_event(self, event):
         if self.counter > 50:
-            if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 self.go_to_intro_scene()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.go_to_game_inmediately()
+                else:
+                    self.go_to_intro_scene()
+
+
+    def go_to_game_inmediately(self):
+        import game
+        new_scene = game.Game(self.world)
+        self.world.change_scene(new_scene)
 
     def go_to_intro_scene(self):
         new_scene = intro.Intro1(self.world)
@@ -105,10 +116,10 @@ class GcoopLogo(Sprite):
         new_size = (int(self.width), int(self.height))
 
         if new_size[0] < 0:
-            new_size = 1, new_size[1]
+            new_size = 0, new_size[1]
 
         if new_size[1] < 0:
-            new_size = new_size[0], 1
+            new_size = new_size[0], 0
 
         self.image = pygame.transform.scale(self.original_image, new_size)
 
