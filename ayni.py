@@ -8,12 +8,14 @@ import world
 import game
 import title
 import intro
+import presents
 
 def run():
     "Genera el objeto World y le asigna una escena."
 
     w = world.World()
-    new_scene = intro.Intro1(w)
+    #new_scene = intro.Intro1(w)
+    new_scene = presents.Presents(w)
     #new_scene = game.Game(w)
     #new_scene = title.Title(w)
     w.change_scene(new_scene)
