@@ -288,25 +288,32 @@ pero con un nuevo método para ordenar la impresión por el atributo
 ``z`` de cada sprite.
 
 
-Mensajes de los personajes
---------------------------
 
-Para que los personajes puedan hablar hay un objeto que administra
-todos los cuadros de mensajes llamado ``Messages``.
+Sin implementar en la version nueva
+-----------------------------------
 
-Cada objeto que conozca a ``Messages`` puede solicitarle que emita
-un mensaje.
+Las siguientes secciones solo estan disponibles en la versión
+prototipo del juego::
 
-Cuando ``Messages`` tiene que crear un mensaje construye un objeto
-``Balloon`` que se muestra en pantalla unos segundos.
+    Mensajes de los personajes
+    --------------------------
 
-El propio objeto ``Balloon`` se encarga de eliminarse de la pantalla.
+    Para que los personajes puedan hablar hay un objeto que administra
+    todos los cuadros de mensajes llamado ``Messages``.
 
-    *Decoración del objeto Balloon:*
+    Cada objeto que conozca a ``Messages`` puede solicitarle que emita
+    un mensaje.
 
-    .. image:: ../data/balloon.png
+    Cuando ``Messages`` tiene que crear un mensaje construye un objeto
+    ``Balloon`` que se muestra en pantalla unos segundos.
+
+    El propio objeto ``Balloon`` se encarga de eliminarse de la pantalla.
+
+        *Decoración del objeto Balloon:*
+
+        .. image:: ../data/balloon.png
 
 
-Los objetos que tienen referencia a messages son ``Game``, ``Map``
-y ``Player``. De aquí solo ``Player`` llama a los metodos para crear
-nuevos globos de mensajes. Por ejemplo desde su método ``say``.
+    Los objetos que tienen referencia a messages son ``Game``, ``Map``
+    y ``Player``. De aquí solo ``Player`` llama a los metodos para crear
+    nuevos globos de mensajes. Por ejemplo desde su método ``say``.
