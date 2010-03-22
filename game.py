@@ -14,6 +14,32 @@ import group
 import messages
 import level_complete
 import particles
+import end
+
+
+class PlayingGameState:
+    "Represeta un estado interno del juego: mientras el usuario juega."
+
+    def __init__(self, game):
+        self.game = game
+
+    def update(self):
+        pass
+
+class EndingLevelGameState:
+    "Representa el estado interno del juego cuando termina correctamente."
+
+    def __init__(self, game):
+        self.game = game
+        self.counter = 0
+
+    def update(self):
+        self.counter += 1
+
+        if self.counter > 300:
+            world = self.game.world
+            world.change_scene(end.End(world))
+
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
@@ -25,6 +51,7 @@ class Game(scene.Scene):
         self.messages = messages.Messages(self.sprites)
         self.map = map.Map(self, self.sprites, self.messages, world.audio)
         self._draw_background_and_map()
+        self.change_state(PlayingGameState(self))
 
         #self._create_a_pipe()
         self._create_mouse_pointer()
@@ -44,6 +71,7 @@ class Game(scene.Scene):
         pygame.display.flip()
 
     def update(self):
+        self.state.update()
         self.sprites.update()
 
     def draw(self, screen):
@@ -63,6 +91,7 @@ class Game(scene.Scene):
                 x.show_end_level_animation()
             
             self.show_level_complete_message()
+            self.change_state(EndingLevelGameState(self))
 
     def show_level_complete_message(self):
         "Muestra el mensaje de texto que dice 'nivel completado...'"
@@ -71,3 +100,6 @@ class Game(scene.Scene):
     def create_working_particles_effect(self, rect):
         particle = particles.Particles(rect)
         self.sprites.add(particle)
+
+    def change_state(self, new_state):
+        self.state = new_state
