@@ -47,7 +47,6 @@ class Presents(scene.Scene):
         pygame.display.update(self.sprites.draw(screen))
 
     def on_event(self, event):
-
         if self.counter > 50:
             if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
                 self.go_to_intro_scene()
