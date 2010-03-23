@@ -15,6 +15,7 @@ import messages
 import level_complete
 import particles
 import end
+import presents
 
 
 class PlayingGameState:
@@ -82,6 +83,9 @@ class Game(scene.Scene):
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             self.mouse.on_click(x, y)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.world.change_scene(presents.Presents(self.world))
 
     def on_pipe_put(self):
         "Evento que activa la pieza cuando se suelta en un placeholder."
