@@ -42,8 +42,8 @@ class Particles(pygame.sprite.Sprite):
 
     def __init__(self, rect):
         pygame.sprite.Sprite.__init__(self)
-        width, height = 200, 200
-        self.image = pygame.Surface((width, height), flags=pygame.SRCALPHA, depth=32)
+        self.original_image = common.load("particle_box.png", True)
+        self.image = self.original_image.convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.center = rect.center
         self.ttl = 40
@@ -57,8 +57,7 @@ class Particles(pygame.sprite.Sprite):
     def update(self):
         self.ttl -= 1
 
-
-        self.image.fill((0, 0, 0, 0))
+        self.image = self.original_image.convert_alpha()
 
         for p in self.particles:
             p.draw(self.image)
