@@ -47,6 +47,7 @@ class Game(scene.Scene):
        interactuar con los trabajadores, el mouse y las piezas."""
 
     def __init__(self, world):
+	pygame.mixer.music.stop()
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.messages = messages.Messages(self.sprites)

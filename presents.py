@@ -19,6 +19,11 @@ class Presents(scene.Scene):
     "Muestra el logotipo de gcoop y el texto: 'presenta...'"
 
     def __init__(self, world):
+	pygame.mixer.init()
+	pygame.mixer.music.load('data/presents/music.ogg')
+	#music = pygame.mixer.Sound('presents/music.ogg')
+	#music.play()
+	pygame.mixer.music.play()
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.background = common.load("presents/background.png", False)
@@ -61,6 +66,7 @@ class Presents(scene.Scene):
         import game
         new_scene = game.Game(self.world)
         self.world.change_scene(new_scene)
+        
 
     def go_to_intro_scene(self):
         new_scene = intro.Intro1(self.world)

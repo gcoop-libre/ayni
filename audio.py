@@ -14,7 +14,7 @@ class Audio:
 
     def __init__(self):
         if ENABLE_SOUND:
-            pygame.mixer.init(44100)
+            pygame.mixer.init(48000)
 
             self.sounds = {
                 'working': pygame.mixer.Sound('data/sounds/hammer.ogg'),
