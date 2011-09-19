@@ -32,8 +32,9 @@ class PointToWorkAt(MouseState):
 
     def update(self):
         sprite = self.mouse.get_placeholder_over_mouse()
+        player = self.mouse.get_player_over_mouse()
 
-        if sprite:
+        if sprite or player:
             self.mouse.set_frame("over")
         else:
             self.mouse.set_frame("normal")
@@ -74,8 +75,8 @@ class PointAt(MouseState):
 
     def update(self):
         sprite = self.mouse.get_pipe_over_mouse()
-
-        if sprite:
+        player = self.mouse.get_player_over_mouse()
+        if sprite or player:
             self.mouse.set_frame("over")
         else:
             self.mouse.set_frame("normal")
@@ -121,7 +122,7 @@ class Normal(MouseState):
 
     def on_click(self, x, y):
         new_sprite = self.mouse.get_player_over_mouse()
-        
+        sprite = None 
         if not new_sprite and self.mouse.selected_player:
             sprite = self.mouse.selected_player
         elif new_sprite:

@@ -36,24 +36,29 @@ class EndingLevelGameState:
 
     def update(self):
         self.counter += 1
-
+            
         if self.counter > 300:
             world = self.game.world
-            world.change_scene(end.End(world))
+            level = world.next_level(self.game.level) 
+            if level:
+                world.change_scene(Game(world, level))
+            else:
+                world.change_scene(end.End(world))
 
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
        interactuar con los trabajadores, el mouse y las piezas."""
 
-    def __init__(self, world):
+    def __init__(self, world, level=1):
 	pygame.mixer.music.stop()
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.messages = messages.Messages(self.sprites)
-        self.map = map.Map(self, self.sprites, self.messages, world.audio)
+        self.map = map.Map(self, self.sprites, self.messages, world.audio, level)
         self._draw_background_and_map()
         self.change_state(PlayingGameState(self))
+        self.level = level
 
         #self._create_a_pipe()
         self._create_mouse_pointer()

@@ -13,7 +13,7 @@ import time
 import audio
 import config
 import cPickle
-
+import os
 class World:
     "Representa el administrador de escenas y el bucle de juego."
 
@@ -106,3 +106,8 @@ class World:
         filename = time.strftime("screenshot_%y%m%d_%H%M%S.png")
         pygame.image.save(self.screen, filename)
         print "Guardando:", filename
+    
+    def next_level(self, level):
+        level += 1
+        if os.path.isfile('data/map/%d.txt' % level):
+            return level

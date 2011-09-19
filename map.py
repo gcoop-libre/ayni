@@ -12,10 +12,10 @@ import pipe
 class Map:
     "Representa todo el escenario, donde pisar, donde no..."
 
-    def __init__(self, game, sprites, messages, audio):
+    def __init__(self, game, sprites, messages, audio, level=2):
         self.pipes = []
         self.players = []
-        self._create_map()
+        self._create_map(level)
         self._load_images()
         self.sprites = sprites
         self.placeholders = []
@@ -23,9 +23,9 @@ class Map:
         self.audio = audio
         self.game = game
 
-    def _create_map(self):
+    def _create_map(self, level=1):
         "Genera la matriz con todos los bloques que se deben imprimir."
-        path = 'data/map/1.txt'
+        path = 'data/map/%d.txt' % level
         f = open(path, 'rt')
         self.map = f.readlines()
         f.close()
