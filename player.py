@@ -10,7 +10,7 @@ import animation
 import common
 from states import *
 from sprite import Sprite
-
+import selected_arrow
 
 class Player(Sprite):
     "Representa un personaje del juego."
@@ -34,6 +34,7 @@ class Player(Sprite):
         self.has_a_pipe_in_hands = False
         self.z = -5
         self.audio = audio
+        self.arrow = None 
 
     def _load_frames(self):
         sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
@@ -43,7 +44,6 @@ class Player(Sprite):
         sheet_ok = animation.Sheet(common.load("player/ok.png", True), 1)
         sheet_stand_moving = animation.Sheet(common.load("player/stand_moving.png", True), 1)
         sheet_walk_moving = animation.Sheet(common.load("player/walk_moving.png", True), 4)
-
         self.animations = {
                 "walk": animation.Animation(sheet_walk, 6, [0, 1, 2, 3]),
                 "stand": animation.Animation(sheet_stand, 1, [0]),
@@ -53,6 +53,7 @@ class Player(Sprite):
                 "stand_moving": animation.Animation(sheet_stand_moving, 1, [0]),
                 "walk_moving": animation.Animation(sheet_walk_moving, 6, [0, 1, 2, 3]),
             }
+        
 
     def set_animation(self, name):
         self.animation = self.animations[name]
@@ -62,6 +63,15 @@ class Player(Sprite):
         self.state.update()
         self.animation.update()
         self.image = self.animation.get_image(self.flip)
+
+    def is_selected(self):
+        if not self.arrow:
+            self.arrow = selected_arrow.SelectedArrow(self.game, self.map, self)
+    
+    def is_not_selected(self):
+        if self.arrow:
+            self.arrow.kill()
+        self.arrow = None
 
     def on_click(self, x, y):
         self.state.on_click(x, y)

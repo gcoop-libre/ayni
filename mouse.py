@@ -33,6 +33,7 @@ class MousePointer(Sprite):
         self.stage_objects = stage_objects
         self.change_state(mouse_state.Normal(self))
         self.z = -50
+        self.selected_player = None
 
     def _load_frames(self):
         self.frames = {
