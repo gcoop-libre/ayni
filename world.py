@@ -14,10 +14,11 @@ import audio
 import config
 import cPickle
 import os
+
 class World:
     "Representa el administrador de escenas y el bucle de juego."
 
-    def __init__(self):
+    def __init__(self, in_sugar_olpc=False):
         "Inicializa la biblioteca y el modo de video."
 
         if config.FULLSCREEN:
@@ -30,8 +31,12 @@ class World:
         else:
             resolution = (1280, 720)
 
-        self.screen = pygame.display.set_mode(resolution, flags)
+        if in_sugar_olpc:
+            self.screen = pygame.display.get_surface()
+        else:
+            self.screen = pygame.display.set_mode(resolution, flags)
 
+        self.in_sugar_olpc = in_sugar_olpc
         pygame.display.set_caption("Ayni")
         pygame.font.init()
         self.audio = audio.Audio()
@@ -48,6 +53,11 @@ class World:
 
         while not quit:
             self.runtime += clock.get_time()
+
+            if self.in_sugar_olpc:
+                import gtk
+                while gtk.events_pending():
+                    gtk.main_iteration()
 
 
             for event in pygame.event.get():
