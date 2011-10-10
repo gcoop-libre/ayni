@@ -19,11 +19,11 @@ class Presents(scene.Scene):
     "Muestra el logotipo de gcoop y el texto: 'presenta...'"
 
     def __init__(self, world):
-	pygame.mixer.init()
-	pygame.mixer.music.load('data/presents/music.ogg')
-	#music = pygame.mixer.Sound('presents/music.ogg')
-	#music.play()
-	pygame.mixer.music.play()
+        pygame.mixer.init()
+        pygame.mixer.music.load('data/presents/music.ogg')
+        #music = pygame.mixer.Sound('presents/music.ogg')
+        #music.play()
+        pygame.mixer.music.play()
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.background = common.load("presents/background.png", False)
@@ -56,11 +56,10 @@ class Presents(scene.Scene):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.go_to_intro_scene()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key in [pygame.K_ESCAPE, pygame.K_SPACE]:
                     self.go_to_game_inmediately()
                 else:
                     self.go_to_intro_scene()
-
 
     def go_to_game_inmediately(self):
         import game

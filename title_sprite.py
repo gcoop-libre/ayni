@@ -15,7 +15,7 @@ class TitleSprite(Sprite):
         Sprite.__init__(self)
         self.image = common.load('title.png', True)
         self.rect = self.image.get_rect()
-        self.rect.right = 1260
+        self.rect.right = 1180
         self.y = 780
         common.tweener.addTween(self, y=40, tweenTime=1700, 
                 tweenType=pytweener.Easing.Elastic.easeInOut)

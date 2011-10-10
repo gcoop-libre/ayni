@@ -38,14 +38,13 @@ class IntroAbstract(scene.Scene):
 
     def on_event(self, event):
 
-        if self.counter > 50:
-            if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.go_to_next_scene()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.go_to_title_scene()
+            else:
                 self.go_to_next_scene()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.go_to_title_scene()
-                else:
-                    self.go_to_next_scene()
 
     def go_to_title_scene(self):
         self.world.change_scene(title.Title(self.world))
