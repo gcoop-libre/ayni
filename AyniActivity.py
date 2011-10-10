@@ -37,19 +37,10 @@ class AyniActivity(sugar.activity.activity.Activity):
         self._pygamecanvas.run_pygame(ayni.run_in_sugar)
 
     def build_toolbar(self):        
-        stop_play = sugar.graphics.toolbutton.ToolButton('media-playback-stop')
-        stop_play.set_tooltip(_("Stop"))
-        stop_play.set_accelerator(_('<ctrl>space'))
-        stop_play.connect('clicked', self._stop_play_cb)
-
-        toolbar = gtk.Toolbar()
-        toolbar.insert(stop_play, 0)
-        
-        toolbox = sugar.activity.activity.ActivityToolbox(self)
-        toolbox.add_toolbar(_("Pygame"), toolbar)
-        
-        toolbox.show_all()
-        self.set_toolbox(toolbox)
+        toolbar = sugar.activity.activity.ActivityToolbar(self)
+        toolbar.show()
+        self.set_toolbox(toolbar)
+        return toolbar
 
     def _stop_play_cb(self, button):
         # Pause or unpause the game.

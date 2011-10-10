@@ -29,7 +29,7 @@ class World:
         if config.LOWRES:
             resolution = (640, 720 / 2)
         else:
-            resolution = (1280, 720)
+            resolution = (1200, 846)
 
         if in_sugar_olpc:
             self.screen = pygame.display.get_surface()
