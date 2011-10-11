@@ -17,8 +17,8 @@ def run():
 
     w = world.World()
     #new_scene = intro.Intro1(w)
-    #new_scene = presents.Presents(w)
-    new_scene = game.Game(w)
+    new_scene = presents.Presents(w)
+    #new_scene = game.Game(w)
     #new_scene = demo_game.DemoGame(w)
     #new_scene = end.End(w)
     #new_scene = title.Title(w)
