@@ -14,7 +14,8 @@ class MouseState:
 
     def __init__(self, mouse):
         self.mouse = mouse
-        #print "MOUSE", self
+        # muestra el estado del mouse en la ventana.
+        #pygame.display.set_caption(str(self))
 
     def update(self):
         pass
@@ -22,8 +23,31 @@ class MouseState:
     def on_click(self, x, y):
         pass
 
+    def select_player(self, player):
+        # Si hay un personaje seleccionado lo deselecciona
+        if self.mouse.selected_player:
+            self.mouse.selected_player.is_not_selected()
+
+        self.mouse.selected_player = player
+        self.mouse.selected_player.is_selected()
+
+        # dependiendo de si tiene pieza o no...
+        if player.has_a_pipe_in_hands:
+            self.mouse.change_state(PointToWorkAt(self.mouse, player))
+        else:
+            self.mouse.change_state(PointAt(self.mouse, player))
+
+
 class PointToWorkAt(MouseState):
-    "Está por indicarle una coordenada a un trabajador."
+    """Está por indicarle una coordenada a un trabajador que tiene una pieza.
+
+    En este estado pueden pasar:
+
+        * 1 - que el usuario le indice un placeholder vacio (mejor de los casos).
+        * 2 - que le indique un lugar cualquiera para caminar.
+        * 3 - que seleccione otro personaje.
+        * 4 - que indique el suelo para dejar la pieza.
+    """
 
     def __init__(self, mouse, player):
         MouseState.__init__(self, mouse)
@@ -39,34 +63,49 @@ class PointToWorkAt(MouseState):
         else:
             self.mouse.set_frame("normal")
 
+        # BUGFIX: cambia el estado del mouse si el personaje logro tomar una pieza.
+        if not self.player.has_a_pipe_in_hands:
+            self.select_player(self.player)
+            #print "BUGFIX!!! el personaje NOOOOOOOO tiene un pipe."
+            return
+
 
     def on_click(self, x, y):
         placeholder = self.mouse.get_placeholder_over_mouse()
         player = self.mouse.get_player_over_mouse()
 
-        if placeholder:
+
+        # Caso 1: se le indica un placeholder vacio
+        if placeholder and self.player.can_receive_new_jobs():
             pipe = self.player.state.pipe
             self.player.walk_and_work_in_a_placeholder(pipe, placeholder, x, y)
-        elif player and self.player is not player:
-            self.player.is_not_selected()
-            self.player = player
-            self.player.is_selected()
-        else:
-            pipe = self.player.state.pipe
+            return
 
+        # Caso 2: se le indica un lugar cualquiera para caminar
+        if not player and self.player.can_receive_new_jobs():
+            self.player.walk_to_with_piece(self.player.state.pipe, x, y)
+            return
+
+        # Caso 3: selecciono otro personaje distinto
+        if player and player is not self.player:
+            self.select_player(player)
+
+        # Caso 4: Intenta dejar la pieza.
+        if self.player.has_a_pipe_in_hands:
             dist = abs(y - self.player.rect.bottom)
 
             if dist < 26:
-                self.player.walk_to_leave_pipe_here(pipe, x, y)
-            else:
-                self.player.walk_to_with_piece(pipe, x, y)
-        if player and self.player.has_a_pipe_in_hands:
-            self.mouse.change_state(PointToWorkAt(self.mouse, self.player))
-        else:    
-            self.mouse.change_state(PointAt(self.mouse, self.player))
+                self.player.walk_to_leave_pipe_here(self.player.state.pipe, x, y)
 
 class PointAt(MouseState):
-    "Está por indicarle una coordenada a un trabajador."
+    """Está por indicarle una coordenada a un trabajador que no tiene pieza.
+
+    En este estado puede pasar:
+
+        * 1 - otro jugador.
+        * 2 - una pieza.
+        * 3 - cualquier lugar para caminar.
+    """
 
     def __init__(self, mouse, player):
         MouseState.__init__(self, mouse)
@@ -76,32 +115,42 @@ class PointAt(MouseState):
     def update(self):
         sprite = self.mouse.get_pipe_over_mouse()
         player = self.mouse.get_player_over_mouse()
+
         if sprite or player:
             self.mouse.set_frame("over")
         else:
             self.mouse.set_frame("normal")
 
-    def on_click(self, x, y):
-        sprite = self.mouse.get_pipe_over_mouse()
-        player = self.mouse.get_player_over_mouse()
-        if sprite:
-            if sprite.are_in_a_placeholder:
-                placeholder = sprite.get_placeholder()
-                self.player.walk_to_remove_a_pipe_from_placeholder(sprite, placeholder, x, y)
-            else:
-                self.player.walk_and_take_the_pipe(sprite, x, y)
-        elif player and player is not self.player:
-            self.player.is_not_selected()
-            self.player = player
-            self.player.is_selected()
-        else:
-            self.player.walk_to(x, y)
-        if sprite or (self.player.has_a_pipe_in_hands and player):
-             self.mouse.change_state(PointToWorkAt(self.mouse, self.player))
-        else:
-            self.mouse.change_state(PointAt(self.mouse, self.player))
+        # BUGFIX: cambia el estado del mouse si el personaje logro tomar una pieza.
+        if self.player.has_a_pipe_in_hands:
+            self.select_player(self.player)
+            #print "BUGFIX!!! el personaje tiene un pipe."
+            return
 
-#        self.mouse.change_state(Normal(self.mouse))
+    def on_click(self, x, y):
+        pipe = self.mouse.get_pipe_over_mouse()
+        player = self.mouse.get_player_over_mouse()
+
+
+        # caso 1: Si selecciona un personaje distinto cambia.
+        if player and player is not self.player:
+            self.select_player(player)
+            return
+
+        # caso 2: Si selecciona una pieza trata de tomarla.
+        if pipe and self.player.can_receive_new_jobs():
+            if pipe.are_in_a_placeholder:
+                placeholder = pipe.get_placeholder()
+                self.player.walk_to_remove_a_pipe_from_placeholder(pipe, placeholder, x, y)
+            else:
+                self.player.walk_and_take_the_pipe(pipe, x, y)
+
+            return
+
+        
+        # caso 3:
+        if not pipe and not player and self.player.can_receive_new_jobs():
+            self.player.walk_to(x, y)
 
             
 class Normal(MouseState):
@@ -122,16 +171,7 @@ class Normal(MouseState):
 
     def on_click(self, x, y):
         new_sprite = self.mouse.get_player_over_mouse()
-        sprite = None 
-        if not new_sprite and self.mouse.selected_player:
-            sprite = self.mouse.selected_player
-        elif new_sprite:
-            sprite = new_sprite
-            sprite.is_selected()
-            self.mouse.selected_player = sprite
 
-        if sprite and sprite.can_receive_new_jobs():
-            if sprite.has_a_pipe_in_hands:
-                self.mouse.change_state(PointToWorkAt(self.mouse, sprite))
-            else:
-                self.mouse.change_state(PointAt(self.mouse, sprite))
+        # si no esta trabajando en este momento...
+        if new_sprite and new_sprite.can_receive_new_jobs():
+            self.select_player(new_sprite)

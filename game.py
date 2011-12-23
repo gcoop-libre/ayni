@@ -40,18 +40,23 @@ class EndingLevelGameState:
         if self.counter > 300:
             world = self.game.world
             level = world.next_level(self.game.level) 
-            if level:
-                world.change_scene(Game(world, level))
+
+            if self.game.modo_editor:
+                import editor
+                self.game.world.change_scene(editor.Editor(self.game.world, self.game.level))
             else:
-                world.change_scene(end.End(world))
+                if level:
+                    world.change_scene(Game(world, level))
+                else:
+                    world.change_scene(end.End(world))
 
 
 class Game(scene.Scene):
     """Es la escena principal del juego, donde el usuario puede
        interactuar con los trabajadores, el mouse y las piezas."""
 
-    def __init__(self, world, level=1):
-	pygame.mixer.music.stop()
+    def __init__(self, world, level=1, modo_editor=False):
+        pygame.mixer.music.stop()
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.messages = messages.Messages(self.sprites)
@@ -59,6 +64,7 @@ class Game(scene.Scene):
         self._draw_background_and_map()
         self.change_state(PlayingGameState(self))
         self.level = level
+        self.modo_editor = modo_editor
 
         #self._create_a_pipe()
         self._create_mouse_pointer()
@@ -91,7 +97,11 @@ class Game(scene.Scene):
             self.mouse.on_click(x, y)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.world.change_scene(presents.Presents(self.world))
+                if self.modo_editor:
+                    import editor
+                    self.world.change_scene(editor.Editor(self.world, self.level))
+                else:
+                    self.world.change_scene(presents.Presents(self.world))
 
     def on_pipe_put(self):
         "Evento que activa la pieza cuando se suelta en un placeholder."

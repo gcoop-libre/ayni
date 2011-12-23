@@ -4,6 +4,9 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+# tiempo que tiene que trabajar
+TIME_TO_WORK = 40
+
 class State:
     "Representa un estado del personaje del juego."
 
@@ -169,7 +172,8 @@ class WalkWithPieceToWorkAt(State):
             else:
                 if self.player.can_work_on_this_placeholder(self.placeholder):
                     if self.placeholder.are_used:
-                        print "Este placeholder esta en uso."
+                        #print "Este placeholder esta en uso."
+                        self.player.say("Solo una pieza...")
                         self.player.change_state(StandWithPiece(self.player, self.pipe))
                     else:
                         self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
@@ -192,7 +196,7 @@ class WorkToRemovePipeFromPlaceholder(State):
         self.pipe = pipe
         self.placeholder = placeholder
         self.player.set_animation("working")
-        self.time_to_leave = 40
+        self.time_to_leave = TIME_TO_WORK
         player.audio.play('working')
         player.game.create_working_particles_effect(placeholder.rect)
 
@@ -221,7 +225,7 @@ class WorkToPutPipe(State):
         self.player.set_animation("working")
         self.player.has_a_pipe_in_hands = False
         self.pipe.put_in_this_placeholder(placeholder)
-        self.time_to_leave = 40
+        self.time_to_leave = TIME_TO_WORK
         player.audio.play('working')
         player.game.create_working_particles_effect(placeholder.rect)
 
@@ -350,7 +354,7 @@ class Ok(State):
     def __init__(self, player):
         State.__init__(self, player)
         self.player.set_animation("ok")
-        self.time_to_leave = 40
+        self.time_to_leave = TIME_TO_WORK
         self.last_flip_state = player.flip
         player.flip = False
 

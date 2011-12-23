@@ -32,7 +32,7 @@ class Player(Sprite):
         self.can_be_clicked = True
         self.flip = False
         self.has_a_pipe_in_hands = False
-        self.z = -5
+        self.z = -y / 75
         self.audio = audio
         self.arrow = None 
 
@@ -126,6 +126,7 @@ class Player(Sprite):
     def leave_pipe(self, pipe):
         self.has_a_pipe_in_hands = False
         pipe.y = self.rect.y + 25
+        self.change_state(Stand(self))
 
     def can_take_this_piece(self, piece):
         "Retorna True si la pieza a tomar está cerca del trabajador."

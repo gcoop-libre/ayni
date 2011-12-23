@@ -16,7 +16,7 @@ class Title(scene.Scene):
     def __init__(self, world):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
-        self.background = common.load("title_background.png", False)
+        self.background = common.load("title_background.jpg", False)
         self.title = title_sprite.TitleSprite()
         self.sprites.add(self.title)
         self.draw_background()

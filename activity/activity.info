@@ -1,0 +1,6 @@
+[Activity]
+name = Ayni
+service_name = org.sugarlabs.Ayni
+class = AyniActivity.AyniActivity
+icon = activity-generic
+activity_version = 1
