@@ -12,6 +12,7 @@ import presents
 import editor
 import end
 import demo_game
+import menu
 
 def run():
     "Genera el objeto World y le asigna una escena."
@@ -22,8 +23,8 @@ def run():
     #new_scene = game.Game(w)
     #new_scene = demo_game.DemoGame(w)
     #new_scene = end.End(w)
-    new_scene = editor.Editor(w)
-    #new_scene = title.Title(w)
+    #new_scene = editor.Editor(w)
+    new_scene = menu.Menu(w)
     w.change_scene(new_scene)
     w.loop()
 
