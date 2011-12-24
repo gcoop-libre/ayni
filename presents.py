@@ -11,9 +11,10 @@ import group
 import title_sprite
 import game
 import intro
-from sprite import Sprite
 import common
 import pytweener
+import menu
+from sprite import Sprite
 
 class Presents(scene.Scene):
     "Muestra el logotipo de gcoop y el texto: 'presenta...'"
@@ -56,16 +57,14 @@ class Presents(scene.Scene):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.go_to_intro_scene()
             elif event.type == pygame.KEYDOWN:
-                if event.key in [pygame.K_ESCAPE, pygame.K_SPACE]:
-                    self.go_to_game_inmediately()
+                if event.key == pygame.K_ESCAPE:
+                    self.go_to_menu_inmediately()
                 else:
                     self.go_to_intro_scene()
 
-    def go_to_game_inmediately(self):
-        import game
-        new_scene = game.Game(self.world)
+    def go_to_menu_inmediately(self):
+        new_scene = menu.Menu(self.world)
         self.world.change_scene(new_scene)
-        
 
     def go_to_intro_scene(self):
         new_scene = intro.Intro1(self.world)

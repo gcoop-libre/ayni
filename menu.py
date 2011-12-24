@@ -47,6 +47,16 @@ class Cursor(pygame.sprite.Sprite):
     def definir_posicion(self, posicion):
         self.rect.y = posicion + 10
 
+class Logo(pygame.sprite.Sprite):
+    "El texto de indica: 'presents'"
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = common.load('title.png', True)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 1200 / 2
+        self.rect.y = 80
+
 class Menu(scene.Scene):
 
     def __init__(self, world, nivel=1):
@@ -59,9 +69,14 @@ class Menu(scene.Scene):
         self.sprites.add(self.cursor)
 
         self._crear_textos()
+        self._crear_logotipo()
 
         self.mouse = editor_mouse.EditorMouse()
         self.sprites.add(self.mouse)
+
+    def _crear_logotipo(self):
+        self.logo = Logo()
+        self.sprites.add(self.logo)
 
     def poner_el_mouse_por_arriba(self):
         self.sprites.remove(self.mouse)
@@ -78,7 +93,6 @@ class Menu(scene.Scene):
 
     def obtener_indice_para_esta_posicion(self, posicion_vertical):
         return (posicion_vertical - 350) / 100
-
 
     def update(self):
         self.mouse.update()

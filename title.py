@@ -9,7 +9,7 @@ import scene
 import common
 import group
 import title_sprite
-import game
+import menu
 
 class Title(scene.Scene):
 
@@ -41,4 +41,4 @@ class Title(scene.Scene):
 
         if self.counter > 50:
             if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
-                self.world.change_scene(game.Game(self.world))
+                self.world.change_scene(menu.Menu(self.world))

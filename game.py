@@ -15,7 +15,7 @@ import messages
 import level_complete
 import particles
 import end
-import presents
+import menu
 
 
 class PlayingGameState:
@@ -101,7 +101,7 @@ class Game(scene.Scene):
                     import editor
                     self.world.change_scene(editor.Editor(self.world, self.level))
                 else:
-                    self.world.change_scene(presents.Presents(self.world))
+                    self.world.change_scene(menu.Menu(self.world))
 
     def on_pipe_put(self):
         "Evento que activa la pieza cuando se suelta en un placeholder."
