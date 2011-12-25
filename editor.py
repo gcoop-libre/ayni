@@ -15,8 +15,8 @@ import messages
 import level_complete
 import particles
 import end
-import presents
 import editor_mouse
+import menu
 
 class Texto(pygame.sprite.Sprite):
 
@@ -302,7 +302,7 @@ class Editor(scene.Scene):
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.world.change_scene(presents.Presents(self.world))
+                self.world.change_scene(menu.Menu(self.world))
 
     def change_state(self, new_state):
         if self.state:

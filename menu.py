@@ -38,14 +38,36 @@ class Texto(pygame.sprite.Sprite):
 
 class Cursor(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, world):
         pygame.sprite.Sprite.__init__(self)
         self.image = common.load("cursor.png", True)
         self.rect = self.image.get_rect()
         self.rect.centerx = 1200 / 2
+        self.posicion_actual = 0
+        self.world = world
 
     def definir_posicion(self, posicion):
-        self.rect.y = posicion + 10
+        self.posicion_actual = posicion % 4
+        self.rect.y = 350 + self.posicion_actual * 100 + 10
+
+    def avanzar(self):
+        self.definir_posicion(self.posicion_actual + 1)
+
+    def retroceder(self):
+        self.definir_posicion(self.posicion_actual -1)
+
+    def seleccionar(self):
+        indice = self.posicion_actual
+
+        if indice == 0:
+            self.world.change_scene(game.Game(self.world))
+        elif indice == 1:
+            self.world.change_scene(editor.Editor(self.world))
+        elif indice == 2:
+            self.world.change_scene(presents.Presents(self.world))
+        elif indice == 3:
+            import sys
+            sys.exit(0)
 
 class Logo(pygame.sprite.Sprite):
     "El texto de indica: 'presents'"
@@ -64,8 +86,8 @@ class Menu(scene.Scene):
         self.sprites = group.Group()
         self.font = pygame.font.Font("data/FreeSans.ttf", 65)
         self._draw_background()
-        self.cursor = Cursor()
-        self.cursor.definir_posicion(self.obtener_posicion(0))
+        self.cursor = Cursor(world)
+        self.cursor.definir_posicion(0)
         self.sprites.add(self.cursor)
 
         self._crear_textos()
@@ -105,25 +127,21 @@ class Menu(scene.Scene):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.world.change_scene(presents.Presents(self.world))
+            elif event.key in [pygame.K_SPACE, pygame.K_RETURN]:
+                self.cursor.seleccionar()
+            elif event.key == pygame.K_DOWN:
+                self.cursor.avanzar()
+            elif event.key == pygame.K_UP:
+                self.cursor.retroceder()
         elif event.type == pygame.MOUSEMOTION:
             x, y = event.pos
             indice = self.obtener_indice_para_esta_posicion(y)
 
             if 0 <= indice < 4:
-                self.cursor.definir_posicion(self.obtener_posicion(indice))
+                self.cursor.definir_posicion(indice)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            indice = self.obtener_indice_para_esta_posicion(y)
-
-            if indice == 0:
-                self.world.change_scene(game.Game(self.world))
-            elif indice == 1:
-                self.world.change_scene(editor.Editor(self.world))
-            elif indice == 2:
-                self.world.change_scene(presents.Presents(self.world))
-            elif indice == 3:
-                import sys
-                sys.exit(0)
+            self.cursor.seleccionar()
                 
 
     def _draw_background(self):
