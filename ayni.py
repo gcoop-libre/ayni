@@ -19,12 +19,12 @@ def run():
 
     w = world.World()
     #new_scene = intro.Intro1(w)
-    #new_scene = presents.Presents(w)
+    new_scene = presents.Presents(w)
     #new_scene = game.Game(w)
     #new_scene = demo_game.DemoGame(w)
     #new_scene = end.End(w)
     #new_scene = editor.Editor(w)
-    new_scene = menu.Menu(w)
+    #new_scene = menu.Menu(w)
     w.change_scene(new_scene)
     w.loop()
 

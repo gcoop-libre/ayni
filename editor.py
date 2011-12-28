@@ -18,6 +18,34 @@ import end
 import editor_mouse
 import menu
 
+def cargar_imagen_por_codigo(codigo):
+    referencias = {
+        'o': "player/ico.png",
+        '1': "pipes/1.png", 
+        '2': "pipes/2.png", 
+        '3': "pipes/3.png", 
+        '4': "pipes/4.png", 
+        '6': "pipes/6.png", 
+        '7': "pipes/7.png", 
+        '8': "pipes/8.png", 
+        '9': "pipes/9.png", 
+        'v': "pipes/v.png", 
+        't': "pipes/t.png", 
+        'n': "pipes/n.png", 
+        'f': "pipes/f.png", 
+        'r': "pipes/r.png", 
+        'y': "pipes/y.png", 
+        'z': "front_pipes/1.png", 
+        'x': "front_pipes/2.png", 
+        'c': "front_pipes/3.png", 
+        'a': "front_pipes/4.png", 
+        'q': "front_pipes/7.png", 
+        'e': "front_pipes/9.png", 
+    }
+
+    return common.load(referencias[codigo], True)
+
+
 class Texto(pygame.sprite.Sprite):
 
     def __init__(self, font, texto):
@@ -46,7 +74,6 @@ class Item(pygame.sprite.Sprite):
         self.codigo = codigo
         self.es_boton = False
 
-
 class ItemBoton(Item):
 
     def __init__(self, imagen, bloque, accion, x, y):
@@ -55,6 +82,17 @@ class ItemBoton(Item):
         self.rect.topleft = (x, y)
         self.accion = accion
 
+class VisorItemSeleccionada(pygame.sprite.Sprite):
+
+    def __init__(self, codigo):
+        pygame.sprite.Sprite.__init__(self)
+        imagen = common.load("elemento_actual.png", True)
+        item = cargar_imagen_por_codigo(codigo)
+        imagen.blit(item, (75, 0))
+        self.image = imagen
+        self.rect = self.image.get_rect()
+        self.rect.right = 1190
+        self.z = 100
 
 class Estado:
 
@@ -85,9 +123,10 @@ class EditorMenuState(Estado):
         anterior = common.load("anterior.png", True)
         siguiente = common.load("siguiente.png", True)
 
-        item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(), self.editor.retroceder, 525, 30)
-        self.editor.sprites.add(item)
-        self.items_creados.append(item)
+        if self.editor.nivel > 1:
+            item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(), self.editor.retroceder, 525, 30)
+            self.editor.sprites.add(item)
+            self.items_creados.append(item)
 
         item = ItemBoton(siguiente, self.editor.imagen_bloque.convert_alpha(), self.editor.avanzar, 600, 30)
         self.editor.sprites.add(item)
@@ -127,7 +166,7 @@ class EditorMenuState(Estado):
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                self.regresar_a_modo_edicion(1)
+                self.regresar_a_modo_edicion('1')
         elif event.type == pygame.MOUSEBUTTONDOWN:
             item_seleccionado = self.obtener_item_en_la_posicion(event.pos)
 
@@ -181,8 +220,13 @@ class EditorEditingState(Estado):
             fila = y / 75
             item_debajo = self.obtener_item_en_la_posicion((x, y))
 
+
             if fila < 11:
                 if item_debajo:
+
+                    if not isinstance(item_debajo, Item):
+                        return 
+
                     item_debajo.kill()
                     self.items_creados.remove(item_debajo)
                     self.editor.mapa.eliminar_item(fila, columna)
@@ -195,31 +239,7 @@ class EditorEditingState(Estado):
         Estado.on_exit(self)
 
     def crear_item_por_codigo(self, codigo, fila, columna):
-        referencias = {
-            'o': "player/ico.png",
-            '1': "pipes/1.png", 
-            '2': "pipes/2.png", 
-            '3': "pipes/3.png", 
-            '4': "pipes/4.png", 
-            '6': "pipes/6.png", 
-            '7': "pipes/7.png", 
-            '8': "pipes/8.png", 
-            '9': "pipes/9.png", 
-            'v': "pipes/v.png", 
-            't': "pipes/t.png", 
-            'n': "pipes/n.png", 
-            'f': "pipes/f.png", 
-            'r': "pipes/r.png", 
-            'y': "pipes/y.png", 
-            'z': "front_pipes/1.png", 
-            'x': "front_pipes/2.png", 
-            'c': "front_pipes/3.png", 
-            'a': "front_pipes/4.png", 
-            'q': "front_pipes/7.png", 
-            'e': "front_pipes/9.png", 
-        }
-
-        imagen_para_el_item = common.load(referencias[codigo], True)
+        imagen_para_el_item = cargar_imagen_por_codigo(codigo)
         item = Item(imagen_para_el_item, self.editor.imagen_bloque.convert_alpha(), codigo, fila, columna)
         self.editor.sprites.add(item)
         self.items_creados.append(item)
@@ -227,6 +247,13 @@ class EditorEditingState(Estado):
 
     def on_enter(self):
         self.editor.avisar("MODO EDITOR (pulsa espacio para alternar, o F5 para hacer una prueba)")
+        self.crear_visor_item_seleccionado()
+
+    def crear_visor_item_seleccionado(self):
+        item = VisorItemSeleccionada(self.codigo_de_item)
+        self.editor.sprites.add(item)
+        self.items_creados.append(item)
+        self.editor.poner_el_mouse_por_arriba()
 
 
 class Mapa:
