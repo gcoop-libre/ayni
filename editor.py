@@ -17,6 +17,7 @@ import particles
 import end
 import editor_mouse
 import menu
+import os
 
 def cargar_imagen_por_codigo(codigo):
     referencias = {
@@ -122,13 +123,20 @@ class EditorMenuState(Estado):
     def crear_barra_de_botones(self):
         anterior = common.load("anterior.png", True)
         siguiente = common.load("siguiente.png", True)
+        crear = common.load("crear.png", True)
 
         if self.editor.nivel > 1:
             item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(), self.editor.retroceder, 525, 30)
             self.editor.sprites.add(item)
             self.items_creados.append(item)
 
-        item = ItemBoton(siguiente, self.editor.imagen_bloque.convert_alpha(), self.editor.avanzar, 600, 30)
+        if self.editor.es_ultimo_nivel():
+            item = ItemBoton(crear, self.editor.imagen_bloque.convert_alpha(), 
+                    self.editor.avanzar_y_crear_ese_nivel, 600, 30)
+        else:
+            item = ItemBoton(siguiente, self.editor.imagen_bloque.convert_alpha(), 
+                    self.editor.avanzar, 600, 30)
+
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
@@ -265,10 +273,7 @@ class Mapa:
         self.numero = numero
         path = self._obtener_ruta(numero)
 
-        try:
-            f = open(path, 'rt')
-        except IOError:
-            f = open(path, 'wt')
+        f = open(path, 'rt')
 
         self.map = f.readlines()
         
@@ -299,7 +304,8 @@ class Mapa:
 
 class Editor(scene.Scene):
 
-    def __init__(self, world, nivel=1):
+    def __init__(self, world, nivel=1, modo_edicion=True):
+        pygame.mixer.music.stop()
         scene.Scene.__init__(self, world)
         self.ultimo_avisar = None
         self.sprites = group.Group()
@@ -309,9 +315,33 @@ class Editor(scene.Scene):
         self.mouse = editor_mouse.EditorMouse()
         self.sprites.add(self.mouse)
         self.mapa = Mapa(nivel)
-        self.change_state(EditorEditingState(self, 'q'))
-        self._draw_background_and_map()
         self.nivel = nivel
+
+        if modo_edicion:
+            self.change_state(EditorEditingState(self, 'q'))
+        else:
+            self.change_state(EditorMenuState(self))
+
+        self._draw_background_and_map()
+
+    def es_ultimo_nivel(self):
+        return not os.path.exists('data/map/%d.txt' % (self.nivel + 1))
+
+    def avanzar_y_crear_ese_nivel(self):
+        self.crear_nivel(self.nivel + 1)
+        self.avanzar()
+
+    def crear_nivel(self, nivel):
+        path = 'data/map/%d.txt' % (nivel)
+        print "creando", path
+        f = open(path, 'wt')
+
+        template = open("data/level_template.txt", "rt")
+        nivel_template = template.read()
+        template.close()
+
+        f.writelines(nivel_template)
+        f.close()
 
     def poner_el_mouse_por_arriba(self):
         self.sprites.remove(self.mouse)
@@ -362,9 +392,9 @@ class Editor(scene.Scene):
         self.world.change_scene(game.Game(self.world, level=self.mapa.numero, modo_editor=True))
 
     def avanzar(self):
-        self.world.change_scene(Editor(self.world, self.nivel + 1))
+        self.world.change_scene(Editor(self.world, self.nivel + 1, modo_edicion=False))
 
     def retroceder(self):
         if self.nivel > 1:
-            self.world.change_scene(Editor(self.world, self.nivel - 1))
+            self.world.change_scene(Editor(self.world, self.nivel - 1, modo_edicion=False))
 
