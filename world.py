@@ -63,7 +63,6 @@ class World:
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
-                    print event
                     quit = True
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:

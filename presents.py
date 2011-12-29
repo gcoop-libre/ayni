@@ -35,6 +35,7 @@ class Presents(scene.Scene):
         self.counter = 0
 
     def draw_background(self):
+        self.world.screen.fill((255, 255, 255))
         self.world.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 

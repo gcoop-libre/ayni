@@ -18,6 +18,7 @@ import presents
 import editor_mouse
 import game
 import editor
+import nubes
 
 class Texto(pygame.sprite.Sprite):
 
@@ -84,6 +85,7 @@ class Menu(scene.Scene):
     def __init__(self, world, nivel=1):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
+        self.nubes = nubes.Nubes(self.sprites)
         self.font = pygame.font.Font("data/FreeSans.ttf", 65)
         self._draw_background()
         self.cursor = Cursor(world)
@@ -92,6 +94,7 @@ class Menu(scene.Scene):
 
         self._crear_textos()
         self._crear_logotipo()
+
 
         self.mouse = editor_mouse.EditorMouse()
         self.sprites.add(self.mouse)
@@ -118,6 +121,7 @@ class Menu(scene.Scene):
 
     def update(self):
         self.mouse.update()
+        self.nubes.update()
 
     def draw(self, screen):
         self.sprites.clear(screen, self.background)
