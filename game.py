@@ -66,9 +66,20 @@ class Game(scene.Scene):
         self.level = level
         self.modo_editor = modo_editor
 
+        if modo_editor:
+            self.agregar_boton_para_regresar_al_editor()
+
         #self._create_a_pipe()
         self._create_mouse_pointer()
         self.sprites.sort_by_z()
+
+    def agregar_boton_para_regresar_al_editor(self):
+        from editor import ItemBoton
+
+        regresar = common.load("regresar.png", True)
+        imagen_bloque = common.load("bloque.png", True)
+        item = ItemBoton(regresar, imagen_bloque.convert_alpha(), self.regresar_al_editor, 0, 0)
+        self.sprites.add(item)
 
     def _create_mouse_pointer(self):
         self.mouse = mouse.MousePointer(self.sprites)
@@ -95,13 +106,22 @@ class Game(scene.Scene):
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             self.mouse.on_click(x, y)
+
+            if self.modo_editor:
+                # Detecta si el usuario quiere regresar al editor
+                if x < 75 and y < 75:
+                    self.regresar_al_editor()
+
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 if self.modo_editor:
-                    import editor
-                    self.world.change_scene(editor.Editor(self.world, self.level))
+                    self.regresar_al_editor()
                 else:
                     self.world.change_scene(menu.Menu(self.world))
+
+    def regresar_al_editor(self):
+        import editor
+        self.world.change_scene(editor.Editor(self.world, self.level))
 
     def on_pipe_put(self):
         "Evento que activa la pieza cuando se suelta en un placeholder."

@@ -140,6 +140,16 @@ class EditorMenuState(Estado):
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
+        alternar = common.load("alternar.png", True)
+        item = ItemBoton(alternar, self.editor.imagen_bloque.convert_alpha(), self.editor.alternar, 0, 0)
+        self.editor.sprites.add(item)
+        self.items_creados.append(item)
+
+        probar = common.load("probar.png", True)
+        item = ItemBoton(probar, self.editor.imagen_bloque.convert_alpha(), self.editor.probar, 75, 0)
+        self.editor.sprites.add(item)
+        self.items_creados.append(item)
+
     def crear_items_del_menu(self):
         self.crear_item("player/ico.png", 'o', 0)
         self.crear_item("pipes/1.png", '1', 1)
@@ -202,6 +212,18 @@ class EditorEditingState(Estado):
         self.items_creados = []
         self.cargar_mapa()
         self.editor.poner_el_mouse_por_arriba()
+        self.crear_barra_de_botones()
+
+    def crear_barra_de_botones(self):
+        alternar = common.load("alternar.png", True)
+        item = ItemBoton(alternar, self.editor.imagen_bloque.convert_alpha(), self.editor.alternar, 0, 0)
+        self.editor.sprites.add(item)
+        self.items_creados.append(item)
+
+        probar = common.load("probar.png", True)
+        item = ItemBoton(probar, self.editor.imagen_bloque.convert_alpha(), self.editor.probar, 75, 0)
+        self.editor.sprites.add(item)
+        self.items_creados.append(item)
 
     def cargar_mapa(self):
         mapa = self.editor.mapa
@@ -231,6 +253,10 @@ class EditorEditingState(Estado):
 
             if fila < 11:
                 if item_debajo:
+
+                    if isinstance(item_debajo, ItemBoton):
+                        item_debajo.accion()
+                        return
 
                     if not isinstance(item_debajo, Item):
                         return 
@@ -330,6 +356,15 @@ class Editor(scene.Scene):
     def avanzar_y_crear_ese_nivel(self):
         self.crear_nivel(self.nivel + 1)
         self.avanzar()
+
+    def alternar(self):
+        if isinstance(self.state, EditorEditingState):
+            self.change_state(EditorMenuState(self))
+        else:
+            self.change_state(EditorEditingState(self, '1'))
+
+    def probar(self):
+        self.probar_nivel()
 
     def crear_nivel(self, nivel):
         path = 'data/map/%d.txt' % (nivel)
