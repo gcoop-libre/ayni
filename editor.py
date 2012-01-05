@@ -241,7 +241,6 @@ class EditorEditingState(Estado):
             if event.key == pygame.K_SPACE:
                 self.editor.change_state(EditorMenuState(self.editor))
             elif event.key == pygame.K_F5:
-                self.editor.mapa.guardar()
                 self.editor.probar_nivel()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -424,6 +423,7 @@ class Editor(scene.Scene):
 
     def probar_nivel(self):
         import game
+        self.mapa.guardar()
         self.world.change_scene(game.Game(self.world, level=self.mapa.numero, modo_editor=True))
 
     def avanzar(self):
