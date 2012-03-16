@@ -6,6 +6,7 @@
 
 import pygame
 import scene
+import config
 import common
 import group
 import title_sprite
@@ -27,7 +28,7 @@ class Presents(scene.Scene):
         pygame.mixer.music.play()
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
-        self.background = common.load("presents/background.png", False)
+        self.background = common.load("presents/background.png", False, (config.WIDTH, config.HEIGHT))
         self.gcoop = GcoopLogo()
         self.presents = PresentsText()
         self.sprites.add(self.gcoop)
@@ -76,10 +77,10 @@ class PresentsText(Sprite):
 
     def __init__(self):
         Sprite.__init__(self)
-        self.image = common.load('presents/presents.png', False)
+        self.image = common.load('presents/presents.png', False, (config.WIDTH * 0.3, 0))
         self.rect = self.image.get_rect()
-        self.rect.centerx = 1280 / 2
-        self.rect.y = 600
+        self.rect.centerx = config.WIDTH / 2
+        self.rect.y = config.HEIGHT * 0.8
         self.alpha = 0
         self.update()
 
@@ -96,13 +97,13 @@ class GcoopLogo(Sprite):
 
     def __init__(self):
         Sprite.__init__(self)
-        self.original_image = common.load('presents/gcoop.png', False)
+        self.original_image = common.load('presents/gcoop.png', False, (int(config.WIDTH * 0.6), 0))
         self.image = self.original_image
         self.alpha = 0
         self.rect = self.image.get_rect()
-        self.rect.centerx = 1260 / 2
+        self.rect.centerx = config.WIDTH / 2
         self.center = self.rect.center
-        self.y = 90
+        self.y = config.HEIGHT * 0.1
         w, h = self.image.get_width(), self.image.get_height()
         self.width = 0
         self.height = 0
@@ -137,4 +138,4 @@ class GcoopLogo(Sprite):
             self.image.set_alpha(127)
 
         self.rect.width = self.width
-        self.rect.center = (600, 260)
+        self.rect.center = (config.WIDTH / 2, config.HEIGHT * 0.4)

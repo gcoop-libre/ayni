@@ -7,6 +7,7 @@ import pygame
 import random
 import sys
 import animation
+import config
 import common
 from states import *
 from sprite import Sprite
@@ -37,13 +38,13 @@ class Player(Sprite):
         self.arrow = None 
 
     def _load_frames(self):
-        sheet_walk = animation.Sheet(common.load("player/walk.png", True), 4)
-        sheet_stand = animation.Sheet(common.load("player/stand.png", True), 1)
-        sheet_wait = animation.Sheet(common.load("player/wait.png", True), 2)
-        sheet_working = animation.Sheet(common.load("player/working.png", True), 2)
-        sheet_ok = animation.Sheet(common.load("player/ok.png", True), 1)
-        sheet_stand_moving = animation.Sheet(common.load("player/stand_moving.png", True), 1)
-        sheet_walk_moving = animation.Sheet(common.load("player/walk_moving.png", True), 4)
+        sheet_walk = animation.Sheet(common.load("player/walk.png", True, (0, config.BLOCK_SIZE * 1.41)), 4)
+        sheet_stand = animation.Sheet(common.load("player/stand.png", True, (0, config.BLOCK_SIZE * 1.41)), 1)
+        sheet_wait = animation.Sheet(common.load("player/wait.png", True, (0, config.BLOCK_SIZE * 1.41)), 2)
+        sheet_working = animation.Sheet(common.load("player/working.png", True, (0, config.BLOCK_SIZE * 1.41)), 2)
+        sheet_ok = animation.Sheet(common.load("player/ok.png", True, (0, config.BLOCK_SIZE * 1.41)), 1)
+        sheet_stand_moving = animation.Sheet(common.load("player/stand_moving.png", True, (0, config.BLOCK_SIZE * 1.41)), 1)
+        sheet_walk_moving = animation.Sheet(common.load("player/walk_moving.png", True, (0, config.BLOCK_SIZE * 1.41)), 4)
         self.animations = {
                 "walk": animation.Animation(sheet_walk, 6, [0, 1, 2, 3]),
                 "stand": animation.Animation(sheet_stand, 1, [0]),
@@ -103,29 +104,29 @@ class Player(Sprite):
 
     def walk_and_work_in_a_placeholder(self, pipe, placeholder, x, y):
         if self.rect.centerx < x:
-            x -= 75
+            x -= config.BLOCK_SIZE
         else:
-            x += 75
+            x += config.BLOCK_SIZE
 
         self.change_state(WalkWithPieceToWorkAt(self, pipe, placeholder, x, y))
 
     def walk_to_remove_a_pipe_from_placeholder(self, pipe, placeholder, x, y):
         if self.rect.centerx < x:
-            x -= 75
+            x -= config.BLOCK_SIZE
         else:
-            x += 75
+            x += config.BLOCK_SIZE
 
         self.change_state(WalkToRemoveAPipe(self, pipe, placeholder, x, y))
 
     def attack_to(self, pipe):
-        pipe.y = self.rect.y - 25
+        pipe.y = self.rect.y - int(config.BLOCK_SIZE * 0.33)
         pipe.x = self.rect.x
         self.has_a_pipe_in_hands = True
         self.change_state(StandWithPiece(self, pipe))
 
     def leave_pipe(self, pipe):
         self.has_a_pipe_in_hands = False
-        pipe.y = self.rect.y + 25
+        pipe.y = self.rect.y + int(config.BLOCK_SIZE * 0.33)
         self.change_state(Stand(self))
 
     def can_take_this_piece(self, piece):
@@ -137,7 +138,7 @@ class Player(Sprite):
         dx = abs(sprite.rect.centerx - self.rect.centerx)
         dy = abs(sprite.rect.centery - self.rect.centery)
 
-        return dx < 190 and dy < 75
+        return dx < config.BLOCK_SIZE * 2.5 and dy < config.BLOCK_SIZE
 
     def can_work_on_this_placeholder(self, placeholder):
         "Indica si el trabajador está cerca de un placeholder para colocar una pieza."

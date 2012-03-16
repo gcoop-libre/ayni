@@ -4,6 +4,7 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 import pygame
+import config
 from balloon import Balloon
 
 class Messages:
@@ -11,7 +12,7 @@ class Messages:
 
     def __init__(self, sprites):
         self.sprites = sprites
-        self.font = pygame.font.Font("data/FreeSans.ttf", 14)
+        self.font = pygame.font.Font("data/FreeSans.ttf", int(config.WIDTH * 0.012))
         self.last_sprite = None
 
     def add(self, text, x, y):

@@ -32,10 +32,6 @@ class Group(pygame.sprite.OrderedUpdates):
 
            rect = pygame.Rect(s.rect)
 
-           if config.LOWRES:
-               rect.x /= 2
-               rect.y /= 2
-
            newrect = surface_blit(s.image, rect)
            if r is 0:
                dirty_append(newrect)

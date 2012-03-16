@@ -7,6 +7,7 @@ import pygame
 import random
 import sys
 import animation
+import config
 import common
 from states import *
 from sprite import Sprite
@@ -19,15 +20,15 @@ class Placeholder(Sprite):
         Sprite.__init__(self)
 
         if config.SHOW_PLACEHOLDERS:
-            self.image = common.load('placeholder.png', True)
+            self.image = common.load('placeholder.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         else:
-            self.image = common.load('hide.png', True)
+            self.image = common.load('hide.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
 
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.are_used = False
         self.is_floor = False
 
-        self.rect.width = 75
-        self.rect.height = 75
+        self.rect.width = config.BLOCK_SIZE
+        self.rect.height = config.BLOCK_SIZE
         self.type = type

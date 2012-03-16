@@ -6,6 +6,7 @@
 
 import pygame
 import scene
+import config
 import common
 import group
 import title_sprite
@@ -19,7 +20,7 @@ class IntroAbstract(scene.Scene):
 
     def __init__(self, world, image, next_scene, must_interpolate=True):
         scene.Scene.__init__(self, world)
-        self.background = common.load(image, False)
+        self.background = common.load(image, False, (config.WIDTH, config.HEIGHT))
         self.counter = 0
         self.next_scene = next_scene
         self.must_interpolate = must_interpolate

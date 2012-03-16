@@ -4,6 +4,7 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 import pygame
+import config
 import common
 import placeholder
 import player
@@ -34,20 +35,20 @@ class Map:
         "Carga las imagenes de los pipes para pintar."
 
         self.images = {
-            '1': common.load('pipes/1.png', True),
-            '2': common.load('pipes/2.png', True),
-            '3': common.load('pipes/3.png', True),
-            '4': common.load('pipes/4.png', True),
-            '6': common.load('pipes/6.png', True),
-            '7': common.load('pipes/7.png', True),
-            '8': common.load('pipes/8.png', True),
-            '9': common.load('pipes/9.png', True),
+            '1': common.load('pipes/1.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '2': common.load('pipes/2.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '3': common.load('pipes/3.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '4': common.load('pipes/4.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '6': common.load('pipes/6.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '7': common.load('pipes/7.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '8': common.load('pipes/8.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
+            '9': common.load('pipes/9.png', True, (config.BLOCK_SIZE, config.BLOCK_SIZE)),
         }
 
     def draw_over(self, surface):
         "Dibuja el escenario sobre una superficie."
 
-        self.draw_backlayer(surface)
+#        self.draw_backlayer(surface)
 
         for r, row in enumerate(self.map):
             for c, index in enumerate(row):
@@ -57,7 +58,7 @@ class Map:
                     self._draw_tile_over(surface, index, r, c)
 
     def draw_backlayer(self, surface):
-        backlayer = common.load('backlayers/1.png', True)
+        backlayer = common.load('backlayers/1.png', True, (config.WIDTH, config.HEIGHT))
         surface.blit(backlayer, (0, 0))
 
     def _draw_tile_over(self, surface, tile_number, row, col):
@@ -68,12 +69,12 @@ class Map:
             elif tile_number == 'o':
                 self._create_player(col, row)
             else:
-                surface.blit(self.images[tile_number], (col * 75, row * 75))
+                surface.blit(self.images[tile_number], (col * config.BLOCK_SIZE, row * config.BLOCK_SIZE))
         
     def _create_placeholder(self, tilenumber, col, row):
         "Genera un bloque donde se puede colocar una pieza."
-        x = col * 75
-        y = row * 75
+        x = col * config.BLOCK_SIZE 
+        y = row * config.BLOCK_SIZE 
 
         targets = {
                 'r': 7,
@@ -96,10 +97,10 @@ class Map:
         # Es el desplazamiento vertical que se necesita
         # para que el trabajador toque el suelo exactamente a 
         # la altura correcta...
-        dy = 27
+        dy = int(config.BLOCK_SIZE * 0.36)
 
-        x = col * 75 + 30
-        y = (row + 1) * 75 + dy
+        x = col * config.BLOCK_SIZE + int(config.BLOCK_SIZE * 0.4)
+        y = (row + 1) * config.BLOCK_SIZE + dy
         
         p = player.Player(self.game, self.audio, self.messages, x, y, self)
         self.sprites.add(p)
@@ -107,8 +108,8 @@ class Map:
 
     def can_stand_here(self, x, y):
         "Indica si sobre una coordenada hay un bloque ocupado con suelo."
-        row = y / 75
-        col = x / 75
+        row = y / config.BLOCK_SIZE
+        col = x / config.BLOCK_SIZE
         return self.map[row][col] in ['2', '8'] or self.there_are_a_fill_placeholder(row, col)
 
     def _create_pipe_by_index(self, index, row, col):
@@ -122,7 +123,7 @@ class Map:
             'x': 2,
             'c': 3,
             }
-        x, y = col * 75 + 40, row * 75 + 101
+        x, y = col * config.BLOCK_SIZE + int(config.BLOCK_SIZE * 0.53), row * config.BLOCK_SIZE + int(config.BLOCK_SIZE * 1.35)
         t = pieces[index]
         new_pipe = pipe.Pipe(self.game, t, x, y, self)
         self.sprites.add(new_pipe)
@@ -132,8 +133,8 @@ class Map:
     def there_are_a_fill_placeholder(self, row, col):
         "Retorna True si hay un placeholder ocupado en la posición indicada."
 
-        x = col * 75
-        y = row * 75
+        x = col * config.BLOCK_SIZE 
+        y = row * config.BLOCK_SIZE 
 
         for p in self.placeholders:
             if p.rect.topleft == (x, y) and p.are_used and p.is_floor:
@@ -147,7 +148,8 @@ class Map:
                 #print x, "esta correctamente colocada"
                 pass
             else:
-                #print x, "no esta en el placeholder que le corresponde"
+                if config.DEBUG:
+                    print x, "no esta en el placeholder que le corresponde"
                 all_pipes = False
 
         return all_pipes

@@ -7,6 +7,7 @@ import pygame
 import random
 import sys
 import animation
+import config
 import common
 import mouse_state
 import placeholder
@@ -37,10 +38,10 @@ class MousePointer(Sprite):
 
     def _load_frames(self):
         self.frames = {
-                'normal':   common.load("mouse.png", True),
-                'over':     common.load("over.png", True),
-                'dragging': common.load("dragging.png", True),
-                'hide':     common.load("hide.png", True),
+                'normal':   common.load("mouse.png", True, (int(config.WIDTH * 0.023), 0)),
+                'over':     common.load("over.png", True, (int(config.WIDTH * 0.023), 0)),
+                'dragging': common.load("dragging.png", True, (int(config.WIDTH * 0.023), 0)),
+                'hide':     common.load("hide.png", True, (int(config.WIDTH * 0.023), 0)),
                 }
 
     def set_frame(self, name):

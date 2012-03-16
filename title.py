@@ -6,6 +6,7 @@
 
 import pygame
 import scene
+import config
 import common
 import group
 import title_sprite
@@ -16,7 +17,7 @@ class Title(scene.Scene):
     def __init__(self, world):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
-        self.background = common.load("title_background.jpg", False)
+        self.background = common.load("title_background.jpg", False, (config.WIDTH, config.HEIGHT))
         self.title = title_sprite.TitleSprite()
         self.sprites.add(self.title)
         self.draw_background()
