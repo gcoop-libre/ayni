@@ -4,6 +4,7 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import os
 import pygame
 import scene
 import config
@@ -87,7 +88,7 @@ class Menu(scene.Scene):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.nubes = nubes.Nubes(self.sprites)
-        self.font = pygame.font.Font("data/FreeSans.ttf", int(config.HEIGHT * 0.08))
+        self.font = pygame.font.Font(common.get_ruta('FreeSans.ttf'), int(config.HEIGHT * 0.08))
         self._draw_background()
         self.cursor = Cursor(world)
         self.cursor.definir_posicion(0)

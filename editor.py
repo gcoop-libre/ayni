@@ -322,7 +322,7 @@ class Mapa:
         f.close()
 
     def _obtener_ruta(self, numero):
-        return 'data/map/%d.txt' % numero
+        return common.get_level_file(numero)
 
     def eliminar_item(self, fila, columna):
         self.map[fila] = self.map[fila][:columna] + ' ' + self.map[fila][columna+1:]
@@ -337,7 +337,8 @@ class Editor(scene.Scene):
         scene.Scene.__init__(self, world)
         self.ultimo_avisar = None
         self.sprites = group.Group()
-        self.font = pygame.font.Font("data/FreeSans.ttf", int(config.WIDTH * 0.015))
+        font_file = common.get_ruta('FreeSans.ttf')
+        self.font = pygame.font.Font(font_file, int(config.WIDTH * 0.015))
         self.imagen_bloque = common.load("bloque.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         self.state = None
         self.mouse = editor_mouse.EditorMouse()
@@ -353,7 +354,7 @@ class Editor(scene.Scene):
         self._draw_background_and_map()
 
     def es_ultimo_nivel(self):
-        return not os.path.exists('data/map/%d.txt' % (self.nivel + 1))
+        return not os.path.exists(common.get_level_file(self.nivel + 1))
 
     def avanzar_y_crear_ese_nivel(self):
         self.crear_nivel(self.nivel + 1)
@@ -369,11 +370,11 @@ class Editor(scene.Scene):
         self.probar_nivel()
 
     def crear_nivel(self, nivel):
-        path = 'data/map/%d.txt' % (nivel)
+        path = common.get_level_file(nivel)
         print "creando", path
         f = open(path, 'wt')
 
-        template = open("data/level_template.txt", "rt")
+        template = open(common.get_ruta('level_template.txt'), 'rt')
         nivel_template = template.read()
         template.close()
 

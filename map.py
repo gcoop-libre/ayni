@@ -3,6 +3,7 @@
 #
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
+import os.path
 import pygame
 import config
 import common
@@ -26,7 +27,7 @@ class Map:
 
     def _create_map(self, level=1):
         "Genera la matriz con todos los bloques que se deben imprimir."
-        path = 'data/map/%d.txt' % level
+        path = common.get_level_file(level)
         f = open(path, 'rt')
         self.map = f.readlines()
         f.close()
@@ -153,4 +154,4 @@ class Map:
                 all_pipes = False
 
         return all_pipes
-                
+

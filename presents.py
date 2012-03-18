@@ -4,6 +4,7 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import os
 import pygame
 import scene
 import config
@@ -22,7 +23,7 @@ class Presents(scene.Scene):
 
     def __init__(self, world):
         pygame.mixer.init()
-        pygame.mixer.music.load('data/presents/music.ogg')
+        pygame.mixer.music.load(common.get_ruta(os.path.join('presents', 'music.ogg')))
         #music = pygame.mixer.Sound('presents/music.ogg')
         #music.play()
         pygame.mixer.music.play()

@@ -115,5 +115,5 @@ class World:
     
     def next_level(self, level):
         level += 1
-        if os.path.isfile('data/map/%d.txt' % level):
+        if os.path.isfile(common.get_level_file(level)):
             return level
