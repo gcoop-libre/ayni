@@ -115,5 +115,5 @@ class World:
     
     def next_level(self, level):
         level += 1
-        if os.path.isfile(common.get_level_file(level)):
+        if common.get_level_file(level) is not None:
             return level

@@ -299,7 +299,7 @@ class Mapa:
 
     def cargar_nivel(self, numero):
         self.numero = numero
-        path = self._obtener_ruta(numero)
+        path = common.get_level_file(numero)
 
         f = open(path, 'rt')
 
@@ -316,13 +316,10 @@ class Mapa:
         f.close()
 
     def guardar(self):
-        path = self._obtener_ruta(self.numero)
+        path = common.get_level_file(self.numero, True)
         f = open(path, 'wt')
         f.writelines(self.map)
         f.close()
-
-    def _obtener_ruta(self, numero):
-        return common.get_level_file(numero)
 
     def eliminar_item(self, fila, columna):
         self.map[fila] = self.map[fila][:columna] + ' ' + self.map[fila][columna+1:]
@@ -354,7 +351,7 @@ class Editor(scene.Scene):
         self._draw_background_and_map()
 
     def es_ultimo_nivel(self):
-        return not os.path.exists(common.get_level_file(self.nivel + 1))
+        return common.get_level_file(self.nivel + 1) is None
 
     def avanzar_y_crear_ese_nivel(self):
         self.crear_nivel(self.nivel + 1)
@@ -370,7 +367,7 @@ class Editor(scene.Scene):
         self.probar_nivel()
 
     def crear_nivel(self, nivel):
-        path = common.get_level_file(nivel)
+        path = common.get_level_file(nivel, True)
         print "creando", path
         f = open(path, 'wt')
 
