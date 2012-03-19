@@ -8,7 +8,9 @@ SHOW_PLACEHOLDERS = False
 DEBUG = False
 FULLSCREEN = False
 BLOCK_SIZE = 54
+BLOCKS_X = 16 #ancho en cantidad de bloques
+BLOCKS_Y = 9  #alto en cantidad de bloques
 
 #No cambiar (se calculan automáticamente)
-WIDTH = BLOCK_SIZE * 16 #16 bloques de ancho
-HEIGHT = BLOCK_SIZE * 11 #11 bloques de alto
+WIDTH = BLOCK_SIZE * BLOCKS_X
+HEIGHT = BLOCK_SIZE * BLOCKS_Y

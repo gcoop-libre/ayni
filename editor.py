@@ -308,10 +308,10 @@ class Mapa:
         # Se asegura de reparar cualquier archivo de mapas
         # para que todos tengan el mismo tamaño.
         for (index, x) in enumerate(self.map):
-            if len(x) > 17:
+            if len(x) > config.BLOCKS_X + 1:
                 self.map[index] = x[:16] + '\n'
-            elif len(x) < 17:
-                self.map[index] = x.replace('\n', ' ') + ' ' * (16 - len(x)) + '\n'
+            elif len(x) < config.BLOCKS_X + 1:
+                self.map[index] = x.replace('\n', ' ') + ' ' * (config.BLOCKS_X - len(x)) + '\n'
 
         f.close()
 
@@ -403,10 +403,18 @@ class Editor(scene.Scene):
         self.state = new_state
         self.state.on_enter()
 
+    def _draw_grid(self):
+        "Dibuja la grilla sobre el fondo."
+        for i in range(0, config.WIDTH, config.BLOCK_SIZE):
+            pygame.draw.line(self.background, (255, 255, 255), (i, 0), (i, config.HEIGHT), 1)
+        for i in range(0, config.HEIGHT, config.BLOCK_SIZE):
+            pygame.draw.line(self.background, (255, 255, 255), (0, i), (config.WIDTH, i), 1)
+
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
-        self.background = common.load("background_grilla.jpg", False, (config.WIDTH, config.HEIGHT))
+        self.background = common.load("background.jpg", False, (config.WIDTH, config.HEIGHT))
         #self.map.draw_over(self.background)
+        self._draw_grid()
         self.world.screen.blit(self.background, (0, 0))
 
         # actualiza toda la pantalla.

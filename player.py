@@ -38,13 +38,13 @@ class Player(Sprite):
         self.arrow = None 
 
     def _load_frames(self):
-        sheet_walk = animation.Sheet(common.load("player/walk.png", True, (0, config.BLOCK_SIZE * 1.41)), 4)
-        sheet_stand = animation.Sheet(common.load("player/stand.png", True, (0, config.BLOCK_SIZE * 1.41)), 1)
-        sheet_wait = animation.Sheet(common.load("player/wait.png", True, (0, config.BLOCK_SIZE * 1.41)), 2)
-        sheet_working = animation.Sheet(common.load("player/working.png", True, (0, config.BLOCK_SIZE * 1.41)), 2)
-        sheet_ok = animation.Sheet(common.load("player/ok.png", True, (0, config.BLOCK_SIZE * 1.41)), 1)
-        sheet_stand_moving = animation.Sheet(common.load("player/stand_moving.png", True, (0, config.BLOCK_SIZE * 1.41)), 1)
-        sheet_walk_moving = animation.Sheet(common.load("player/walk_moving.png", True, (0, config.BLOCK_SIZE * 1.41)), 4)
+        sheet_walk = animation.Sheet(common.load("player/walk.png", True, (0, config.BLOCK_SIZE * 1.4133)), 4)
+        sheet_stand = animation.Sheet(common.load("player/stand.png", True, (0, config.BLOCK_SIZE * 1.3733)), 1)
+        sheet_wait = animation.Sheet(common.load("player/wait.png", True, (0, config.BLOCK_SIZE * 1.28)), 2)
+        sheet_working = animation.Sheet(common.load("player/working.png", True, (0, config.BLOCK_SIZE * 1.4133)), 2)
+        sheet_ok = animation.Sheet(common.load("player/ok.png", True, (0, config.BLOCK_SIZE * 1.4)), 1)
+        sheet_stand_moving = animation.Sheet(common.load("player/stand_moving.png", True, (0, config.BLOCK_SIZE * 1.3733)), 1)
+        sheet_walk_moving = animation.Sheet(common.load("player/walk_moving.png", True, (0, config.BLOCK_SIZE * 1.4133)), 4)
         self.animations = {
                 "walk": animation.Animation(sheet_walk, 6, [0, 1, 2, 3]),
                 "stand": animation.Animation(sheet_stand, 1, [0]),

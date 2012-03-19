@@ -4,6 +4,7 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import os
 import pygame
 import scene
 import config
@@ -17,7 +18,12 @@ class Title(scene.Scene):
     def __init__(self, world):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
-        self.background = common.load("title_background.jpg", False, (config.WIDTH, config.HEIGHT))
+        if (config.BLOCKS_Y == 9):
+            background_image = os.path.join('intro', '16-9', 'title_background.jpg')
+        else:
+            background_image = os.path.join('intro', 'title_background.jpg')
+
+        self.background = common.load(background_image, False, (config.WIDTH, config.HEIGHT))
         self.title = title_sprite.TitleSprite()
         self.sprites.add(self.title)
         self.draw_background()
