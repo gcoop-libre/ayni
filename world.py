@@ -21,6 +21,7 @@ class World:
     def __init__(self, in_sugar_olpc=False):
         "Inicializa la biblioteca y el modo de video."
 
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
         if config.FULLSCREEN:
             flags = pygame.FULLSCREEN
         else:
