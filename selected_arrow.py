@@ -7,6 +7,7 @@ import pygame
 import random
 import sys
 import animation
+import config
 import common
 from states import *
 from sprite import Sprite
@@ -32,7 +33,7 @@ class SelectedArrow(Sprite, object):
         self.target = target
     
     def _load_frames(self):
-        sheet_selected = animation.Sheet(common.load("selected_arrow.png", True), 2)
+        sheet_selected = animation.Sheet(common.load("selected_arrow.png", True, (config.BLOCK_SIZE * 0.7, 0)), 2)
         self.animation = animation.Animation(sheet_selected, 10 ,[0, 1])
 
     def update(self):

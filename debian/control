@@ -1,0 +1,14 @@
+Source: ayni
+Section: games
+Priority: extra
+Maintainer: Gcoop - Cooperativa de Trabajo <info@gcoop.coop>
+Build-Depends: debhelper (>= 7), python-support (>= 0.90)
+Standards-Version: 3.8.0
+Homepage: http://github.com/ageorge/ayni
+
+Package: ayni
+Architecture: all
+Depends: ${python:Depends}, python (>= 2.6), python-pygame (>= 1.8)
+Description: Juego educativo sobre cooperativismo
+ Juego educativo para jugar cooperando. Ayni en quechua significa
+ ayuda mutua que se prestan las personas en el trabajo.

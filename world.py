@@ -21,15 +21,13 @@ class World:
     def __init__(self, in_sugar_olpc=False):
         "Inicializa la biblioteca y el modo de video."
 
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
         if config.FULLSCREEN:
             flags = pygame.FULLSCREEN
         else:
             flags = 0
 
-        if config.LOWRES:
-            resolution = (640, 720 / 2)
-        else:
-            resolution = (1200, 846)
+        resolution = (config.WIDTH, config.HEIGHT)
 
         if in_sugar_olpc:
             self.screen = pygame.display.get_surface()
@@ -118,5 +116,5 @@ class World:
     
     def next_level(self, level):
         level += 1
-        if os.path.isfile('data/map/%d.txt' % level):
+        if common.get_level_file(level) is not None:
             return level

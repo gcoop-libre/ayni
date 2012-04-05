@@ -6,6 +6,7 @@
 
 import pygame
 import scene
+import config
 import common
 import map
 import mouse
@@ -44,7 +45,7 @@ def cargar_imagen_por_codigo(codigo):
         'e': "front_pipes/9.png", 
     }
 
-    return common.load(referencias[codigo], True)
+    return common.load(referencias[codigo], True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
 
 
 class Texto(pygame.sprite.Sprite):
@@ -57,7 +58,7 @@ class Texto(pygame.sprite.Sprite):
         self.image = imagen
         self.rect = imagen.get_rect()
         self.z = -50
-        self.rect.centerx = 1200 / 2
+        self.rect.centerx = config.WIDTH / 2
 
     def _create_text_image(self, text):
         white = (255, 255 ,255)
@@ -71,7 +72,7 @@ class Item(pygame.sprite.Sprite):
         self.image.blit(imagen, (0, 0))
         self.rect = self.image.get_rect()
         self.z = 100
-        self.rect.topleft = (columna * 75, fila * 75)
+        self.rect.topleft = (columna * config.BLOCK_SIZE, fila * config.BLOCK_SIZE)
         self.codigo = codigo
         self.es_boton = False
 
@@ -87,12 +88,12 @@ class VisorItemSeleccionada(pygame.sprite.Sprite):
 
     def __init__(self, codigo):
         pygame.sprite.Sprite.__init__(self)
-        imagen = common.load("elemento_actual.png", True)
+        imagen = common.load("elemento_actual.png", True, (config.BLOCK_SIZE * 2, config.BLOCK_SIZE))
         item = cargar_imagen_por_codigo(codigo)
-        imagen.blit(item, (75, 0))
+        imagen.blit(item, (config.BLOCK_SIZE, 0))
         self.image = imagen
         self.rect = self.image.get_rect()
-        self.rect.right = 1190
+        self.rect.right = config.WIDTH
         self.z = 100
 
 class Estado:
@@ -121,32 +122,33 @@ class EditorMenuState(Estado):
         self.editor.poner_el_mouse_por_arriba()
 
     def crear_barra_de_botones(self):
-        anterior = common.load("anterior.png", True)
-        siguiente = common.load("siguiente.png", True)
-        crear = common.load("crear.png", True)
+        anterior = common.load("anterior.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
+        siguiente = common.load("siguiente.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
+        crear = common.load("crear.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
 
         if self.editor.nivel > 1:
-            item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(), self.editor.retroceder, 525, 30)
+            item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(), 
+                    self.editor.retroceder, config.WIDTH - config.BLOCK_SIZE * 2, 0)
             self.editor.sprites.add(item)
             self.items_creados.append(item)
 
         if self.editor.es_ultimo_nivel():
             item = ItemBoton(crear, self.editor.imagen_bloque.convert_alpha(), 
-                    self.editor.avanzar_y_crear_ese_nivel, 600, 30)
+                    self.editor.avanzar_y_crear_ese_nivel, config.WIDTH - config.BLOCK_SIZE, 0)
         else:
             item = ItemBoton(siguiente, self.editor.imagen_bloque.convert_alpha(), 
-                    self.editor.avanzar, 600, 30)
+                    self.editor.avanzar, config.WIDTH - config.BLOCK_SIZE, 0)
 
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
-        alternar = common.load("alternar.png", True)
+        alternar = common.load("alternar.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         item = ItemBoton(alternar, self.editor.imagen_bloque.convert_alpha(), self.editor.alternar, 0, 0)
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
-        probar = common.load("probar.png", True)
-        item = ItemBoton(probar, self.editor.imagen_bloque.convert_alpha(), self.editor.probar, 75, 0)
+        probar = common.load("probar.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
+        item = ItemBoton(probar, self.editor.imagen_bloque.convert_alpha(), self.editor.probar, config.BLOCK_SIZE, 0)
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
@@ -174,7 +176,7 @@ class EditorMenuState(Estado):
         self.crear_item("front_pipes/9.png", 'e', 20)
  
     def crear_item(self, imagen, codigo, posicion):
-        imagen_para_el_item = common.load(imagen, True)
+        imagen_para_el_item = common.load(imagen, True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         dx = posicion % 14 + 1
         dy = posicion / 14 + 6
         item = Item(imagen_para_el_item, self.editor.imagen_bloque.convert_alpha(), codigo, dy, dx)
@@ -215,13 +217,13 @@ class EditorEditingState(Estado):
         self.crear_barra_de_botones()
 
     def crear_barra_de_botones(self):
-        alternar = common.load("alternar.png", True)
+        alternar = common.load("alternar.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         item = ItemBoton(alternar, self.editor.imagen_bloque.convert_alpha(), self.editor.alternar, 0, 0)
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
-        probar = common.load("probar.png", True)
-        item = ItemBoton(probar, self.editor.imagen_bloque.convert_alpha(), self.editor.probar, 75, 0)
+        probar = common.load("probar.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
+        item = ItemBoton(probar, self.editor.imagen_bloque.convert_alpha(), self.editor.probar, config.BLOCK_SIZE, 0)
         self.editor.sprites.add(item)
         self.items_creados.append(item)
 
@@ -233,7 +235,8 @@ class EditorEditingState(Estado):
                 try:
                     self.crear_item_por_codigo(codigo, fila, columna)
                 except KeyError:
-                    #print "error.. no puedo imprimir el codigo", codigo
+                    if config.DEBUG:
+                        print "error.. no puedo imprimir el codigo", codigo
                     pass
 
     def on_event(self, event):
@@ -245,8 +248,8 @@ class EditorEditingState(Estado):
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
-            columna = x / 75
-            fila = y / 75
+            columna = x / config.BLOCK_SIZE
+            fila = y / config.BLOCK_SIZE
             item_debajo = self.obtener_item_en_la_posicion((x, y))
 
 
@@ -296,7 +299,7 @@ class Mapa:
 
     def cargar_nivel(self, numero):
         self.numero = numero
-        path = self._obtener_ruta(numero)
+        path = common.get_level_file(numero)
 
         f = open(path, 'rt')
 
@@ -305,21 +308,18 @@ class Mapa:
         # Se asegura de reparar cualquier archivo de mapas
         # para que todos tengan el mismo tamaño.
         for (index, x) in enumerate(self.map):
-            if len(x) > 17:
+            if len(x) > config.BLOCKS_X + 1:
                 self.map[index] = x[:16] + '\n'
-            elif len(x) < 17:
-                self.map[index] = x.replace('\n', ' ') + ' ' * (16 - len(x)) + '\n'
+            elif len(x) < config.BLOCKS_X + 1:
+                self.map[index] = x.replace('\n', ' ') + ' ' * (config.BLOCKS_X - len(x)) + '\n'
 
         f.close()
 
     def guardar(self):
-        path = self._obtener_ruta(self.numero)
+        path = common.get_level_file(self.numero, True)
         f = open(path, 'wt')
         f.writelines(self.map)
         f.close()
-
-    def _obtener_ruta(self, numero):
-        return 'data/map/%d.txt' % numero
 
     def eliminar_item(self, fila, columna):
         self.map[fila] = self.map[fila][:columna] + ' ' + self.map[fila][columna+1:]
@@ -334,8 +334,9 @@ class Editor(scene.Scene):
         scene.Scene.__init__(self, world)
         self.ultimo_avisar = None
         self.sprites = group.Group()
-        self.font = pygame.font.Font("data/FreeSans.ttf", 18)
-        self.imagen_bloque = common.load("bloque.png", True)
+        font_file = common.get_ruta('FreeSans.ttf')
+        self.font = pygame.font.Font(font_file, int(config.WIDTH * 0.015))
+        self.imagen_bloque = common.load("bloque.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         self.state = None
         self.mouse = editor_mouse.EditorMouse()
         self.sprites.add(self.mouse)
@@ -350,7 +351,7 @@ class Editor(scene.Scene):
         self._draw_background_and_map()
 
     def es_ultimo_nivel(self):
-        return not os.path.exists('data/map/%d.txt' % (self.nivel + 1))
+        return common.get_level_file(self.nivel + 1) is None
 
     def avanzar_y_crear_ese_nivel(self):
         self.crear_nivel(self.nivel + 1)
@@ -366,11 +367,11 @@ class Editor(scene.Scene):
         self.probar_nivel()
 
     def crear_nivel(self, nivel):
-        path = 'data/map/%d.txt' % (nivel)
+        path = common.get_level_file(nivel, True)
         print "creando", path
         f = open(path, 'wt')
 
-        template = open("data/level_template.txt", "rt")
+        template = open(common.get_ruta('level_template.txt'), 'rt')
         nivel_template = template.read()
         template.close()
 
@@ -402,10 +403,18 @@ class Editor(scene.Scene):
         self.state = new_state
         self.state.on_enter()
 
+    def _draw_grid(self):
+        "Dibuja la grilla sobre el fondo."
+        for i in range(0, config.WIDTH, config.BLOCK_SIZE):
+            pygame.draw.line(self.background, (255, 255, 255), (i, 0), (i, config.HEIGHT), 1)
+        for i in range(0, config.HEIGHT, config.BLOCK_SIZE):
+            pygame.draw.line(self.background, (255, 255, 255), (0, i), (config.WIDTH, i), 1)
+
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
-        self.background = common.load("background_grilla.jpg", False)
+        self.background = common.load("background.jpg", False, (config.WIDTH, config.HEIGHT))
         #self.map.draw_over(self.background)
+        self._draw_grid()
         self.world.screen.blit(self.background, (0, 0))
 
         # actualiza toda la pantalla.
