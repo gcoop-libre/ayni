@@ -4,6 +4,8 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import config
+
 # tiempo que tiene que trabajar
 TIME_TO_WORK = 40
 
@@ -172,13 +174,15 @@ class WalkWithPieceToWorkAt(State):
             else:
                 if self.player.can_work_on_this_placeholder(self.placeholder):
                     if self.placeholder.are_used:
-                        #print "Este placeholder esta en uso."
+                        if config.DEBUG:
+                            print "Este placeholder esta en uso."
                         self.player.say("Solo una pieza...")
                         self.player.change_state(StandWithPiece(self.player, self.pipe))
                     else:
                         self.player.change_state(WorkToPutPipe(self.player, self.pipe, self.placeholder))
                 else:
-                    print "Estoy muy lejos de ese placeholder..."
+                    if config.DEBUG:
+                        print "Estoy muy lejos de ese placeholder..."
                     self.player.change_state(StandWithPiece(self.player, self.pipe))
         else:
             self.player.change_state(StandWithPiece(self.player, self.pipe))
@@ -273,7 +277,8 @@ class WalkAndTake(State):
                 if self.player.can_take_this_piece(self.pipe):
                     self.player.attack_to(self.pipe)
                 else:
-                    print "No puedo tomar esa pieza, esta un poco lejos..."
+                    if config.DEBUG:
+                        print "No puedo tomar esa pieza, esta un poco lejos..."
                     self.player.change_state(Stand(self.player))
 
         else:

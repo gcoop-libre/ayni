@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=ayni
+GenericName=Game
+Comment=Juego educativo sobre cooperativismo
+Exec=ayni
+Icon=ayni
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Game;
+

@@ -5,7 +5,9 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import os
 import pygame
+import common
 
 ENABLE_SOUND = True
 
@@ -17,7 +19,7 @@ class Audio:
             pygame.mixer.init(48000)
 
             self.sounds = {
-                'working': pygame.mixer.Sound('data/sounds/hammer.ogg'),
+                'working': pygame.mixer.Sound(common.get_ruta(os.path.join('sounds', 'hammer.ogg'))),
                 }
 
     def play(self, name):
