@@ -42,7 +42,7 @@ class MousePointer(Sprite):
                 'over':     common.load("over.png", True, (int(config.WIDTH * 0.023), 0)),
                 'dragging': common.load("dragging.png", True, (int(config.WIDTH * 0.023), 0)),
                 'hide':     common.load("hide.png", True, (int(config.WIDTH * 0.023), 0)),
-                'down':     common.load("down.png", True, (int(config.WIDTH * 0.023), 0)),
+                'down':     common.load("down.png", True, (int(config.WIDTH * 0.042), 0)),
                 }
 
     def set_frame(self, name):

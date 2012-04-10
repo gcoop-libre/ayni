@@ -37,7 +37,14 @@ class Texto(pygame.sprite.Sprite):
 
     def _create_text_image(self, text):
         white = (255, 255 ,255)
-        return self.font.render(text, 1, white)
+        black = (0, 0, 0)
+        image = self.font.render(text, 1, black)
+        image_white = self.font.render(text, 1, white)
+        image_black = self.font.render(text, 1, black)
+        rect = image_white.get_rect()
+        image.blit(image_black, (3, 3))
+        image.blit(image_white, (1, 1))
+        return image
 
 class Cursor(pygame.sprite.Sprite):
 
@@ -114,7 +121,7 @@ class Menu(scene.Scene):
 
         for (indice, texto) in enumerate(textos):
             self.sprites.add(Texto(self.font, texto, self.obtener_posicion(indice)))
-            
+
     def obtener_posicion(self, indice):
         return int(config.HEIGHT * 0.4) + indice * int(config.HEIGHT * 0.1)
 
@@ -148,7 +155,7 @@ class Menu(scene.Scene):
         elif event.type == pygame.MOUSEBUTTONDOWN:
             x, y = event.pos
             self.cursor.seleccionar()
-                
+
 
     def _draw_background(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
