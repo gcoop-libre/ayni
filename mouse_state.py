@@ -7,6 +7,7 @@ import pygame
 import player
 import pipe
 import placeholder
+import config
 
 
 class MouseState:
@@ -66,7 +67,8 @@ class PointToWorkAt(MouseState):
         # BUGFIX: cambia el estado del mouse si el personaje logro tomar una pieza.
         if not self.player.has_a_pipe_in_hands:
             self.select_player(self.player)
-            #print "BUGFIX!!! el personaje NOOOOOOOO tiene un pipe."
+            if config.DEBUG:
+                print "BUGFIX!!! el personaje NOOOOOOOO tiene un pipe."
             return
 
         if self._can_leave_pipe():
@@ -151,7 +153,8 @@ class PointAt(MouseState):
         # BUGFIX: cambia el estado del mouse si el personaje logro tomar una pieza.
         if self.player.has_a_pipe_in_hands:
             self.select_player(self.player)
-            #print "BUGFIX!!! el personaje tiene un pipe."
+            if config.DEBUG:
+                print "BUGFIX!!! el personaje tiene un pipe."
             return
 
     def on_click(self, x, y):

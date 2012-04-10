@@ -4,8 +4,10 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import os
 import pygame
 import scene
+import config
 import common
 import group
 import title_sprite
@@ -19,7 +21,12 @@ class IntroAbstract(scene.Scene):
 
     def __init__(self, world, image, next_scene, must_interpolate=True):
         scene.Scene.__init__(self, world)
-        self.background = common.load(image, False)
+        if (config.BLOCKS_Y == 9):
+            image = os.path.join('intro', '16-9', image)
+        else:
+            image = os.path.join('intro', image)
+
+        self.background = common.load(image, False, (config.WIDTH, config.HEIGHT))
         self.counter = 0
         self.next_scene = next_scene
         self.must_interpolate = must_interpolate
@@ -63,7 +70,7 @@ class Intro1(IntroAbstract):
     "Muestra una escena de la presentación: la casa sin agua."
 
     def __init__(self, world):
-        IntroAbstract.__init__(self, world, "intro/1.jpg", Intro2)
+        IntroAbstract.__init__(self, world, "1.jpg", Intro2)
         self.draw_background(world.screen)
         
 
@@ -71,25 +78,25 @@ class Intro2(IntroAbstract):
     "Muestra una escena de la presentación: las personas viendo la casa."
 
     def __init__(self, world):
-        IntroAbstract.__init__(self, world, "intro/2.jpg", Intro3)
+        IntroAbstract.__init__(self, world, "2.jpg", Intro3)
         
         
 class Intro3(IntroAbstract):
     "Muestra una escena de la presentación: sugiere una cooperativa."
 
     def __init__(self, world):
-        IntroAbstract.__init__(self, world, "intro/3.jpg", Intro4)
+        IntroAbstract.__init__(self, world, "3.jpg", Intro4)
 
 
 class Intro4(IntroAbstract):
     "Muestra una escena de la presentación: gente dando ideas."
 
     def __init__(self, world):
-        IntroAbstract.__init__(self, world, "intro/4.jpg", Intro5)
+        IntroAbstract.__init__(self, world, "4.jpg", Intro5)
 
 
 class Intro5(IntroAbstract):
     "Muestra una escena de la presentación: dos cooperativistas comenzando."
 
     def __init__(self, world):
-        IntroAbstract.__init__(self, world, "intro/5.jpg", title.Title, False)
+        IntroAbstract.__init__(self, world, "5.jpg", title.Title, False)

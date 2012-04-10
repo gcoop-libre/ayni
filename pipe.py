@@ -7,6 +7,7 @@ import pygame
 import random
 import sys
 import animation
+import config
 import common
 from states import *
 from sprite import Sprite
@@ -18,7 +19,7 @@ class Pipe(Sprite, object):
     def __init__(self, game, type, x, y, map):
         Sprite.__init__(self)
         self.type = type
-        self.image = common.load('front_pipes/%d.png' %(type), True)
+        self.image = common.load('front_pipes/%d.png' %(type), True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         self.rect = self.image.get_rect()
         self.map = map
         self.can_be_clicked = True

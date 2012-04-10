@@ -4,8 +4,10 @@
 # Copyright 2009 - Gcoop <info@gcoop.coop>
 # License: GPLv3 (see http://www.gnu.org/licenses/gpl.html)
 
+import os
 import pygame
 import scene
+import config
 import common
 import mouse
 import pipe
@@ -31,7 +33,7 @@ class Texto(pygame.sprite.Sprite):
         self.rect = imagen.get_rect()
         self.z = -50
         self.rect.y = y
-        self.rect.centerx = 1200 / 2
+        self.rect.centerx = config.WIDTH / 2
 
     def _create_text_image(self, text):
         white = (255, 255 ,255)
@@ -41,15 +43,15 @@ class Cursor(pygame.sprite.Sprite):
 
     def __init__(self, world):
         pygame.sprite.Sprite.__init__(self)
-        self.image = common.load("cursor.png", True)
+        self.image = common.load("cursor.png", True, (int(config.WIDTH * 0.8), int(config.HEIGHT * 0.09)))
         self.rect = self.image.get_rect()
-        self.rect.centerx = 1200 / 2
+        self.rect.centerx = config.WIDTH / 2
         self.posicion_actual = 0
         self.world = world
 
     def definir_posicion(self, posicion):
         self.posicion_actual = posicion % 4
-        self.rect.y = 350 + self.posicion_actual * 100 + 10
+        self.rect.y = int(config.HEIGHT * 0.4) + self.posicion_actual * int(config.HEIGHT * 0.1) + int(config.HEIGHT * 0.01)
 
     def avanzar(self):
         self.definir_posicion(self.posicion_actual + 1)
@@ -75,10 +77,10 @@ class Logo(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = common.load('title.png', True)
+        self.image = common.load('title.png', True, (config.WIDTH * 0.3, 0))
         self.rect = self.image.get_rect()
-        self.rect.centerx = 1200 / 2
-        self.rect.y = 80
+        self.rect.centerx = config.WIDTH / 2
+        self.rect.y = config.HEIGHT * 0.09
 
 class Menu(scene.Scene):
 
@@ -86,7 +88,7 @@ class Menu(scene.Scene):
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.nubes = nubes.Nubes(self.sprites)
-        self.font = pygame.font.Font("data/FreeSans.ttf", 65)
+        self.font = pygame.font.Font(common.get_ruta('FreeSans.ttf'), int(config.HEIGHT * 0.08))
         self._draw_background()
         self.cursor = Cursor(world)
         self.cursor.definir_posicion(0)
@@ -114,10 +116,10 @@ class Menu(scene.Scene):
             self.sprites.add(Texto(self.font, texto, self.obtener_posicion(indice)))
             
     def obtener_posicion(self, indice):
-        return 350 + indice * 100
+        return int(config.HEIGHT * 0.4) + indice * int(config.HEIGHT * 0.1)
 
     def obtener_indice_para_esta_posicion(self, posicion_vertical):
-        return (posicion_vertical - 350) / 100
+        return (posicion_vertical - int(config.HEIGHT * 0.4)) / int(config.HEIGHT * 0.1)
 
     def update(self):
         self.mouse.update()
@@ -150,7 +152,7 @@ class Menu(scene.Scene):
 
     def _draw_background(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
-        self.background = common.load("background_menu.jpg", False)
+        self.background = common.load("background_menu.jpg", False, (config.WIDTH, config.HEIGHT))
         #self.map.draw_over(self.background)
         self.world.screen.blit(self.background, (0, 0))
 

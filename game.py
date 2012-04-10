@@ -6,6 +6,7 @@
 
 import pygame
 import scene
+import config
 import common
 import map
 import mouse
@@ -76,8 +77,8 @@ class Game(scene.Scene):
     def agregar_boton_para_regresar_al_editor(self):
         from editor import ItemBoton
 
-        regresar = common.load("regresar.png", True)
-        imagen_bloque = common.load("bloque.png", True)
+        regresar = common.load("regresar.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
+        imagen_bloque = common.load("bloque.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         item = ItemBoton(regresar, imagen_bloque.convert_alpha(), self.regresar_al_editor, 0, 0)
         self.sprites.add(item)
 
@@ -87,7 +88,7 @@ class Game(scene.Scene):
 
     def _draw_background_and_map(self):
         "Imprime y actualiza el fondo de pantalla para usar dirtyrectagles mas adelante."
-        self.background = common.load("background.jpg", False)
+        self.background = common.load("background.jpg", False, (config.WIDTH, config.HEIGHT))
         self.map.draw_over(self.background)
         self.world.screen.blit(self.background, (0, 0))
 
@@ -109,7 +110,7 @@ class Game(scene.Scene):
 
             if self.modo_editor:
                 # Detecta si el usuario quiere regresar al editor
-                if x < 75 and y < 75:
+                if x < config.BLOCK_SIZE and y < config.BLOCK_SIZE:
                     self.regresar_al_editor()
 
         elif event.type == pygame.KEYDOWN:

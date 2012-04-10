@@ -1,0 +1,4 @@
+*.pyc
+debian/ayni*
+debian/files
+*.pyo
