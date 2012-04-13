@@ -7,7 +7,7 @@
 SHOW_PLACEHOLDERS = False
 DEBUG = False
 FULLSCREEN = False
-BLOCK_SIZE = 54
+BLOCK_SIZE = 75
 BLOCKS_X = 16 #ancho en cantidad de bloques
 BLOCKS_Y = 9  #alto en cantidad de bloques
 
