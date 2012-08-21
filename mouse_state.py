@@ -59,8 +59,13 @@ class PointToWorkAt(MouseState):
         sprite = self.mouse.get_placeholder_over_mouse()
         player = self.mouse.get_player_over_mouse()
 
-        if sprite or player:
+        if sprite:
             self.mouse.set_frame("over")
+        elif player:
+            if self._can_leave_pipe():
+                self.mouse.set_frame("down")
+            else:
+                self.mouse.set_frame("over")
         else:
             self.mouse.set_frame("normal")
 
@@ -71,32 +76,29 @@ class PointToWorkAt(MouseState):
                 print "BUGFIX!!! el personaje NOOOOOOOO tiene un pipe."
             return
 
-        if self._can_leave_pipe():
-            self.mouse.set_frame("down")
-
     def _can_leave_pipe(self):
         placeholder = self.mouse.get_placeholder_over_mouse()
         player = self.mouse.get_player_over_mouse()
 
         # Caso 1: se le indica un placeholder vacio
         if placeholder and self.player.can_receive_new_jobs():
-            return
+            return False
 
         # Caso 2: se le indica un lugar cualquiera para caminar
         if not player and self.player.can_receive_new_jobs():
-            return
+            return False
 
         # Caso 3: selecciono otro personaje distinto
         if player and player is not self.player:
-            return
+            return False
 
         if self.player.has_a_pipe_in_hands:
             x, y = self.mouse.rect.topleft
             dist_x = abs(x - self.player.rect.bottom)
             dist_y = abs(y - self.player.rect.bottom)
 
-            if dist_y < 26:
-            	self.mouse.set_frame("down")
+            if dist_y < int(config.BLOCK_SIZE / 3):
+              return True
 
 
     def on_click(self, x, y):
@@ -123,7 +125,7 @@ class PointToWorkAt(MouseState):
         if self.player.has_a_pipe_in_hands:
             dist = abs(y - self.player.rect.bottom)
 
-            if dist < 26:
+            if dist < int(config.BLOCK_SIZE / 3):
                 self.player.walk_to_leave_pipe_here(self.player.state.pipe, x, y)
 
 class PointAt(MouseState):
