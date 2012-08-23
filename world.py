@@ -92,7 +92,7 @@ class World:
                             dict(buttons=event.buttons, pos=event.pos,
                                 rel=event.rel)))
                     elif event.type == pygame.MOUSEBUTTONDOWN:
-                        events.append((self.runtime, event.type, 
+                        events.append((self.runtime, event.type,
                             dict(button=event.button, pos=event.pos)))
 
 
@@ -113,8 +113,12 @@ class World:
         filename = time.strftime("screenshot_%y%m%d_%H%M%S.png")
         pygame.image.save(self.screen, filename)
         print "Guardando:", filename
-    
+
     def next_level(self, level):
         level += 1
         if common.get_level_file(level) is not None:
             return level
+
+    def salir(self, *args):
+        sys.exit(0)
+

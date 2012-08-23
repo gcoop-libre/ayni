@@ -14,4 +14,5 @@ BLOCKS_Y = 9  #alto en cantidad de bloques
 #No cambiar (se calculan automáticamente)
 WIDTH = BLOCK_SIZE * BLOCKS_X
 HEIGHT = BLOCK_SIZE * BLOCKS_Y
-DISABLE_INTRO = True
+DISABLE_INTRO = False
+DISABLE_EDITOR = False

@@ -48,13 +48,15 @@ class Texto(pygame.sprite.Sprite):
 
 class Cursor(pygame.sprite.Sprite):
 
-    def __init__(self, world):
+    def __init__(self, world, actions):
+
         pygame.sprite.Sprite.__init__(self)
         self.image = common.load("cursor.png", True, (int(config.WIDTH * 0.8), int(config.HEIGHT * 0.09)))
         self.rect = self.image.get_rect()
         self.rect.centerx = config.WIDTH / 2
         self.posicion_actual = 0
         self.world = world
+        self.actions = actions
 
     def definir_posicion(self, posicion):
         self.posicion_actual = posicion % 4
@@ -68,16 +70,7 @@ class Cursor(pygame.sprite.Sprite):
 
     def seleccionar(self):
         indice = self.posicion_actual
-
-        if indice == 0:
-            self.world.change_scene(game.Game(self.world))
-        elif indice == 1:
-            self.world.change_scene(editor.Editor(self.world))
-        elif indice == 2:
-            self.world.change_scene(presents.Presents(self.world))
-        elif indice == 3:
-            import sys
-            sys.exit(0)
+        self.world.change_scene(self.actions[indice][1](self.world))
 
 class Logo(pygame.sprite.Sprite):
     "El texto de indica: 'presents'"
@@ -93,11 +86,20 @@ class Menu(scene.Scene):
 
     def __init__(self, world, nivel=1):
         scene.Scene.__init__(self, world)
+
+        self.items = [
+                (u"Comenzar a jugar", game.Game),
+                (u"Editar niveles", editor.Editor),
+                (u"Ver presentación",presents.Presents),
+                (u"Salir", world.salir),
+                ]
+        if config.DISABLE_EDITOR:
+            self.items.pop(1)
         self.sprites = group.Group()
         self.nubes = nubes.Nubes(self.sprites)
         self.font = pygame.font.Font(common.get_ruta('FreeSans.ttf'), int(config.HEIGHT * 0.08))
         self._draw_background()
-        self.cursor = Cursor(world)
+        self.cursor = Cursor(world, self.items)
         self.cursor.definir_posicion(0)
         self.sprites.add(self.cursor)
 
@@ -117,10 +119,9 @@ class Menu(scene.Scene):
         self.sprites.add(self.mouse)
 
     def _crear_textos(self):
-        textos = ["comenzar a jugar", "editar niveles", u"ver presentación", "salir"]
 
-        for (indice, texto) in enumerate(textos):
-            self.sprites.add(Texto(self.font, texto, self.obtener_posicion(indice)))
+        for (indice, item) in enumerate(self.items):
+            self.sprites.add(Texto(self.font, item[0], self.obtener_posicion(indice)))
 
     def obtener_posicion(self, indice):
         return int(config.HEIGHT * 0.4) + indice * int(config.HEIGHT * 0.1)
