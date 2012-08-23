@@ -2,7 +2,7 @@
 
 *Ayuda mutua que se prestan las personas en el trabajo en Quechua*
 
-Ayni es un juego creado por [Cooperativa de Trabajo gcoop][http://www.gcoop.coop]
+Ayni es un juego creado por [Cooperativa de Trabajo gcoop](http://www.gcoop.coop)
 con la intencion de educar sobre valores cooperativos.
 
 ![](https://raw.github.com/gcoop-libre/ayni/master/doc/imagenes/captura_intro.png)
