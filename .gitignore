@@ -1,4 +1,9 @@
-*.pyc
-debian/ayni*
-debian/files
-*.pyo
+src/*.pyc
+src/debian/ayni*
+src/debian/files
+src/*.pyo
+ayni_*_all.deb
+ayni_*_amd64.build
+ayni_*_amd64.changes
+ayni_*.dsc
+ayni_*.tar.gz
