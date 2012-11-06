@@ -24,7 +24,7 @@ import nubes
 
 class Texto(pygame.sprite.Sprite):
 
-    def __init__(self, font, texto, y):
+    def __init__(self, font, texto, x, y):
         self.font = font
         pygame.sprite.Sprite.__init__(self)
 
@@ -33,7 +33,7 @@ class Texto(pygame.sprite.Sprite):
         self.rect = imagen.get_rect()
         self.z = -50
         self.rect.y = y
-        self.rect.centerx = config.WIDTH / 2
+        self.rect.centerx = x
 
     def _create_text_image(self, text):
         white = (255, 255 ,255)
@@ -98,6 +98,7 @@ class Menu(scene.Scene):
         self.sprites = group.Group()
         self.nubes = nubes.Nubes(self.sprites)
         self.font = pygame.font.Font(common.get_ruta('FreeSans.ttf'), int(config.HEIGHT * 0.08))
+        self.font_small = pygame.font.Font(common.get_ruta('FreeSans.ttf'), int(config.HEIGHT * 0.04))
         self._draw_background()
         self.cursor = Cursor(world, self.items)
         self.cursor.definir_posicion(0)
@@ -121,7 +122,9 @@ class Menu(scene.Scene):
     def _crear_textos(self):
 
         for (indice, item) in enumerate(self.items):
-            self.sprites.add(Texto(self.font, item[0], self.obtener_posicion(indice)))
+            self.sprites.add(Texto(self.font, item[0], config.WIDTH/2, self.obtener_posicion(indice)))
+
+        self.sprites.add(Texto(self.font_small, 'version: %s' % config.VERSION, int(config.WIDTH * 0.9), int(config.HEIGHT * 0.9)))
 
     def obtener_posicion(self, indice):
         return int(config.HEIGHT * 0.4) + indice * int(config.HEIGHT * 0.1)
@@ -166,16 +169,6 @@ class Menu(scene.Scene):
 
         # actualiza toda la pantalla.
         pygame.display.flip()
-
-    def avisar(self, texto):
-        sprite = Texto(self.font, texto)
-        self.sprites.add(sprite)
-
-        if self.ultimo_avisar:
-            self.ultimo_avisar.kill()
-            self.sprites.remove(self.ultimo_avisar)
-
-        self.ultimo_avisar = sprite
 
     def probar_nivel(self):
         import game

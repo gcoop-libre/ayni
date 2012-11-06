@@ -10,9 +10,11 @@ FULLSCREEN = False
 BLOCK_SIZE = 75
 BLOCKS_X = 16 #ancho en cantidad de bloques
 BLOCKS_Y = 9  #alto en cantidad de bloques
+VERSION = '0.2'
+
+DISABLE_INTRO = False
+DISABLE_EDITOR = False
 
 #No cambiar (se calculan automáticamente)
 WIDTH = BLOCK_SIZE * BLOCKS_X
 HEIGHT = BLOCK_SIZE * BLOCKS_Y
-DISABLE_INTRO = False
-DISABLE_EDITOR = False
