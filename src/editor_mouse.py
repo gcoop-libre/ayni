@@ -21,13 +21,45 @@ class EditorMouse(Sprite):
 
     def __init__(self, stage_objects=[]):
         Sprite.__init__(self)
-        pygame.mouse.set_visible(False)
+        #pygame.mouse.set_visible(False)
+        self._cambiar_cursor()
         self._load_frames()
         self.show()
         self.set_frame('normal')
         self.rect = self.image.get_rect()
         self.stage_objects = stage_objects
         self.z = -50
+
+    def _cambiar_cursor(self):
+        thickarrow_strings = (
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ",
+              "                        ")
+
+        datatuple, masktuple = pygame.cursors.compile(thickarrow_strings, 
+                black='.', white='X', xor='o')
+        pygame.mouse.set_cursor((24,24), (0,0), datatuple, masktuple)
 
     def _load_frames(self):
         self.frames = {

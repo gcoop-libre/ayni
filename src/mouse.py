@@ -26,7 +26,7 @@ class MousePointer(Sprite):
 
     def __init__(self, stage_objects):
         Sprite.__init__(self)
-        pygame.mouse.set_visible(False)
+        #pygame.mouse.set_visible(False)
         self._load_frames()
         self.show()
         self.set_frame('normal')

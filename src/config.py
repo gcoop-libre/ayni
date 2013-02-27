@@ -6,11 +6,11 @@
 
 SHOW_PLACEHOLDERS = False
 DEBUG = False
-FULLSCREEN = False
-BLOCK_SIZE = 75
+FULLSCREEN = True
+BLOCK_SIZE = 64
 BLOCKS_X = 16 #ancho en cantidad de bloques
 BLOCKS_Y = 9  #alto en cantidad de bloques
-VERSION = '0.2'
+VERSION = '0.3'
 
 DISABLE_INTRO = False
 DISABLE_EDITOR = False
