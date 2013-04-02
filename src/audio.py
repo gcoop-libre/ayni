@@ -20,6 +20,8 @@ class Audio:
 
             self.sounds = {
                 'working': pygame.mixer.Sound(common.get_ruta(os.path.join('sounds', 'hammer.ogg'))),
+                'menu': pygame.mixer.Sound(common.get_ruta(os.path.join('sounds', 'menu.wav'))),
+                'click': pygame.mixer.Sound(common.get_ruta(os.path.join('sounds', 'click.wav'))),
                 }
 
     def play(self, name):

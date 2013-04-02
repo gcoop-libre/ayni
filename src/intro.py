@@ -37,7 +37,7 @@ class IntroAbstract(scene.Scene):
     def update(self):
         self.counter += 1
 
-        if self.counter > 400:
+        if self.counter > 200:
             self.go_to_next_scene()
 
     def draw(self, screen):
@@ -55,7 +55,7 @@ class IntroAbstract(scene.Scene):
 
     def go_to_title_scene(self):
         self.world.change_scene(title.Title(self.world))
-                
+
     def go_to_next_scene(self):
         next_scene = self.next_scene(self.world)
         last_scene = self
@@ -72,15 +72,15 @@ class Intro1(IntroAbstract):
     def __init__(self, world):
         IntroAbstract.__init__(self, world, "1.jpg", Intro2)
         self.draw_background(world.screen)
-        
+
 
 class Intro2(IntroAbstract):
     "Muestra una escena de la presentación: las personas viendo la casa."
 
     def __init__(self, world):
         IntroAbstract.__init__(self, world, "2.jpg", Intro3)
-        
-        
+
+
 class Intro3(IntroAbstract):
     "Muestra una escena de la presentación: sugiere una cooperativa."
 
@@ -92,11 +92,5 @@ class Intro4(IntroAbstract):
     "Muestra una escena de la presentación: gente dando ideas."
 
     def __init__(self, world):
-        IntroAbstract.__init__(self, world, "4.jpg", Intro5)
+        IntroAbstract.__init__(self, world, "4.jpg", title.Title, False)
 
-
-class Intro5(IntroAbstract):
-    "Muestra una escena de la presentación: dos cooperativistas comenzando."
-
-    def __init__(self, world):
-        IntroAbstract.__init__(self, world, "5.jpg", title.Title, False)

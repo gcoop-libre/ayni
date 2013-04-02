@@ -23,26 +23,26 @@ import os
 def cargar_imagen_por_codigo(codigo):
     referencias = {
         'o': "player/ico.png",
-        '1': "pipes/1.png", 
-        '2': "pipes/2.png", 
-        '3': "pipes/3.png", 
-        '4': "pipes/4.png", 
-        '6': "pipes/6.png", 
-        '7': "pipes/7.png", 
-        '8': "pipes/8.png", 
-        '9': "pipes/9.png", 
-        'v': "pipes/v.png", 
-        't': "pipes/t.png", 
-        'n': "pipes/n.png", 
-        'f': "pipes/f.png", 
-        'r': "pipes/r.png", 
-        'y': "pipes/y.png", 
-        'z': "front_pipes/1.png", 
-        'x': "front_pipes/2.png", 
-        'c': "front_pipes/3.png", 
-        'a': "front_pipes/4.png", 
-        'q': "front_pipes/7.png", 
-        'e': "front_pipes/9.png", 
+        '1': "pipes/1.png",
+        '2': "pipes/2.png",
+        '3': "pipes/3.png",
+        '4': "pipes/4.png",
+        '6': "pipes/6.png",
+        '7': "pipes/7.png",
+        '8': "pipes/8.png",
+        '9': "pipes/9.png",
+        'v': "pipes/v.png",
+        't': "pipes/t.png",
+        'n': "pipes/n.png",
+        'f': "pipes/f.png",
+        'r': "pipes/r.png",
+        'y': "pipes/y.png",
+        'z': "front_pipes/1.png",
+        'x': "front_pipes/2.png",
+        'c': "front_pipes/3.png",
+        'a': "front_pipes/4.png",
+        'q': "front_pipes/7.png",
+        'e': "front_pipes/9.png",
     }
 
     return common.load(referencias[codigo], True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
@@ -127,16 +127,16 @@ class EditorMenuState(Estado):
         crear = common.load("crear.png", True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
 
         if self.editor.nivel > 1:
-            item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(), 
+            item = ItemBoton(anterior, self.editor.imagen_bloque.convert_alpha(),
                     self.editor.retroceder, config.WIDTH - config.BLOCK_SIZE * 2, 0)
             self.editor.sprites.add(item)
             self.items_creados.append(item)
 
         if self.editor.es_ultimo_nivel():
-            item = ItemBoton(crear, self.editor.imagen_bloque.convert_alpha(), 
+            item = ItemBoton(crear, self.editor.imagen_bloque.convert_alpha(),
                     self.editor.avanzar_y_crear_ese_nivel, config.WIDTH - config.BLOCK_SIZE, 0)
         else:
-            item = ItemBoton(siguiente, self.editor.imagen_bloque.convert_alpha(), 
+            item = ItemBoton(siguiente, self.editor.imagen_bloque.convert_alpha(),
                     self.editor.avanzar, config.WIDTH - config.BLOCK_SIZE, 0)
 
         self.editor.sprites.add(item)
@@ -174,7 +174,7 @@ class EditorMenuState(Estado):
         self.crear_item("front_pipes/4.png", 'a', 18)
         self.crear_item("front_pipes/7.png", 'q', 19)
         self.crear_item("front_pipes/9.png", 'e', 20)
- 
+
     def crear_item(self, imagen, codigo, posicion):
         imagen_para_el_item = common.load(imagen, True, (config.BLOCK_SIZE, config.BLOCK_SIZE))
         dx = posicion % 14 + 1
@@ -261,7 +261,7 @@ class EditorEditingState(Estado):
                         return
 
                     if not isinstance(item_debajo, Item):
-                        return 
+                        return
 
                     item_debajo.kill()
                     self.items_creados.remove(item_debajo)
@@ -299,12 +299,12 @@ class Mapa:
 
     def cargar_nivel(self, numero):
         self.numero = numero
-        path = common.get_level_file(numero)
+        path = common.get_custom_level_file(numero)
 
         f = open(path, 'rt')
 
         self.map = f.readlines()
-        
+
         # Se asegura de reparar cualquier archivo de mapas
         # para que todos tengan el mismo tamaño.
         for (index, x) in enumerate(self.map):
@@ -316,7 +316,7 @@ class Mapa:
         f.close()
 
     def guardar(self):
-        path = common.get_level_file(self.numero, True)
+        path = common.get_custom_level_file(self.numero)
         f = open(path, 'wt')
         f.writelines(self.map)
         f.close()
@@ -351,7 +351,7 @@ class Editor(scene.Scene):
         self._draw_background_and_map()
 
     def es_ultimo_nivel(self):
-        return common.get_level_file(self.nivel + 1) is None
+        return common.get_custom_level_file(self.nivel + 1) is None
 
     def avanzar_y_crear_ese_nivel(self):
         self.crear_nivel(self.nivel + 1)
@@ -367,8 +367,7 @@ class Editor(scene.Scene):
         self.probar_nivel()
 
     def crear_nivel(self, nivel):
-        path = common.get_level_file(nivel, True)
-        print "creando", path
+        path = common.get_custom_level_file(nivel, True)
         f = open(path, 'wt')
 
         template = open(common.get_ruta('level_template.txt'), 'rt')
@@ -433,7 +432,7 @@ class Editor(scene.Scene):
     def probar_nivel(self):
         import game
         self.mapa.guardar()
-        self.world.change_scene(game.Game(self.world, level=self.mapa.numero, modo_editor=True))
+        self.world.change_scene(game.GameCustom(self.world, level=self.mapa.numero, modo_editor=True))
 
     def avanzar(self):
         self.world.change_scene(Editor(self.world, self.nivel + 1, modo_edicion=False))

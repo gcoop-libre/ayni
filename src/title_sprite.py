@@ -18,7 +18,7 @@ class TitleSprite(Sprite):
         self.rect = self.image.get_rect()
         self.rect.right = config.WIDTH * 0.9
         self.y = config.HEIGHT
-        common.tweener.addTween(self, y=self.y * 0.05, tweenTime=1700, 
+        common.tweener.addTween(self, y=self.y * 0.05, tweenTime=1700,
                 tweenType=pytweener.Easing.Elastic.easeInOut)
 
     def update(self):
@@ -35,7 +35,7 @@ class StatusMessage(Sprite):
         self.y = config.HEIGHT + self.rect.h
         self.rect.bottom = self.y
         self.rect.centerx = config.WIDTH / 2
-        common.tweener.addTween(self, y=self.y * 0.8, tweenTime=1700)
+        common.tweener.addTween(self, y=self.y * 0.9, tweenTime=1700)
 
     def update(self):
         self.rect.bottom = self.y

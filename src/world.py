@@ -114,11 +114,6 @@ class World:
         pygame.image.save(self.screen, filename)
         print "Guardando:", filename
 
-    def next_level(self, level):
-        level += 1
-        if common.get_level_file(level) is not None:
-            return level
-
     def salir(self, *args):
         sys.exit(0)
 

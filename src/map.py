@@ -71,11 +71,11 @@ class Map:
                 self._create_player(col, row)
             else:
                 surface.blit(self.images[tile_number], (col * config.BLOCK_SIZE, row * config.BLOCK_SIZE))
-        
+
     def _create_placeholder(self, tilenumber, col, row):
         "Genera un bloque donde se puede colocar una pieza."
-        x = col * config.BLOCK_SIZE 
-        y = row * config.BLOCK_SIZE 
+        x = col * config.BLOCK_SIZE
+        y = row * config.BLOCK_SIZE
 
         targets = {
                 'r': 7,
@@ -89,20 +89,20 @@ class Map:
                 }
 
         type = targets[tilenumber]
-        
+
         p = placeholder.Placeholder(type, x, y)
         self.sprites.add(p)
         self.placeholders.append(p)
 
     def _create_player(self, col, row):
         # Es el desplazamiento vertical que se necesita
-        # para que el trabajador toque el suelo exactamente a 
+        # para que el trabajador toque el suelo exactamente a
         # la altura correcta...
         dy = int(config.BLOCK_SIZE * 0.36)
 
         x = col * config.BLOCK_SIZE + int(config.BLOCK_SIZE * 0.4)
         y = (row + 1) * config.BLOCK_SIZE + dy
-        
+
         p = player.Player(self.game, self.audio, self.messages, x, y, self)
         self.sprites.add(p)
         self.players.append(p)
@@ -134,8 +134,8 @@ class Map:
     def there_are_a_fill_placeholder(self, row, col):
         "Retorna True si hay un placeholder ocupado en la posición indicada."
 
-        x = col * config.BLOCK_SIZE 
-        y = row * config.BLOCK_SIZE 
+        x = col * config.BLOCK_SIZE
+        y = row * config.BLOCK_SIZE
 
         for p in self.placeholders:
             if p.rect.topleft == (x, y) and p.are_used and p.is_floor:
@@ -155,3 +155,12 @@ class Map:
 
         return all_pipes
 
+
+class MapCustom(Map):
+
+    def _create_map(self, level=1):
+        "Genera la matriz con todos los bloques que se deben imprimir."
+        path = common.get_custom_level_file(level)
+        f = open(path, 'rt')
+        self.map = f.readlines()
+        f.close()

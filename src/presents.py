@@ -23,10 +23,7 @@ class Presents(scene.Scene):
 
     def __init__(self, world):
         pygame.mixer.init()
-        pygame.mixer.music.load(common.get_ruta(os.path.join('presents', 'music.ogg')))
-        #music = pygame.mixer.Sound('presents/music.ogg')
-        #music.play()
-        pygame.mixer.music.play()
+        common.play_music('intro.wav')
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.background = common.load("presents/background.png", False, (config.WIDTH, config.HEIGHT))
@@ -45,10 +42,10 @@ class Presents(scene.Scene):
         self.sprites.update()
         self.counter += 1
 
-        if self.counter == 100:
+        if self.counter == 90:
             self.presents.start()
             self.sprites.add(self.presents)
-        elif self.counter > 400:
+        elif self.counter > 200:
             self.go_to_intro_scene()
 
     def draw(self, screen):
@@ -109,24 +106,18 @@ class GcoopLogo(Sprite):
         self.width = 0
         self.height = 0
 
-        common.tweener.addTween(self, width=w, tweenTime=1700, 
+        common.tweener.addTween(self, width=w, tweenTime=1700,
                 tweenType=pytweener.Easing.Elastic.easeInOut)
-        common.tweener.addTween(self, height=h, tweenTime=1800, 
+        common.tweener.addTween(self, height=h, tweenTime=1800,
                 tweenType=pytweener.Easing.Elastic.easeInOut)
-        common.tweener.addTween(self, alpha=255, tweenTime=500, 
+        common.tweener.addTween(self, alpha=255, tweenTime=500,
                 tweenType=pytweener.Easing.Linear.easeNone)
         self.update()
 
 
     def update(self):
         self.rect.y = self.y
-        new_size = (int(self.width), int(self.height))
-
-        if new_size[0] < 0:
-            new_size = 0, new_size[1]
-
-        if new_size[1] < 0:
-            new_size = new_size[0], 0
+        new_size = (max(0, int(self.width)), max(0, int(self.height)))
 
         self.image = pygame.transform.scale(self.original_image, new_size)
 

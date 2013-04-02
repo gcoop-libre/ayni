@@ -23,11 +23,13 @@ def run():
         new_scene = menu.Menu(w)
     else:
         new_scene = presents.Presents(w)
+
     #new_scene = game.Game(w)
     #new_scene = demo_game.DemoGame(w)
     #new_scene = end.End(w)
     #new_scene = editor.Editor(w)
     #new_scene = menu.Menu(w)
+
     w.change_scene(new_scene)
     w.loop()
 

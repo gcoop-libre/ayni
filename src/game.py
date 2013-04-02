@@ -37,17 +37,17 @@ class EndingLevelGameState:
 
     def update(self):
         self.counter += 1
-            
+
         if self.counter > 300:
             world = self.game.world
-            level = world.next_level(self.game.level) 
+            level = self.game.next_level(self.game.level)
 
             if self.game.modo_editor:
                 import editor
                 self.game.world.change_scene(editor.Editor(self.game.world, self.game.level))
             else:
                 if level:
-                    world.change_scene(Game(world, level))
+                    world.change_scene(self.game.__class__(world, level))
                 else:
                     world.change_scene(end.End(world))
 
@@ -57,11 +57,12 @@ class Game(scene.Scene):
        interactuar con los trabajadores, el mouse y las piezas."""
 
     def __init__(self, world, level=1, modo_editor=False):
-        pygame.mixer.music.stop()
+        musicas = ['juego.wav', 'alternativa.wav']
+        common.play_music(musicas[level%2])
         scene.Scene.__init__(self, world)
         self.sprites = group.Group()
         self.messages = messages.Messages(self.sprites)
-        self.map = map.Map(self, self.sprites, self.messages, world.audio, level)
+        self.create_map(world, level)
         self._draw_background_and_map()
         self.change_state(PlayingGameState(self))
         self.level = level
@@ -73,6 +74,9 @@ class Game(scene.Scene):
         #self._create_a_pipe()
         self._create_mouse_pointer()
         self.sprites.sort_by_z()
+
+    def create_map(self, world, level):
+        self.map = map.Map(self, self.sprites, self.messages, world.audio, level)
 
     def agregar_boton_para_regresar_al_editor(self):
         from editor import ItemBoton
@@ -130,7 +134,7 @@ class Game(scene.Scene):
         if self.map.all_pipes_are_in_correct_placeholders():
             for x in self.map.players:
                 x.show_end_level_animation()
-            
+
             self.show_level_complete_message()
             self.change_state(EndingLevelGameState(self))
 
@@ -144,3 +148,22 @@ class Game(scene.Scene):
 
     def change_state(self, new_state):
         self.state = new_state
+
+    def next_level(self, level):
+        level += 1
+        if common.get_level_file(level) is not None:
+            return level
+
+class GameCustom(Game):
+
+    def __init__(self, world, level=1, modo_editor=False):
+        print "MODO CUSTOM!!!!"
+        Game.__init__(self, world, level, modo_editor)
+
+    def next_level(self, level):
+        level += 1
+        if common.get_custom_level_file(level) is not None:
+            return level
+
+    def create_map(self, world, level):
+        self.map = map.MapCustom(self, self.sprites, self.messages, world.audio, level)
