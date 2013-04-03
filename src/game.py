@@ -157,7 +157,6 @@ class Game(scene.Scene):
 class GameCustom(Game):
 
     def __init__(self, world, level=1, modo_editor=False):
-        print "MODO CUSTOM!!!!"
         Game.__init__(self, world, level, modo_editor)
 
     def next_level(self, level):

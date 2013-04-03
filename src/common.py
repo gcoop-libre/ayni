@@ -50,8 +50,6 @@ def get_custom_level_file(level, retornar_ruta_si_no_existe=False):
     homedir = os.path.expanduser('~/.ayni')
 
     # TODO: extraer en nueva funcion: si no existen los niveles los tiene que crear.
-    print "*" * 10
-    print "*" * 10
 
     if not os.path.exists(homedir):
         print "Generando el directorio: " + homedir
